@@ -1,0 +1,78 @@
+{
+  "preset": "steps",
+  "hook": {
+    "say": "تبي تسوي",
+    "text": "ريل بعشر دقايق",
+    "box": "دقايق",
+    "show": {
+      "kind": "object",
+      "objects": [
+        "clock"
+      ]
+    }
+  },
+  "audience": {
+    "say": "هذا لصناع",
+    "text": "لصناع المحتوى",
+    "box": "المحتوى",
+    "show": {
+      "kind": "object",
+      "objects": [
+        "follow"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "say": "الخطوة الأولى",
+      "title": "اكتب",
+      "text": "فكرتك بسطرين",
+      "box": "بسطرين",
+      "show": {
+        "kind": "object",
+        "objects": [
+          "document"
+        ]
+      }
+    },
+    {
+      "say": "الخطوة الثانية",
+      "title": "سجّل",
+      "text": "صوتك بالجوال",
+      "box": "بالجوال",
+      "show": {
+        "kind": "object",
+        "objects": [
+          "microphone"
+        ]
+      }
+    },
+    {
+      "say": "الخطوة الثالثة",
+      "title": "صدّر",
+      "text": "اختار القالب",
+      "box": "القالب",
+      "show": {
+        "kind": "object",
+        "objects": [
+          "phone-app"
+        ]
+      }
+    }
+  ],
+  "promise": {
+    "say": "وخلصت",
+    "text": "ريل جاهز",
+    "box": "جاهز",
+    "show": {
+      "kind": "stretch",
+      "word": "جاهز"
+    }
+  },
+  "cta": {
+    "say": "علّق قالب",
+    "text": "علّق: قالب",
+    "box": "قالب",
+    "keyword": "قالب"
+  }
+}

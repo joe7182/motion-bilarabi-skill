@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 5,
+  "scenes": [
+    { "id": "search", "type": "search-typing", "start": 0, "duration": 2.6, "preroll": 0.2, "params": { "text": "ما هو الموشن؟", "results": 2 } },
+    { "id": "hook", "type": "slam", "start": 2.6, "duration": 1.6, "preroll": 0.25, "params": { "text": "Claude أصبح أسرع", "accent": "أسرع", "tag": "خبر عاجل" } }
+  ],
+  "transitions": [{ "type": "whip-pan", "at": 2.6, "duration": 0.4, "params": { "direction": "left" } }]
+}

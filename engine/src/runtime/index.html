@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Motion Bil-Arabi</title>
+    <style>
+      /* Bundled OFL fonts, served from engine/assets (Vite publicDir). */
+      @font-face {
+        font-family: 'Cairo';
+        src: url('/fonts/cairo/Cairo-Variable.ttf') format('truetype');
+        font-weight: 200 1000;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: 'Tajawal';
+        src: url('/fonts/tajawal/Tajawal-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-display: block;
+      }
+      @font-face {
+        font-family: 'Tajawal';
+        src: url('/fonts/tajawal/Tajawal-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-display: block;
+      }
+      @font-face {
+        font-family: 'Tajawal';
+        src: url('/fonts/tajawal/Tajawal-Black.ttf') format('truetype');
+        font-weight: 900;
+        font-display: block;
+      }
+      /* JetBrains Mono 400, Latin subset (OFL, @fontsource/jetbrains-mono 5.2.8): app-window terminal lines. */
+      @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+        font-weight: 400;
+        font-display: block;
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #frame {
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="frame"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

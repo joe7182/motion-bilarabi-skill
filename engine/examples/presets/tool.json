@@ -1,0 +1,12 @@
+{
+  "preset": "tool",
+  "hook": { "say": "هذا الموقع", "text": "الكهرباء بعينك", "box": "بعينك", "show": { "kind": "object", "objects": ["bulb"] } },
+  "intro": { "say": "محاكي مجاني", "text": "محاكي مجاني", "box": "مجاني", "show": { "kind": "clip", "media": "m1", "in": 6.5, "url": "electromagnetism.wasmer.app" } },
+  "demos": [
+    { "say": "حرّك المغناطيس", "text": "حرّك المغناطيس", "box": "المغناطيس", "show": { "kind": "clip", "media": "m1", "in": 9, "zoom": { "x": 0.5, "y": 0.5, "scale": 1.6 } } },
+    { "say": "غيّر عدد", "text": "عدد اللفات", "box": "اللفات", "show": { "kind": "clip", "media": "m2", "in": 3, "mark": { "x": 0.3, "y": 0.3, "w": 0.4, "h": 0.35 } } },
+    { "say": "وكل قيمة", "text": "سلايدر لكل قيمة", "box": "سلايدر", "show": { "kind": "clip", "media": "m3", "in": 2, "label": { "x": 0.7, "y": 0.4, "text": "سلايدر" } } }
+  ],
+  "result": { "say": "النتيجة", "text": "تجربة مو حفظ", "box": "تجربة", "show": { "kind": "strike", "wrong": "حفظ", "right": "تجربة" } },
+  "cta": { "say": "تبي الرابط", "text": "علّق: محاكي", "box": "محاكي", "keyword": "محاكي" }
+}

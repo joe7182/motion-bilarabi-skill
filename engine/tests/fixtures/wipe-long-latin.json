@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 22,
+  "scenes": [
+    {
+      "id": "long",
+      "type": "wipe-reveal",
+      "start": 0,
+      "duration": 2.5,
+      "params": {
+        "title": "WWWWWWWWWW WWWWWWWWWW WWWWWWWWWW WWWWWWW",
+        "subtitle": "@yousif_aljbouri"
+      }
+    }
+  ]
+}

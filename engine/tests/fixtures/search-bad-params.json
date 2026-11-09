@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "scenes": [
+    { "id": "a", "type": "search-typing", "start": 0, "duration": 2, "params": { "query": "كيف أصمم موشن جرافيك" } }
+  ]
+}

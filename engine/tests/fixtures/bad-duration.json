@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "scenes": [
+    { "id": "a", "type": "_probe", "start": 0, "duration": 0, "params": { "text": "مرحبا" } }
+  ]
+}

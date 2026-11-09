@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 5,
+  "scenes": [
+    { "id": "oops", "type": "_pageerror", "start": 0, "duration": 1, "params": {} }
+  ]
+}

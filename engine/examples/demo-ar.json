@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "fps": 30,
+  "look": "dark-tech",
+  "seed": 7,
+  "scenes": [
+    {
+      "id": "search",
+      "type": "search-typing",
+      "start": 0,
+      "duration": 3.9,
+      "preroll": 0.5,
+      "params": { "text": "كيف أصمم موشن جرافيك بالذكاء الاصطناعي؟", "results": 2 }
+    },
+    {
+      "id": "headline",
+      "type": "slam",
+      "start": 3.9,
+      "duration": 1.85,
+      "preroll": 0.15,
+      "params": { "text": "Claude أصبح أذكى", "accent": "أذكى", "tag": "تحديث جديد" }
+    },
+    {
+      "id": "outro",
+      "type": "wipe-reveal",
+      "start": 5.75,
+      "duration": 2.25,
+      "params": { "title": "يوسف", "subtitle": "@yousif_aljbouri" }
+    }
+  ],
+  "transitions": [
+    { "type": "whip-pan", "at": 3.9, "duration": 0.4, "params": { "direction": "left", "blur": 12 } },
+    { "type": "color-wipe", "at": 5.75, "duration": 0.5, "params": { "color": "accent", "direction": "rtl" } }
+  ]
+}

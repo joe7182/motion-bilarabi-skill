@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 6,
+  "scenes": [
+    { "id": "search", "type": "search-typing", "start": 0, "duration": 6, "params": { "text": "كيف أصمم موشن جرافيك بالذكاء الاصطناعي؟" } }
+  ]
+}

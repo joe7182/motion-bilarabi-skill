@@ -1,0 +1,15 @@
+{
+  "preset": "problem",
+  "hook": { "say": "كل أسبوع", "text": "ساعات بالمونتاج", "box": "ساعات", "show": { "kind": "object", "objects": ["clock"] } },
+  "pains": [
+    { "say": "نفس الحركات", "text": "تعيدها كل مرة", "box": "مرة", "show": { "kind": "object", "objects": ["calendar"] } },
+    { "say": "والنص يطلع", "text": "النص مقطّع", "box": "مقطّع", "show": { "kind": "join", "word": "العربي", "reverse": true } }
+  ],
+  "cost": { "say": "والنتيجة", "text": "والنتيجة؟", "show": { "kind": "object", "objects": ["clock", "coin"] } },
+  "steps": [
+    { "say": "أولاً اكتب", "title": "اكتب", "text": "اكتب السكربت", "show": { "kind": "object", "objects": ["document"] } },
+    { "say": "ثانياً سجّل", "title": "سجّل", "text": "سجّل صوتك", "show": { "kind": "object", "objects": ["microphone"] } },
+    { "say": "ثالثاً خل", "title": "حرّك", "text": "المهارة تحرّك", "show": { "kind": "object", "objects": ["timeline"] } }
+  ],
+  "cta": { "say": "تبي تجربها", "text": "علّق: موشن", "box": "موشن", "keyword": "موشن" }
+}

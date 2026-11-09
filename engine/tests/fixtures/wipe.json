@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 14,
+  "scenes": [
+    { "id": "opener", "type": "wipe-reveal", "start": 0, "duration": 2.5, "params": { "title": "يوسف", "subtitle": "@yousif" } }
+  ]
+}

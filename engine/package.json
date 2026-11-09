@@ -1,0 +1,29 @@
+{
+  "name": "engine",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "mba": "tsx src/cli.ts"
+  },
+  "author": "Yousif Aljbouri",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@fontsource/jetbrains-mono": "5.2.8",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "@types/pngjs": "^6.0.5",
+    "lucide-static": "1.57.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "pngjs": "^7.0.0",
+    "zod": "^4.6.7"
+  },
+  "private": "true"
+}

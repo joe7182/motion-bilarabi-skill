@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 13,
+  "scenes": [
+    { "id": "mixed", "type": "slam", "start": 0, "duration": 2.5, "params": { "text": "تحديث Gemini 3 الجديد ٪٩٩" } }
+  ]
+}

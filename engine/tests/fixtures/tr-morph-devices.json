@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 31,
+  "scenes": [
+    { "id": "n1", "type": "counter", "start": 0, "duration": 1.5, "params": { "from": 0, "to": 40, "suffix": "٪", "key": "k" } },
+    { "id": "list", "type": "checklist", "start": 1.5, "duration": 1.5, "params": { "items": [{ "text": "صوتك", "at": 0 }, { "text": "سكربتك", "at": 0.4 }], "key": "k" } },
+    { "id": "art", "type": "line-art", "start": 3, "duration": 1.5, "params": { "art": "chart-up", "key": "k" } },
+    { "id": "ico", "type": "icon", "start": 4.5, "duration": 1.5, "params": { "icon": "rocket", "label": "انطلق", "key": "k" } },
+    { "id": "ph", "type": "phone", "start": 6, "duration": 1.5, "params": { "screen": { "lines": [{ "text": "وصل الفيديو", "at": 0 }, { "text": "شكراً!", "at": 0.5 }] }, "key": "k" } },
+    { "id": "term", "type": "app-window", "start": 7.5, "duration": 1.5, "params": { "mode": "terminal", "title": "mba", "lines": [{ "text": "> mba render", "at": 0 }, { "text": "جاري التحريك…", "at": 0.5 }], "key": "k" } },
+    { "id": "n2", "type": "counter", "start": 9, "duration": 1.5, "params": { "from": 0, "to": 99, "key": "k" } }
+  ],
+  "transitions": [
+    { "type": "morph", "at": 1.5, "params": { "key": "k" } },
+    { "type": "morph", "at": 3, "params": { "key": "k" } },
+    { "type": "morph", "at": 4.5, "params": { "key": "k" } },
+    { "type": "morph", "at": 6, "params": { "key": "k" } },
+    { "type": "morph", "at": 7.5, "params": { "key": "k" } },
+    { "type": "morph", "at": 9, "params": { "key": "k" } }
+  ]
+}

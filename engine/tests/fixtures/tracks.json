@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 29,
+  "scenes": [
+    { "id": "cap1", "type": "slam", "track": 2, "start": 0, "duration": 2.0, "preroll": 1, "params": { "text": "الترجمة الأولى" } },
+    { "id": "hook", "type": "slam", "start": 0, "duration": 2.0, "params": { "text": "Claude أصبح أسرع", "accent": "أسرع", "tag": "خبر عاجل" } },
+    { "id": "cap2", "type": "slam", "track": 2, "start": 2.0, "duration": 2.0, "preroll": 1, "params": { "text": "الترجمة الثانية" } },
+    { "id": "reveal", "type": "wipe-reveal", "start": 2.0, "duration": 2.0, "params": { "title": "ابدأ الآن", "subtitle": "تعلّم الموشن جرافيك بالعربي" } }
+  ],
+  "transitions": [{ "type": "color-wipe", "at": 2.0 }]
+}

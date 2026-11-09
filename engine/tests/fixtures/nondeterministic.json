@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 3,
+  "scenes": [
+    { "id": "steady", "type": "_probe", "start": 0, "duration": 1, "params": { "text": "مرحبا بالعالم" } },
+    { "id": "drifty", "type": "_nondet", "start": 1, "duration": 1, "params": {} }
+  ]
+}

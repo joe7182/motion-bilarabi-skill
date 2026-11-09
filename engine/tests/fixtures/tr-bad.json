@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "scenes": [
+    { "id": "hook", "type": "slam", "start": 0, "duration": 2.0, "params": { "text": "جديد" } },
+    { "id": "short", "type": "wipe-reveal", "start": 2.0, "duration": 0.5, "params": { "title": "قصير" } }
+  ],
+  "transitions": [{ "type": "whip-pan", "at": 2.0, "duration": 1.2 }]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 23,
+  "scenes": [
+    { "id": "hook", "type": "slam", "start": 0, "duration": 2.0, "params": { "text": "Claude أصبح أسرع", "accent": "أسرع", "tag": "خبر عاجل" } },
+    { "id": "reveal", "type": "wipe-reveal", "start": 2.0, "duration": 2.0, "params": { "title": "ابدأ الآن", "subtitle": "تعلّم الموشن جرافيك بالعربي" } }
+  ],
+  "transitions": [{ "type": "whip-pan", "at": 2.0 }]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "اسمك",
+  "nameEn": "Your Name",
+  "tagline": "جملتك القصيرة…",
+  "taglineAccent": "وكلمتك المميزة.",
+  "handle": "@your_handle",
+  "colors": {
+    "primary": "#ff5a1f",
+    "secondary": "#16130f",
+    "bg": "#f3efe7",
+    "text": "#16130f"
+  },
+  "avatar": "C:/path/to/your-photo.jpg",
+  "links": {
+    "instagram": "@your_handle",
+    "youtube": "@your_channel",
+    "tiktok": "@your_handle",
+    "site": "example.com"
+  },
+  "keyword": "موشن",
+  "watermark": false
+}

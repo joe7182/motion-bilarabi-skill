@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 11,
+  "scenes": [
+    {
+      "id": "headline",
+      "type": "slam",
+      "start": 0,
+      "duration": 2.5,
+      "params": { "text": "Claude أصبح أذكى", "accent": "أذكى", "tag": "تحديث جديد" }
+    }
+  ]
+}

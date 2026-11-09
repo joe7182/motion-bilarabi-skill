@@ -1,0 +1,12 @@
+{
+  "preset": "system",
+  "hook": { "say": "أي أتمتة", "text": "ثلاث طبقات", "box": "طبقات", "show": { "kind": "layers", "layers": [{ "title": "المنظّم", "subtitle": "يربط كل شي" }, { "title": "الأدوات", "subtitle": "تشتغل" }, { "title": "الموديل", "subtitle": "يفهم" }] } },
+  "parts": [
+    { "say": "الطبقة الأولى", "text": "الموديل يفهم", "box": "يفهم", "show": { "kind": "logos", "items": [{ "image": "logos/claude-tile.svg", "label": "Claude" }, { "image": "logos/chatgpt-tile.svg", "label": "ChatGPT" }, { "image": "logos/googlegemini-tile.svg", "label": "Gemini" }] } },
+    { "say": "الطبقة الثانية", "text": "الأدوات تشتغل", "box": "تشتغل", "show": { "kind": "object", "objects": ["tool"] } },
+    { "say": "الطبقة الثالثة", "text": "المنظّم يربط", "box": "يربط", "show": { "kind": "object", "objects": ["ai-chip"] } },
+    { "say": "والمنظّم يمشي", "text": "خطوة بخطوة", "box": "بخطوة", "show": { "kind": "graph", "title": "المنظّم", "nodes": [{ "id": "m", "label": "رسالة", "kind": "trigger" }, { "id": "u", "label": "تفهم", "kind": "agent" }, { "id": "r", "label": "ترد" }] } },
+    { "say": "وهذي الأدوات", "text": "أدوات كل يوم", "box": "يوم", "show": { "kind": "logos", "items": [{ "image": "logos/n8n-tile.svg", "label": "n8n" }, { "image": "logos/zapier-tile.svg", "label": "Zapier" }, { "image": "logos/whatsapp-tile.svg", "label": "WhatsApp" }] } }
+  ],
+  "cta": { "say": "تبي المخطط", "text": "علّق: طبقات", "box": "طبقات", "keyword": "طبقات" }
+}

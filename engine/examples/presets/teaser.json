@@ -1,0 +1,11 @@
+{
+  "preset": "teaser",
+  "lines": [
+    { "say": "كلمة تصير", "text": "كلمة تصير شكل", "box": "شكل", "object": "dot" },
+    { "say": "وشكل يصير", "text": "شكل يصير فكرة", "box": "فكرة", "object": "bulb" },
+    { "say": "كل فكرة", "text": "لها وقت", "box": "وقت", "object": "clock" },
+    { "say": "وكل وقت", "text": "له قيمة", "box": "قيمة", "object": "coin" }
+  ],
+  "brand": { "say": "موشن بالعربي", "word": "موشن" },
+  "soon": { "say": "قريباً", "text": "قريباً", "stamp": "قريباً" }
+}

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 16,
+  "scenes": [
+    { "id": "search", "type": "search-typing", "start": 0, "duration": 5, "params": { "text": "how to use ChatGPT?" } }
+  ]
+}

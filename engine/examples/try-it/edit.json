@@ -1,0 +1,722 @@
+{
+ "version": 1,
+ "format": "9:16",
+ "fps": 60,
+ "look": "signature",
+ "dir": "rtl",
+ "seed": 909,
+ "autoSfx": false,
+ "motionBlur": {
+  "samples": 3,
+  "shutter": 180
+ },
+ "camera": {
+  "fixedTracks": [
+   5
+  ],
+  "keys": [
+   {
+    "at": 0,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 6.8,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 6.8,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 7.15,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 9.4,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 9.4,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 9.75,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 12,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 12,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 12.35,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 14.6,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 14.6,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 14.95,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 17.2,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 17.2,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 17.55,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 19.8,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 19.8,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 20.15,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   },
+   {
+    "at": 22.4,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1,
+    "ease": "linear"
+   },
+   {
+    "at": 22.4,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1.07,
+    "ease": "linear"
+   },
+   {
+    "at": 22.75,
+    "x": 0.5,
+    "y": 0.5,
+    "zoom": 1
+   }
+  ]
+ },
+ "scenes": [
+  {
+   "id": "bg1",
+   "type": "backdrop",
+   "track": 0,
+   "start": 0,
+   "duration": 3,
+   "params": {
+    "world": "ink"
+   }
+  },
+  {
+   "id": "o2",
+   "type": "arabic-move",
+   "track": 3,
+   "start": 0,
+   "duration": 3,
+   "params": {
+    "move": "letters-snap",
+    "text": "موشن بالعربي"
+   }
+  },
+  {
+   "id": "o3",
+   "type": "cutout",
+   "track": 1,
+   "start": 3,
+   "duration": 3.8,
+   "params": {
+    "media": "m1",
+    "in": 0,
+    "mode": "grid",
+    "at": 0.15,
+    "pick": 1.3,
+    "zoom": 2.1
+   }
+  },
+  {
+   "id": "h4",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 5.9,
+   "duration": 0.9,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "شبكة",
+      "at": 0.1
+     },
+     {
+      "text": "زوم",
+      "at": 0.28,
+      "box": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "o5",
+   "type": "cutout",
+   "track": 1,
+   "start": 6.8,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 3.8,
+    "background": "blur",
+    "blur": 18,
+    "at": 0.2,
+    "dur": 0.6
+   }
+  },
+  {
+   "id": "h6",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 6.8,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "تركيز",
+      "at": 0.1,
+      "box": true
+     },
+     {
+      "text": "خلفي",
+      "at": 0.28
+     }
+    ]
+   }
+  },
+  {
+   "id": "o7",
+   "type": "cutout",
+   "track": 1,
+   "start": 9.4,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 6.4,
+    "mode": "letters",
+    "word": "عربي",
+    "at": 0.9,
+    "dur": 1.2
+   }
+  },
+  {
+   "id": "h8",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 9.4,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "غوص",
+      "at": 0.1
+     },
+     {
+      "text": "خلف",
+      "at": 0.28
+     },
+     {
+      "text": "الحروف",
+      "at": 0.46,
+      "box": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "o9",
+   "type": "video",
+   "track": 0,
+   "start": 12,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 9
+   }
+  },
+  {
+   "id": "o10",
+   "type": "cutout",
+   "track": 1,
+   "start": 12,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 9,
+    "mode": "clones",
+    "at": 0.15
+   }
+  },
+  {
+   "id": "h11",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 12,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "نسخ",
+      "at": 0.1,
+      "box": true
+     },
+     {
+      "text": "متكررة",
+      "at": 0.28
+     }
+    ]
+   }
+  },
+  {
+   "id": "o12",
+   "type": "video",
+   "track": 0,
+   "start": 14.6,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 11.6
+   }
+  },
+  {
+   "id": "o13",
+   "type": "orbit-ring",
+   "track": 1,
+   "start": 14.6,
+   "duration": 2.6,
+   "params": {
+    "words": [
+     "موشن",
+     "بالعربي",
+     "مدار",
+     "موشن",
+     "بالعربي",
+     "مدار"
+    ],
+    "half": "back",
+    "place": {
+     "x": 0.5,
+     "y": 0.39
+    },
+    "radius": 0.44,
+    "speed": 0.3,
+    "size": 0.075
+   }
+  },
+  {
+   "id": "o14",
+   "type": "cutout",
+   "track": 2,
+   "start": 14.6,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 11.6
+   }
+  },
+  {
+   "id": "o15",
+   "type": "orbit-ring",
+   "track": 3,
+   "start": 14.6,
+   "duration": 2.6,
+   "params": {
+    "words": [
+     "موشن",
+     "بالعربي",
+     "مدار",
+     "موشن",
+     "بالعربي",
+     "مدار"
+    ],
+    "half": "front",
+    "place": {
+     "x": 0.5,
+     "y": 0.39
+    },
+    "radius": 0.44,
+    "speed": 0.3,
+    "size": 0.075
+   }
+  },
+  {
+   "id": "h16",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 14.6,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "حلقة",
+      "at": 0.1,
+      "box": true
+     },
+     {
+      "text": "مدار",
+      "at": 0.28
+     }
+    ]
+   }
+  },
+  {
+   "id": "bg17",
+   "type": "backdrop",
+   "track": 0,
+   "start": 17.2,
+   "duration": 2.6,
+   "params": {
+    "world": "ink"
+   }
+  },
+  {
+   "id": "o18",
+   "type": "video",
+   "track": 1,
+   "start": 17.2,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 14.2
+   }
+  },
+  {
+   "id": "o19",
+   "type": "cutout",
+   "track": 2,
+   "start": 17.2,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 14.2,
+    "mode": "code",
+    "at": 0.1,
+    "dur": 0.5
+   }
+  },
+  {
+   "id": "h20",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 17.2,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "جسم",
+      "at": 0.1
+     },
+     {
+      "text": "من",
+      "at": 0.28
+     },
+     {
+      "text": "الكود",
+      "at": 0.46,
+      "box": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "o21",
+   "type": "video",
+   "track": 0,
+   "start": 19.8,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 16.8,
+    "zoom": [
+     {
+      "t": 0,
+      "scale": 1
+     },
+     {
+      "t": 2.6,
+      "scale": 1.9
+     }
+    ]
+   }
+  },
+  {
+   "id": "o22",
+   "type": "cutout",
+   "track": 1,
+   "start": 19.8,
+   "duration": 2.6,
+   "params": {
+    "media": "m1",
+    "in": 16.8
+   }
+  },
+  {
+   "id": "h23",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 19.8,
+   "duration": 2.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "زوم",
+      "at": 0.1,
+      "box": true
+     },
+     {
+      "text": "دوللي",
+      "at": 0.28
+     }
+    ]
+   }
+  },
+  {
+   "id": "o24",
+   "type": "cutout",
+   "track": 0,
+   "start": 22.4,
+   "duration": 2.8,
+   "params": {
+    "media": "m1",
+    "in": 19.4,
+    "mode": "dust",
+    "background": "clean",
+    "at": 0.35,
+    "dur": 0.6
+   }
+  },
+  {
+   "id": "h25",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 22.4,
+   "duration": 2.8,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "يتطاير",
+      "at": 0.1,
+      "box": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "bg26",
+   "type": "backdrop",
+   "track": 0,
+   "start": 25.2,
+   "duration": 2.6,
+   "params": {
+    "world": "ink"
+   }
+  },
+  {
+   "id": "o27",
+   "type": "predict-keys",
+   "track": 3,
+   "start": 25.2,
+   "duration": 2.6,
+   "params": {
+    "word": "موشن",
+    "at": 1.25,
+    "cps": 5,
+    "suggest": [
+     "موشن",
+     "موشن؟"
+    ]
+   }
+  },
+  {
+   "id": "h28",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 25.9,
+   "duration": 1.9,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "كيبورد",
+      "at": 0.1,
+      "box": true
+     },
+     {
+      "text": "عربي",
+      "at": 0.28
+     }
+    ]
+   }
+  },
+  {
+   "id": "bg31",
+   "type": "backdrop",
+   "track": 0,
+   "start": 27.8,
+   "duration": 3.6,
+   "params": {
+    "world": "ink"
+   }
+  },
+  {
+   "id": "h32",
+   "type": "kinetic-text",
+   "track": 5,
+   "start": 27.8,
+   "duration": 3.6,
+   "params": {
+    "mode": "line",
+    "enter": "mask",
+    "y": 0.06,
+    "ease": "easy",
+    "words": [
+     {
+      "text": "علّق:",
+      "at": 0.1
+     },
+     {
+      "text": "موشن",
+      "at": 0.28,
+      "box": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "o33",
+   "type": "comment-cta",
+   "track": 3,
+   "start": 27.8,
+   "duration": 3.6,
+   "params": {
+    "keyword": "موشن",
+    "at": {
+     "x": 0.5,
+     "y": 0.6
+    }
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "type": "profile-grid",
+   "at": 25.2,
+   "track": 0,
+   "params": {
+    "user": "your_handle"
+   }
+  },
+  {
+   "type": "iris",
+   "at": 27.8,
+   "track": 0,
+   "params": {}
+  }
+ ]
+}

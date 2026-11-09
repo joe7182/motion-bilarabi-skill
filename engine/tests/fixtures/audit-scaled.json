@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 4,
+  "scenes": [
+    {
+      "id": "scaleclip",
+      "type": "_scaleclip",
+      "start": 0,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "scalesafe",
+      "type": "_scalesafe",
+      "start": 2,
+      "duration": 2,
+      "params": {}
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 23,
+  "scenes": [
+    { "id": "coin-a", "type": "icon", "start": 0, "duration": 2.0, "params": { "icon": "coins", "at": { "x": 0.25, "y": 0.2 }, "size": 0.3, "key": "coin" } },
+    { "id": "coin-b", "type": "counter", "start": 2.0, "duration": 2.0, "params": { "from": 0, "to": 120, "suffix": "دينار", "key": "coin" } }
+  ],
+  "transitions": [{ "type": "morph", "at": 2.0, "params": { "key": "coin", "hit": true } }]
+}

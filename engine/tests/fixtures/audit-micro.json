@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 4,
+  "scenes": [
+    {
+      "id": "micro",
+      "type": "_micro",
+      "start": 0,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "microout",
+      "type": "_microout",
+      "start": 2,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "zoomed",
+      "type": "_zoomed",
+      "start": 4,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "tilted",
+      "type": "_tilted",
+      "start": 6,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "single110",
+      "type": "_single110",
+      "start": 8,
+      "duration": 2,
+      "params": {}
+    },
+    {
+      "id": "stacked110",
+      "type": "_stacked110",
+      "start": 10,
+      "duration": 2,
+      "params": {}
+    }
+  ]
+}

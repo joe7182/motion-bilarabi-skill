@@ -1,0 +1,15 @@
+{
+  "preset": "asked",
+  "title": "سألتوني",
+  "questions": [
+    { "say": "شلون سويته", "text": "شلون سويته؟" },
+    { "say": "بأي برنامج", "text": "بأي برنامج؟" },
+    { "say": "وكم أخذ", "text": "كم أخذ وقت؟" }
+  ],
+  "steps": [
+    { "say": "أولاً كتبت", "title": "السكربت", "text": "كتبته بكلود", "box": "بكلود", "show": { "kind": "object", "objects": ["document"] } },
+    { "say": "ثانياً سجّلت", "title": "الصوت", "text": "سجّلت الصوت", "box": "الصوت", "show": { "kind": "object", "objects": ["microphone"] } },
+    { "say": "ثالثاً المهارة", "title": "الحركة", "text": "المهارة حرّكت", "box": "حرّكت", "show": { "kind": "join", "word": "موشن" } }
+  ],
+  "cta": { "say": "تبي المهارة", "text": "علّق: اطلب", "box": "اطلب", "keyword": "اطلب" }
+}

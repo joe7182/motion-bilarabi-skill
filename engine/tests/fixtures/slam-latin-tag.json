@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "look": "dark-tech",
+  "seed": 15,
+  "scenes": [
+    { "id": "headline", "type": "slam", "start": 0, "duration": 2.5, "params": { "text": "الذكاء الاصطناعي AI!", "tag": "#AI!" } }
+  ]
+}

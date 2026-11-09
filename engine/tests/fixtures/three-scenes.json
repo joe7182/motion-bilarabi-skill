@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "scenes": [
+    { "id": "s1", "type": "search-typing", "start": 0, "duration": 3, "params": { "query": "كيف أصمم موشن جرافيك" } },
+    { "id": "s2", "type": "slam", "start": 2.5, "duration": 2.5, "params": { "text": "جديد" } },
+    { "id": "s3", "type": "wipe-reveal", "start": 4.5, "duration": 3, "params": { "text": "ابدأ الآن" } }
+  ]
+}
