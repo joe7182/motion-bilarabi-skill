@@ -67,6 +67,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 |---|---|
 | Is everything installed? | `mba doctor` |
 | An effect by its Arabic name | `catalog.md` (the user sees EFFECTS.md with previews) |
+| A web page or app screen | the user's screenshot, or `mba shot <url> img/x.jpg --full [--mobile]`, in a `screen-mockup` |
 | Build the storyboard | `mba preset <dir>` (`--script s.txt --bpm 120` without voice) |
 | Check a frame | `mba still <dir> --t 2.5,6 --out stills` |
 | Validate | `mba validate <dir>` |
@@ -136,7 +137,13 @@ Every idea lives in one world; the camera flies from one to the next and each on
 - A stop = any scene with `"place": {"x", "y", "scale"}` (its centre in the world, frame fractions; `scale` 0.34 = a third of the frame, so the camera zooms ×3 to fill the screen). Stops on tracks 1–4 (0 and 5 are fixed). Keep stops apart (centres ≥ `scale` apart) so they never overlap; a zigzag down the frame reads well.
 - `"camera": {"tour": {"travel": 1.1, "lift": 0.35}, "handheld": {"amp": 0.6}}` makes the camera keys: it holds on each stop, leaves `travel` s before the next stop's `start`, pulls back by `lift` mid-flight (the space shows), and lands exactly at that `start`. Give stop scenes durations that run to the end, so earlier stops stay in the world.
 - Parallax with `space-field` layers (`kind: dots|grid|stars|shapes|bokeh`, `density`, `tint: fg|accent|mix`, `alpha`): a far `dots` or `stars` layer at `depth` 0.3–0.5 and near `bokeh` (accent) at depth 1.5–2. Keep the world clean: nothing between the stops but these layers.
-- End on an overview: a last placed scene with `scale` ≈ 0.9 at the centre (e.g. `space-field` `shapes`), so the camera pulls out and shows the whole space. Add `"motionBlur": {"samples": 3, "shutter": 180}` for the flights.
+- Stops can be anything: a headline, an animated illustration (`morph-object` states, e.g. bulb → ai-chip → document), a `screen-mockup` of a website or a phone, a gauge, a timer. Explainers and tutorials: alternate idea → illustration → real screen.
+- Never end by pulling back to show every stop at once: the tour ends on its last stop. Let each stop's action (a scroll, a spotlight, a tap) finish before the camera leaves (`start` of the next stop − `travel`). Add `"motionBlur": {"samples": 3, "shutter": 180}` for the flights.
+
+## Real screens (web and phone mockups)
+- `screen-mockup` (`device: browser|phone`, `image`, `url`, `at`, `scroll[{at, y, dur}]`, `focus[{x, y, w, h, at, out, zoom, label}]`, `taps[{x, y, at}]`, `size`, `y`, `tilt`, `theme`) — a real screenshot in a browser window (address bar with `url`) or a phone (island, status bar). `scroll` y is 0 (top) … 1 (bottom) of a tall screenshot; `focus` and `taps` are fractions of the whole image (x, w of its width; y, h of its full height), read them off the screenshot; a focus dims the rest, outlines the box, zooms the device onto it and can carry a label; taps glide a cursor (browser) or show a fingertip (phone) with a ripple.
+- **Reference images first.** When a sentence talks about a website, an app, a tool or a page, the visual is the real screen. Ask the user for screenshots or screen recordings (their own site, app, dashboard): «عندك لقطة شاشة للصفحة؟ أرسلها، أو أعطني الرابط وأصوّرها». Put them in the project folder (e.g. `img/`) and use the path.
+- No screenshot but a public link: capture it — `mba shot <url> img/site.jpg --full` (desktop page, scrolled so everything loads; `--mobile` for a phone-sized page; `--wait 1500` for slow pages). Only public pages: never sign in, never capture private or paid content. Prefer the user's own sites; for someone else's site, say which page you captured and ask before publishing. Look at the screenshot yourself before using it (blank sections, banners, anything personal).
 
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).

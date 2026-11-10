@@ -375,6 +375,7 @@ async function checkVideoScenes(sb: Storyboard, project: Project | undefined): P
 const SCENE_IMAGE_FIELDS: Record<string, readonly (readonly string[])[]> = {
   phone: [['screen', 'image']],
   'app-window': [['image']],
+  'screen-mockup': [['image']],
   'profile-card': [['avatar']],
   'book-flip': [['image']],
   'photo-look': [['image']],

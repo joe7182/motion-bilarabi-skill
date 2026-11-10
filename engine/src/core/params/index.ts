@@ -24,6 +24,7 @@ import { editorialTypeParams } from './editorial'
 import { glitchTextParams, zoomCalloutParams } from './glitch'
 import { redPenParams, sketchWordsParams } from './sketch'
 import { spaceFieldParams } from './space'
+import { screenMockupParams } from './screen-mockup'
 import { gaugeRingParams, liveTimerParams, notifyStackParams, statBarsParams } from './data-fx'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
@@ -102,6 +103,7 @@ export const PARAMS = {
   'gauge-ring': gaugeRingParams,
   'live-timer': liveTimerParams,
   'space-field': spaceFieldParams,
+  'screen-mockup': screenMockupParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

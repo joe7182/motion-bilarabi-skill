@@ -142,6 +142,8 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | شاشة Claude Code | scene `"type": "code-chat"` | وريني المحادثة بشاشة Claude Code |
 | نافذة الموافقة | scene `"type": "permission-prompt"` | وريني نافذة موافقة Claude |
 | ملف كود | scene `"type": "code-file"` | وريني ملف «…» والسطر الخطر |
+| شاشة موقع | scene `"type": "screen-mockup"` | حط موقع «…» بمتصفح، انزل للـ «…» وسلّط عليه |
+| شاشة جوال | screen-mockup with `"device": "phone"` | حط «…» على جوال واضغط على «…» |
 | نافذة تطبيق | scene `"type": "app-window"` | حط نافذة طرفية تكتب «…» |
 | تسجيل شاشة | scene `"type": "screen-clip"` | حط تسجيل الشاشة بنافذة |
 | بحث يتكتب | scene `"type": "search-typing"` | خلّ البحث يكتب «…» |

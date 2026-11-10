@@ -86,7 +86,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'zoom-callout', group: 'person', ar: 'عدسة تكبير', does: 'دائرة على تفصيلة بالمقطع، خطين، وعدسة تطلع تكبّرها ويا عنوان', ask: 'كبّر «…» بعدسة واكتب «…»' },
   { id: 'video', group: 'person', ar: 'مقطع فيديو', does: 'مقطعك كما هو، مع زوم أو كتم الصوت', ask: 'حط مقطعي هنا، وكتّم صوته' },
   // Transitions
-  { id: 'space-field', group: 'transitions', ar: 'مساحة واحدة', does: 'كل الأفكار بمساحة وحدة: الكاميرا تطير من فكرة لفكرة وكل وحدة تبدأ حركتها لما توصل، طبقات بارالاكس، وبالنهاية ترجع تشوف المساحة كلها', ask: 'خلّ الفيديو مساحة وحدة والكاميرا تتنقّل بين الأفكار', img: 'one-space', use: 'scenes with `"place": {x, y, scale}` + `"camera": {"tour": {}}` + `space-field` layers — copy engine/examples/one-space.json' },
+  { id: 'space-field', group: 'transitions', ar: 'مساحة واحدة', does: 'كل الأفكار بمساحة وحدة: الكاميرا تطير من فكرة لفكرة وكل وحدة تبدأ حركتها لما توصل، وطبقات بارالاكس؛ أي مؤثر يصير محطة: عنوان، رسمة، موقع، جوال', ask: 'خلّ الفيديو مساحة وحدة والكاميرا تتنقّل بين الأفكار', img: 'one-space', use: 'scenes with `"place": {x, y, scale}` + `"camera": {"tour": {}}` + `space-field` layers — copy engine/examples/one-space.json' },
   { id: 'transition:paper-tear', group: 'transitions', ar: 'تمزيق ورق', does: 'اللقطة نفسها تتمزّق بحواف ورق حقيقية', ask: 'انتقل بتمزيق ورق', img: 'paper-tear' },
   { id: 'transition:page-turn', group: 'transitions', ar: 'قلب صفحة', does: 'صفحة تنقلب مثل كتاب عربي', ask: 'انتقل بقلب صفحة', img: 'page-turn' },
   { id: 'transition:blade-slice', group: 'transitions', ar: 'قصّ بالشفرة', does: 'شفرة تقصّ المشهد ونصّه يزحلق', ask: 'انتقل بقصّة شفرة' },
@@ -129,6 +129,8 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'code-chat', group: 'screens', ar: 'شاشة Claude Code', does: 'محادثة ذكاء اصطناعي كشاشة برمجة', ask: 'وريني المحادثة بشاشة Claude Code', img: 'code-chat' },
   { id: 'permission-prompt', group: 'screens', ar: 'نافذة الموافقة', does: 'Claude يطلب موافقة وتنختار «لا تسألني مرة ثانية»', ask: 'وريني نافذة موافقة Claude', img: 'permission-prompt' },
   { id: 'code-file', group: 'screens', ar: 'ملف كود', does: 'محرّر أسطره تنكتب، والسر يتوهّج أحمر', ask: 'وريني ملف «…» والسطر الخطر', img: 'code-file' },
+  { id: 'screen-mockup', group: 'screens', ar: 'شاشة موقع', does: 'لقطة موقع حقيقية بمتصفح: الصفحة تنزل، إضاءة على جزء وزوم عليه، والماوس يضغط', ask: 'حط موقع «…» بمتصفح، انزل للـ «…» وسلّط عليه', img: 'screen-mockup' },
+  { id: 'screen-mockup:phone', group: 'screens', ar: 'شاشة جوال', does: 'لقطة تطبيق أو موقع بجوال: إصبع يضغط، الصفحة تنزل، وإضاءة على جزء', ask: 'حط «…» على جوال واضغط على «…»', img: 'phone-mockup', use: 'screen-mockup with `"device": "phone"`' },
   { id: 'app-window', group: 'screens', ar: 'نافذة تطبيق', does: 'نافذة تطبيق أو طرفية فيها أسطر', ask: 'حط نافذة طرفية تكتب «…»' },
   { id: 'screen-clip', group: 'screens', ar: 'تسجيل شاشة', does: 'تسجيل شاشتك داخل نافذة متصفح', ask: 'حط تسجيل الشاشة بنافذة' },
   { id: 'search-typing', group: 'screens', ar: 'بحث يتكتب', does: 'شريط بحث يكتب', ask: 'خلّ البحث يكتب «…»' },

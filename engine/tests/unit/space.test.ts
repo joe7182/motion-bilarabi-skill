@@ -43,11 +43,28 @@ describe('one-space tour', () => {
   })
   it('the example storyboard parses', () => {
     const sb = parseStoryboard(JSON.parse(readFileSync('examples/one-space.json', 'utf8')), types)
-    expect(sb.camera!.keys.at(-1)!.at).toBe(9.3)
+    expect(sb.camera!.keys.at(-1)!.at).toBe(14)
   })
   it('space-field params', () => {
     expect(spaceFieldParams.parse({}).kind).toBe('dots')
     expect(spaceFieldParams.safeParse({ kind: 'route' }).success).toBe(false)
     expect(spaceFieldParams.safeParse({ kind: 'nebula' }).success).toBe(false)
+  })
+})
+
+import { screenMockupParams } from '../../src/core/params/screen-mockup'
+import { takeShot } from '../../src/node/shot'
+
+describe('screen-mockup and shots', () => {
+  it('screen-mockup fills defaults and checks boxes', () => {
+    const p = screenMockupParams.parse({ image: 'img/site.jpg' })
+    expect(p.device).toBe('browser')
+    expect(p.tilt).toBe(true)
+    expect(screenMockupParams.parse({ image: 'a.jpg', focus: [{ x: 0.1, y: 0.2, w: 0.5, h: 0.1, at: 1 }] }).focus[0]!.zoom).toBe(1.5)
+    expect(screenMockupParams.safeParse({ image: 'a.jpg', taps: [{ x: 1.2, y: 0.5, at: 1 }] }).success).toBe(false)
+    expect(screenMockupParams.safeParse({}).success).toBe(false)
+  })
+  it('mba shot only takes http(s) links', async () => {
+    await expect(takeShot('file:///etc/passwd', 'x.jpg')).rejects.toThrow(/http/)
   })
 })

@@ -67,6 +67,7 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
+  mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]   (a web page screenshot for a screen-mockup: desktop browser or phone)
   mba plate <projectDir> <mediaId> <photo-or-clip>   (optional: the empty scene from the same camera spot, for professional blow-away, clones, dolly, back focus)
   mba transcribe <projectDir> [--media m1]
   mba doctor
@@ -109,6 +110,9 @@ async function main(argv: string[]): Promise<number> {
         media: { type: 'string' },
         kind: { type: 'string' },
         model: { type: 'string' },
+        mobile: { type: 'boolean' },
+        full: { type: 'boolean' },
+        wait: { type: 'string' },
         brief: { type: 'string' },
         preset: { type: 'string' },
         script: { type: 'string' },
@@ -144,6 +148,14 @@ async function main(argv: string[]): Promise<number> {
     if (!dir || !id) usage('الاستخدام: mba matte <projectDir> <mediaId> [--model file] — Usage: mba matte <projectDir> <mediaId> [--model file]')
     const out = await makeMatte(dir!, id!, (values.model as string | undefined) ?? undefined, (l) => process.stderr.write(l + '\n'))
     process.stdout.write(`قناع الشخص جاهز — Person matte written: ${out}\n`)
+    return 0
+  }
+  if (command === 'shot') {
+    const [url, out] = positionals.slice(1)
+    if (!url || !out) usage('الاستخدام: mba shot <رابط> <صورة.jpg> [--mobile] [--full] [--wait ms] — Usage: mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]')
+    const { takeShot } = await import('./node/shot')
+    const r = await takeShot(url!, out!, { mobile: values.mobile === true, full: values.full === true, ...(values.wait ? { wait: Number(values.wait) } : {}) })
+    process.stdout.write(`لقطة الشاشة جاهزة — Screenshot written: ${r.file} (${r.w}×${r.h})\n`)
     return 0
   }
   if (command === 'plate') {
