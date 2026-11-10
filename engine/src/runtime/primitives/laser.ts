@@ -49,9 +49,9 @@ export const techGrid: Primitive<TechGridParams> = {
         seeds.forEach((s, i) => {
           const x = w * (0.2 + 0.6 * s.x + 0.06 * Math.sin(t * 0.4 + s.ph))
           const y = h * (0.2 + 0.6 * s.y + 0.05 * Math.cos(t * 0.33 + s.ph))
-          const r = w * 0.7
+          const r = w * 0.45
           const gr = g.createRadialGradient(x, y, 0, x, y, r)
-          gr.addColorStop(0, i % 2 ? 'rgba(90,120,255,0.10)' : rgba(accent, 0.13))
+          gr.addColorStop(0, i % 2 ? 'rgba(90,120,255,0.06)' : rgba(accent, 0.07))
           gr.addColorStop(1, 'rgba(0,0,0,0)')
           g.fillStyle = gr
           g.fillRect(0, 0, w, h)
@@ -100,7 +100,7 @@ export const laserType: Primitive<LaserTypeParams> = {
     const s = ctx.safe
     const { cv, g } = fullCanvas(ctx.layer, w, h)
     const accent = accentOf(ctx)
-    cv.style.filter = `drop-shadow(0 0 ${f3(5 * k)}px ${rgba(accent, 0.55)}) drop-shadow(0 0 ${f3(22 * k)}px ${rgba(accent, 0.28)})`
+    cv.style.filter = `drop-shadow(0 0 ${f3(3 * k)}px ${rgba(accent, 0.45)}) drop-shadow(0 0 ${f3(9 * k)}px ${rgba(accent, 0.18)})`
     const font = (px: number) => `900 ${px}px ${ctx.look.fontDisplay}`
     // Fit every line to the safe width.
     g.font = font(100)
@@ -182,19 +182,19 @@ export const laserType: Primitive<LaserTypeParams> = {
             const by1 = L.y + L.c.height + lineH * 0.1
             g.save()
             g.shadowColor = accent
-            g.shadowBlur = 24 * k
+            g.shadowBlur = 8 * k
             g.strokeStyle = HOT
-            g.lineWidth = 3 * k
+            g.lineWidth = 2 * k
             g.beginPath(); g.moveTo(cutX, by0); g.lineTo(cutX, by1); g.stroke()
             const fy = L.y + L.c.height * 0.55
-            const fr = g.createRadialGradient(cutX, fy, 0, cutX, fy, 70 * k)
+            const fr = g.createRadialGradient(cutX, fy, 0, cutX, fy, 22 * k)
             fr.addColorStop(0, 'rgba(255,255,240,1)')
-            fr.addColorStop(0.2, rgba(accent, 0.8))
+            fr.addColorStop(0.3, rgba(accent, 0.7))
             fr.addColorStop(1, rgba(accent, 0))
             g.fillStyle = fr
-            g.fillRect(cutX - 70 * k, fy - 70 * k, 140 * k, 140 * k)
-            g.fillStyle = 'rgba(255,240,220,0.8)'
-            g.fillRect(cutX - 160 * k, fy - 1.5 * k, 320 * k, 3 * k)
+            g.fillRect(cutX - 22 * k, fy - 22 * k, 44 * k, 44 * k)
+            g.fillStyle = 'rgba(255,240,220,0.55)'
+            g.fillRect(cutX - 70 * k, fy - 0.75 * k, 140 * k, 1.5 * k)
             g.restore()
           }
           // Sparks: born where the cut was, flying off with gravity.
@@ -246,8 +246,8 @@ export const laserBeam: Primitive<LaserBeamParams> = {
           const e = easeOutCubic(seg(t, p.crosshair.at, p.crosshair.at + 0.4))
           g.save()
           g.shadowColor = accent
-          g.shadowBlur = 14 * k
-          g.strokeStyle = rgba(accent, 0.75)
+          g.shadowBlur = 5 * k
+          g.strokeStyle = rgba(accent, 0.6)
           g.lineWidth = 2 * k
           g.beginPath()
           g.moveTo(c.x - e * w, c.y); g.lineTo(c.x + e * w, c.y)
@@ -264,8 +264,8 @@ export const laserBeam: Primitive<LaserBeamParams> = {
           const bh = s.h * 0.095 * (0.8 + 0.2 * e)
           g.save()
           g.globalAlpha = Math.min(1, seg(t, b.from, b.from + 0.15))
-          g.shadowColor = 'rgba(255,255,255,0.5)'
-          g.shadowBlur = 10 * k
+          g.shadowColor = 'rgba(255,255,255,0.35)'
+          g.shadowBlur = 4 * k
           g.strokeStyle = 'rgba(255,255,255,0.85)'
           g.fillStyle = 'rgba(255,255,255,0.04)'
           g.lineWidth = 2 * k
@@ -296,7 +296,7 @@ export const laserBeam: Primitive<LaserBeamParams> = {
           const hy = a.y + (b.y - a.y) * u
           g.save()
           g.shadowColor = c
-          g.shadowBlur = 16 * k
+          g.shadowBlur = 6 * k
           if (bm.keep || u < 1) {
             g.strokeStyle = rgba(c.startsWith('#') ? c : accent, u < 1 ? 0.35 : 0.55)
             g.lineWidth = 2 * k
@@ -310,14 +310,14 @@ export const laserBeam: Primitive<LaserBeamParams> = {
             gr.addColorStop(0, rgba(c.startsWith('#') ? c : accent, 0))
             gr.addColorStop(1, HOT)
             g.strokeStyle = gr
-            g.lineWidth = 5 * k
+            g.lineWidth = 3 * k
             g.beginPath(); g.moveTo(tx, ty); g.lineTo(hx, hy); g.stroke()
-            const fr = g.createRadialGradient(hx, hy, 0, hx, hy, 50 * k)
+            const fr = g.createRadialGradient(hx, hy, 0, hx, hy, 16 * k)
             fr.addColorStop(0, 'rgba(255,255,240,1)')
-            fr.addColorStop(0.25, rgba(c.startsWith('#') ? c : accent, 0.7))
+            fr.addColorStop(0.35, rgba(c.startsWith('#') ? c : accent, 0.6))
             fr.addColorStop(1, 'rgba(0,0,0,0)')
             g.fillStyle = fr
-            g.fillRect(hx - 50 * k, hy - 50 * k, 100 * k, 100 * k)
+            g.fillRect(hx - 16 * k, hy - 16 * k, 32 * k, 32 * k)
           }
           g.restore()
         }
@@ -330,7 +330,7 @@ export const laserBeam: Primitive<LaserBeamParams> = {
           const e2 = easeOutCubic(seg(t, m.at + 0.12, m.at + 0.27))
           g.save()
           g.shadowColor = RED
-          g.shadowBlur = 18 * k
+          g.shadowBlur = 6 * k
           g.strokeStyle = RED
           g.lineWidth = 6 * k
           g.lineCap = 'round'
@@ -409,7 +409,7 @@ export const glowWords: Primitive<GlowWordsParams> = {
             }
             const hotA = lit * (1 - cool)
             sp.style.color = cool >= 1 ? '#ffffff' : hotA > 0.5 ? accent : '#ffffff'
-            sp.style.textShadow = `0 0 ${f3((6 + 18 * hotA) * k)}px ${rgba(accent, 0.35 + 0.5 * hotA)}, 0 0 ${f3(40 * k * hotA)}px ${rgba(accent, 0.35 * hotA)}`
+            sp.style.textShadow = `0 0 ${f3((3 + 7 * hotA) * k)}px ${rgba(accent, 0.25 + 0.4 * hotA)}, 0 0 ${f3(16 * k * hotA)}px ${rgba(accent, 0.2 * hotA)}`
             const pop = lit < 1 ? 1 + 0.06 * Math.sin(Math.PI * lit) : 1
             sp.style.transform = pop === 1 ? '' : `scale(${f3(pop)})`
           }
