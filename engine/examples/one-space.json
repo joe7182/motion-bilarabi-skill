@@ -40,41 +40,6 @@
    }
   },
   {
-   "id": "route",
-   "type": "space-field",
-   "track": 1,
-   "start": 0,
-   "duration": 11,
-   "params": {
-    "kind": "route",
-    "alpha": 0.9,
-    "travel": 1.25,
-    "clear": 0.2,
-    "stops": [
-     {
-      "x": 0.3,
-      "y": 0.17,
-      "at": 0
-     },
-     {
-      "x": 0.7,
-      "y": 0.36,
-      "at": 2.4
-     },
-     {
-      "x": 0.3,
-      "y": 0.55,
-      "at": 4.8
-     },
-     {
-      "x": 0.7,
-      "y": 0.74,
-      "at": 7
-     }
-    ]
-   }
-  },
-  {
    "id": "s1",
    "type": "editorial-type",
    "track": 2,

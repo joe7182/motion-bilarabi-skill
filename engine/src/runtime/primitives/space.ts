@@ -1,4 +1,3 @@
-import { easeOutBack, easeOutCubic, seg } from '../../core/ease'
 import { spaceFieldParams, type SpaceFieldParams } from '../../core/params/space'
 import type { Primitive } from './registry'
 
@@ -13,16 +12,7 @@ const el = <K extends keyof SVGElementTagNameMap>(tag: K, attrs: Record<string, 
 }
 let uid = 0
 
-/** Leg i of a smooth path through points (Catmull-Rom as one cubic Bézier). */
-function leg(pts: { x: number; y: number }[], i: number): string {
-  const p0 = pts[Math.max(0, i - 1)]!
-  const p1 = pts[i]!
-  const p2 = pts[i + 1]!
-  const p3 = pts[Math.min(pts.length - 1, i + 2)]!
-  return `M${f1(p1.x)},${f1(p1.y)} C${f1(p1.x + (p2.x - p0.x) / 6)},${f1(p1.y + (p2.y - p0.y) / 6)} ${f1(p2.x - (p3.x - p1.x) / 6)},${f1(p2.y - (p3.y - p1.y) / 6)} ${f1(p2.x)},${f1(p2.y)}`
-}
-
-/** space-field: one vector layer of the one-space world (dots, grid, stars, shapes, bokeh or the route). */
+/** space-field: one vector layer of the one-space world (dots, grid, stars, shapes or bokeh). */
 export const spaceField: Primitive<SpaceFieldParams> = {
   id: 'space-field',
   params: spaceFieldParams,
@@ -44,7 +34,6 @@ export const spaceField: Primitive<SpaceFieldParams> = {
     const Y = () => -h / 2 + R() * 2 * h
     const twinkles: { e: SVGElement; ph: number; sp: number; base: number }[] = []
     const spins: { e: SVGElement; x: number; y: number; ph: number; sp: number; bob: number }[] = []
-    let routeUpdate: ((t: number) => void) | null = null
 
     if (p.kind === 'dots' || p.kind === 'grid') {
       const cell = (p.kind === 'dots' ? 54 : 108) * k / Math.sqrt(p.density)
@@ -98,46 +87,6 @@ export const spaceField: Primitive<SpaceFieldParams> = {
         svg.append(g)
         spins.push({ e: g, x: X(), y: Y(), ph: R() * 6.28, sp: 0, bob: (10 + R() * 26) * k })
       }
-    } else if (p.kind === 'route' && p.stops.length > 0) {
-      const pts = p.stops.map((s) => ({ x: s.x * w, y: s.y * h }))
-      // Breadcrumbs: one dot every `gap` px along each leg, popping in as the leg is flown.
-      const crumbs: { e: SVGCircleElement; leg: number; u: number }[] = []
-      for (let i = 0; i + 1 < pts.length; i++) {
-        const path = el('path', { d: leg(pts, i), fill: 'none' })
-        svg.append(path)
-        const L = path.getTotalLength()
-        const gap = 26 * k
-        const n = Math.max(2, Math.floor(L / gap))
-        for (let j = 1; j < n; j++) {
-          const q = path.getPointAtLength((j / n) * L)
-          if (pts.some((s) => Math.hypot(s.x - q.x, s.y - q.y) < p.clear * w)) continue
-          const c = el('circle', { cx: f1(q.x), cy: f1(q.y), r: f2(4.2 * k), fill: fg })
-          svg.append(c)
-          crumbs.push({ e: c, leg: i, u: j / n })
-        }
-      }
-      const nodes = pts.map((q, i) => {
-        const g = el('g', { transform: `translate(${f1(q.x)},${f1(q.y)})` })
-        const pulse = el('circle', { r: f2(p.clear * w), fill: 'none', stroke: accent, 'stroke-width': f2(4 * k) })
-        g.append(pulse)
-        svg.append(g)
-        return { pulse, at: p.stops[i]!.at }
-      })
-      routeUpdate = (t) => {
-        for (const c of crumbs) {
-          const a = p.stops[c.leg + 1]!.at
-          const start = Math.max(p.stops[c.leg]!.at, a - p.travel)
-          const lit = seg(t, start + (a - start) * c.u * 0.92, start + (a - start) * c.u * 0.92 + 0.12)
-          c.e.setAttribute('r', f2(4.2 * k * Math.max(0, easeOutBack(lit))))
-          c.e.style.opacity = f3(0.35 + 0.45 * lit)
-        }
-        for (const n of nodes) {
-          // A ripple out from the stop's clear zone as the camera lands.
-          const pu = seg(t, n.at - 0.05, n.at + 0.85)
-          n.pulse.setAttribute('r', f2(p.clear * w * (1 + 0.9 * easeOutCubic(pu))))
-          n.pulse.style.opacity = f3(pu > 0 && pu < 1 ? 0.7 * (1 - pu) : 0)
-        }
-      }
     }
 
     return {
@@ -149,7 +98,6 @@ export const spaceField: Primitive<SpaceFieldParams> = {
           const dx = Math.cos(t * 0.5 + s.ph) * s.bob * 0.6
           s.e.setAttribute('transform', `translate(${f1(s.x + dx)},${f1(s.y + dy)}) rotate(${f1(s.ph + s.sp * t)})`)
         }
-        routeUpdate?.(t)
       },
     }
   },

@@ -47,7 +47,7 @@ describe('one-space tour', () => {
   })
   it('space-field params', () => {
     expect(spaceFieldParams.parse({}).kind).toBe('dots')
-    expect(spaceFieldParams.parse({ kind: 'route', stops: [{ x: 0.3, y: 0.2, at: 0 }] }).clear).toBe(0.16)
+    expect(spaceFieldParams.safeParse({ kind: 'route' }).success).toBe(false)
     expect(spaceFieldParams.safeParse({ kind: 'nebula' }).success).toBe(false)
   })
 })
