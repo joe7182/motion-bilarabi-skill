@@ -86,6 +86,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'zoom-callout', group: 'person', ar: 'عدسة تكبير', does: 'دائرة على تفصيلة بالمقطع، خطين، وعدسة تطلع تكبّرها ويا عنوان', ask: 'كبّر «…» بعدسة واكتب «…»' },
   { id: 'video', group: 'person', ar: 'مقطع فيديو', does: 'مقطعك كما هو، مع زوم أو كتم الصوت', ask: 'حط مقطعي هنا، وكتّم صوته' },
   // Transitions
+  { id: 'space-field', group: 'transitions', ar: 'مساحة واحدة', does: 'كل الأفكار بمساحة وحدة: الكاميرا تطير من فكرة لفكرة وكل وحدة تبدأ حركتها لما توصل، طبقات بارالاكس، مسار نقاط، وبالنهاية ترجع تشوف المساحة كلها', ask: 'خلّ الفيديو مساحة وحدة والكاميرا تتنقّل بين الأفكار', img: 'one-space', use: 'scenes with `"place": {x, y, scale}` + `"camera": {"tour": {}}` + `space-field` layers — copy engine/examples/one-space.json' },
   { id: 'transition:paper-tear', group: 'transitions', ar: 'تمزيق ورق', does: 'اللقطة نفسها تتمزّق بحواف ورق حقيقية', ask: 'انتقل بتمزيق ورق', img: 'paper-tear' },
   { id: 'transition:page-turn', group: 'transitions', ar: 'قلب صفحة', does: 'صفحة تنقلب مثل كتاب عربي', ask: 'انتقل بقلب صفحة', img: 'page-turn' },
   { id: 'transition:blade-slice', group: 'transitions', ar: 'قصّ بالشفرة', does: 'شفرة تقصّ المشهد ونصّه يزحلق', ask: 'انتقل بقصّة شفرة' },

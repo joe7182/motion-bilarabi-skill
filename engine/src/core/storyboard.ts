@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { FORMATS, type Format } from './types'
 import { brandSchema, formatPath, type Brand } from './brand'
 import { defaultTransitionDuration, TRANSITION_DURATION, TRANSITION_IDS, TRANSITION_PARAMS, type TransitionId } from './params/transitions'
-import { CAMERA, type CameraSpec } from './camera'
+import { CAMERA, tourKeys, type CameraSpec, type ScenePlace } from './camera'
 
 export type { TransitionId }
 
@@ -40,6 +40,12 @@ export interface SceneSpec {
    * moves (far), 2 moves twice as much (near). Ignored without a camera and on fixed tracks.
    */
   depth?: number
+  /**
+   * One space: the scene's frame-sized layer sits in the camera's world at this place, scaled by
+   * `scale` and centred on (x, y) (frame fractions). Needs a camera; with `camera.tour` the camera
+   * flies to each placed scene and lands as it starts.
+   */
+  place?: ScenePlace
   params: Record<string, unknown>
 }
 
@@ -179,6 +185,7 @@ const sceneSchema = z.object({
   preroll: z.number().finite().min(0).max(MAX_PREROLL).default(0),
   track: trackSchema,
   depth: z.number().finite().min(0).max(CAMERA.maxDepth).optional(),
+  place: z.object({ x: z.number().finite().min(0).max(1), y: z.number().finite().min(0).max(1), scale: z.number().finite().min(1 / CAMERA.maxZoom).max(1) }).optional(),
   params: z.record(z.string(), z.unknown()).default({}),
 })
 
@@ -215,12 +222,13 @@ const cameraKeySchema = z.object({
   y: z.number().finite().min(0).max(1).default(0.5),
   zoom: z.number().finite().min(CAMERA.minZoom).max(CAMERA.maxZoom),
   ease: z.enum(['linear', 'smooth']).default('smooth'),
+  arc: z.number().finite().min(0).max(0.8).optional(),
 })
 
 const cameraSchema = z.object({
   keys: z
     .array(cameraKeySchema)
-    .min(1, 'الكاميرا تحتاج مفتاحًا واحدًا على الأقل — the camera needs at least one key')
+    .default([])
     .superRefine((keys, ctx) => {
       for (let k = 1; k < keys.length; k++) {
         if (keys[k]!.at < keys[k - 1]!.at) {
@@ -230,6 +238,7 @@ const cameraSchema = z.object({
       }
     }),
   fixedTracks: z.array(z.number().int().min(0).max(MAX_TRACK)).default([...CAMERA.fixedTracks]),
+  tour: z.object({ travel: z.number().finite().min(0.3).max(4).default(1.1), lift: z.number().finite().min(0).max(0.8).default(0.35) }).optional(),
   // Plan 3 Task 4: the living camera (both optional; absent = no jitter, exactly as before).
   handheld: z.object({ amp: z.number().finite().min(0).max(CAMERA.maxHandheld).default(1) }).optional(),
   shakes: z.array(z.object({ at: z.number().finite().min(0), amp: z.number().finite().min(0).max(CAMERA.maxShake) })).optional(),
@@ -372,9 +381,29 @@ export function parseStoryboard(json: unknown, knownTypes: string[]): Storyboard
       throw new StoryboardError(`scenes[${i}].preroll`, `preroll (${sc.preroll}s) is longer than the scene (${sc.duration}s)`)
     }
   })
+  checkPlaces(sb)
   checkTransitions(sb)
   checkAudio(sb)
   return sb
+}
+
+/** One space: placed scenes need a camera and a camera track; a tour makes the keys from them. */
+function checkPlaces(sb: Storyboard): void {
+  const cam = sb.camera
+  sb.scenes.forEach((sc, i) => {
+    if (!sc.place) return
+    if (!cam) throw new StoryboardError(`scenes[${i}].place`, 'المكان يحتاج كاميرا — place needs a camera; add "camera": {"tour": {}}')
+    if ((cam.fixedTracks ?? CAMERA.fixedTracks).includes(trackOf(sc))) {
+      throw new StoryboardError(`scenes[${i}].place`, `المسار ${trackOf(sc)} ثابت لا يتحرك مع الكاميرا — track ${trackOf(sc)} is fixed (not under the camera); put placed scenes on tracks 1–4`)
+    }
+  })
+  if (!cam) return
+  if (cam.tour) {
+    if (!sb.scenes.some((s) => s.place)) throw new StoryboardError('camera.tour', 'الجولة تحتاج مشاهد لها مكان place — a tour needs scenes with a place')
+    cam.keys = tourKeys(sb.scenes, cam.tour)
+  } else if (cam.keys.length === 0) {
+    throw new StoryboardError('camera.keys', 'الكاميرا تحتاج مفتاحًا واحدًا على الأقل — the camera needs at least one key')
+  }
 }
 
 export function storyboardDuration(sb: Storyboard): number {

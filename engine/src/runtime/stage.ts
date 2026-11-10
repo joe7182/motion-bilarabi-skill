@@ -308,9 +308,22 @@ export async function createStage(root: HTMLElement, sb: Storyboard): Promise<St
         return null
       }
       const selfStart = sc.start
+      // One space: a placed scene draws into a frame-sized box moved and scaled to its place in the
+      // world (the layer itself stays untouched: transitions write its transform).
+      let host = layer
+      if (sc.place) {
+        host = document.createElement('div')
+        const s = sc.place.scale
+        Object.assign(host.style, {
+          position: 'absolute', left: '0px', top: '0px', width: `${size.w}px`, height: `${size.h}px`, transformOrigin: '0 0',
+          transform: `translate(${(sc.place.x * size.w - (s * size.w) / 2).toFixed(2)}px, ${(sc.place.y * size.h - (s * size.h) / 2).toFixed(2)}px) scale(${s})`,
+        })
+        host.dataset.mbaPlace = ''
+        layer.append(host)
+      }
       const built = await prim.build(
         {
-          layer,
+          layer: host,
           size: { ...size },
           safe: { ...safe },
           look,

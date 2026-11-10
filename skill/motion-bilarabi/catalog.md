@@ -91,6 +91,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 
 | Arabic name | Write | User might say |
 |---|---|---|
+| مساحة واحدة | scenes with `"place": {x, y, scale}` + `"camera": {"tour": {}}` + `space-field` layers — copy engine/examples/one-space.json | خلّ الفيديو مساحة وحدة والكاميرا تتنقّل بين الأفكار |
 | تمزيق ورق | transition `"type": "paper-tear"` | انتقل بتمزيق ورق |
 | قلب صفحة | transition `"type": "page-turn"` | انتقل بقلب صفحة |
 | قصّ بالشفرة | transition `"type": "blade-slice"` | انتقل بقصّة شفرة |

@@ -131,6 +131,13 @@ there, ask where they put it. Its `README.md` is the install guide.
 - `gauge-ring` (`value` 0–100, `from`, `label`, `suffix`, `digits`, `at`, `dur`, `size`, `y`) — a ring sweeps to the value with a glowing head and ticks; the number counts in the middle, the label sits under the ring.
 - `live-timer` (`from`, `to`, `at`, `dur`, `format: mm:ss|mm:ss.cc|hh:mm:ss`, `digits`, `label`, `ring`, `warn`, `y`, `size`) — a stopwatch (from < to) or countdown (from > to) in tabular digits with a pulsing red dot; `warn` = the last seconds pulse in the accent. A long span over a short `dur` plays fast.
 
+## One space (camera tour)
+Every idea lives in one world; the camera flies from one to the next and each one's animation starts as the camera lands. Start from `engine/examples/one-space.json`.
+- A stop = any scene with `"place": {"x", "y", "scale"}` (its centre in the world, frame fractions; `scale` 0.34 = a third of the frame, so the camera zooms ×3 to fill the screen). Stops on tracks 1–4 (0 and 5 are fixed). Keep stops apart (centres ≥ `scale` apart) so they never overlap; a zigzag down the frame reads well.
+- `"camera": {"tour": {"travel": 1.1, "lift": 0.35}, "handheld": {"amp": 0.6}}` makes the camera keys: it holds on each stop, leaves `travel` s before the next stop's `start`, pulls back by `lift` mid-flight (the space shows), and lands exactly at that `start`. Give stop scenes durations that run to the end, so earlier stops stay in the world.
+- Parallax with `space-field` layers (`kind: dots|grid|stars|shapes|bokeh|route`, `density`, `tint: fg|accent|mix`, `alpha`): a far `dots` or `stars` layer at `depth` 0.3–0.5, a `route` at depth 1 (`stops[{x, y, at}]` = the stops' places and starts, `travel` = the tour's, `clear` keeps the dots off each stop's text) and near `bokeh` (accent) at depth 1.5–2.
+- End on an overview: a last placed scene with `scale` ≈ 0.9 at the centre (e.g. `space-field` `shapes`), so the camera pulls out and shows the whole space. Add `"motionBlur": {"samples": 3, "shutter": 180}` for the flights.
+
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
 - `tech-grid` (`cell`, `glows`, `floor`) — the dark grid world; put it on track 0 under every Laser scene.

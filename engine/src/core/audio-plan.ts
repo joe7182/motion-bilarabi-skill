@@ -13,6 +13,7 @@ import { cuesOfEffectList, cuesOfLiveCursor, cuesOfVoiceNote, cuesOfCommentDrop,
 import { cuesOfEditorialType } from './params/editorial'
 import { cuesOfGlitchText, cuesOfZoomCallout } from './params/glitch'
 import { cuesOfRedPen, cuesOfSketchWords } from './params/sketch'
+import { cuesOfSpaceField } from './params/space'
 import { cuesOfGaugeRing, cuesOfLiveTimer, cuesOfNotifyStack, cuesOfStatBars } from './params/data-fx'
 import { cuesOfBeatSlam, cuesOfGlowWords, cuesOfLaserBeam, cuesOfLaserType, cuesOfTechGrid } from './params/laser'
 import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
@@ -113,6 +114,7 @@ export const CUES: Record<string, CuesOf> = {
   'stat-bars': cuesOfStatBars as CuesOf,
   'gauge-ring': cuesOfGaugeRing as CuesOf,
   'live-timer': cuesOfLiveTimer as CuesOf,
+  'space-field': cuesOfSpaceField as CuesOf,
   'laser-beam': cuesOfLaserBeam as CuesOf,
   'glow-words': cuesOfGlowWords as CuesOf,
   'beat-slam': cuesOfBeatSlam as CuesOf,

@@ -23,6 +23,51 @@ export interface CameraKey {
   zoom: number
   /** How the camera arrives at this key from the previous one: `smooth` (default, smoothstep) or `linear`. */
   ease?: 'linear' | 'smooth'
+  /** One-space tour: on the way to this key the camera pulls back by this share at mid-flight (0..0.8), so the space shows. */
+  arc?: number
+}
+
+/** One-space tour: the camera flies from one placed scene to the next, arriving as each one starts. */
+export interface CameraTour {
+  /** Seconds of each flight (it ends at the next stop's start). */
+  travel: number
+  /** How far it pulls back mid-flight (0..0.8). */
+  lift: number
+}
+
+/** A scene's place in the one space: its frame-sized layer, scaled by `scale`, centred on (x, y). */
+export interface ScenePlace {
+  x: number
+  y: number
+  scale: number
+}
+
+/**
+ * The camera keys of a tour (pure): one stop per distinct place, in start order. The camera holds on
+ * the first stop from 0; for each next stop it leaves the previous one `travel` s before the stop's
+ * start (never before it arrived there) and lands on it, framed to fill the screen (zoom 1/scale),
+ * exactly at the start, pulling back by `lift` on the way.
+ */
+export function tourKeys(scenes: { start: number; place?: ScenePlace }[], tour: CameraTour): CameraKey[] {
+  const stops: { at: number; p: ScenePlace }[] = []
+  for (const sc of [...scenes].filter((s) => s.place).sort((a, b) => a.start - b.start)) {
+    const p = sc.place!
+    if (stops.some((q) => q.p.x === p.x && q.p.y === p.y && q.p.scale === p.scale && q === stops[stops.length - 1])) continue
+    stops.push({ at: sc.start, p })
+  }
+  const pose = (p: ScenePlace) => ({ x: p.x, y: p.y, zoom: Math.min(CAMERA.maxZoom, Math.max(CAMERA.minZoom, 1 / p.scale)) })
+  const keys: CameraKey[] = []
+  stops.forEach((s, i) => {
+    if (i === 0) {
+      keys.push({ at: 0, ...pose(s.p), ease: 'smooth' })
+      return
+    }
+    const prev = keys[keys.length - 1]!
+    const leave = Math.max(prev.at + 0.05, s.at - tour.travel)
+    keys.push({ at: Math.min(leave, s.at - 0.05), x: prev.x, y: prev.y, zoom: prev.zoom, ease: 'smooth' })
+    keys.push({ at: s.at, ...pose(s.p), ease: 'smooth', arc: tour.lift })
+  })
+  return keys
 }
 
 export interface CameraSpec {
@@ -30,6 +75,8 @@ export interface CameraSpec {
   keys: CameraKey[]
   /** Tracks not under the camera (default [0, 5]: the backdrop and the HUD). */
   fixedTracks?: number[]
+  /** One-space tour: when set, `keys` are made from the placed scenes (`tourKeys`). */
+  tour?: CameraTour
   /** Plan 3: a slow handheld drift over the whole video; `amp` 0..3 (default 1 when the object is given). */
   handheld?: { amp: number }
   /** Plan 3: decaying shakes on hits; `at` absolute seconds (a word or pause anchor in the file), `amp` 0..30 px. */
@@ -88,10 +135,12 @@ export function cameraAt(c: CameraSpec, t: number): CameraPose {
   if (!b) return pose(a)
   const u = (t - a.at) / (b.at - a.at)
   const e = b.ease === 'linear' ? u : smoothstep(u)
+  // A tour flight pulls back mid-way (b.arc), so the one space shows between stops.
+  const lift = b.arc ? 1 - b.arc * Math.sin(Math.PI * e) : 1
   return {
     x: a.x + (b.x - a.x) * e,
     y: a.y + (b.y - a.y) * e,
-    zoom: Math.exp(Math.log(a.zoom) + (Math.log(b.zoom) - Math.log(a.zoom)) * e),
+    zoom: Math.max(CAMERA.minZoom, Math.exp(Math.log(a.zoom) + (Math.log(b.zoom) - Math.log(a.zoom)) * e) * lift),
   }
 }
 
