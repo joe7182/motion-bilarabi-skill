@@ -116,6 +116,9 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | شي يتحوّل | scene `"type": "morph-object"` | ارسم مصباح ويتحوّل لـ «…» |
 | رسم خطّي | scene `"type": "line-art"` | ارسم «…» بخطوط بسيطة |
 | أيقونة | scene `"type": "icon"` | حط أيقونة «…» |
+| أشرطة أرقام | scene `"type": "stat-bars"` | سوّ أشرطة: «…» ٤٥٪، «…» ٢٠٪، والأول بطل |
+| عدّاد دائري | scene `"type": "gauge-ring"` | سوّ عدّاد دائري يوصل ٨٧٪ «…» |
+| مؤقّت حي | scene `"type": "live-timer"` | سوّ عدّ تنازلي من ١٠ ثواني «…» |
 | عدّاد | scene `"type": "counter"` | خلّ الرقم يعدّ لـ «…» |
 | رقم يتبني | scene `"type": "build-number"` | ابني الرقم «…» من قطع |
 | خانات مرقّمة | scene `"type": "numbered-slots"` | سوّ ٣ خانات مرقّمة |
@@ -143,6 +146,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | بحث يتكتب | scene `"type": "search-typing"` | خلّ البحث يكتب «…» |
 | زاحف البحث | scene `"type": "web-crawl"` | وريني البحث والروبوت يختار صفحة |
 | جوال | scene `"type": "phone"` | حط «…» على شاشة جوال |
+| إشعارات الجوال | scene `"type": "notify-stack"` | نزّل إشعارات: «…»، «…»، «…» |
 | محادثة واتساب | scene `"type": "chat-thread"` | سوّ محادثة رسائل |
 | كرت بروفايل | scene `"type": "profile-card"` | حط كرت بروفايلي |
 | كروت السكلز | scene `"type": "skill-deck"` | وزّع السكلز على الأدوات |

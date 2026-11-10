@@ -125,6 +125,12 @@ there, ask where they put it. Its `README.md` is the install guide.
 - `sketch-words` (`lines` ≤ 3, `accent`, `at`, `draw`, `fill: hatch|solid|none`, `boil`, `out`, `y`, `size`) — the words are traced in pencil (two wobbly passes), then cross-hatching fills them; the lines boil like a drawing. Best on the cream looks, for an idea that is still a draft.
 - `red-pen` (`marks[{kind: circle|underline|strike|arrow|check|cross|caret|bracket, x, y, w, h, at, dur}]`, `notes[{text, x, y, at, dur, rotate, size}]`, `pen`, `colour: red|accent`, `out`) — an editor's red pen over what is on screen, on a track above it; each mark draws stroke by stroke with a pen nib at the tip, notes are handwritten in from the right. Boxes are frame fractions: take them from a still of the text underneath (an arrow runs from (x, y) to (x+w, y+h)). The classic: strike the wrong word, a caret under it, the right word as a note.
 
+## Phone and data moments
+- `notify-stack` (`items[{app, title, body, icon, tint, time, at}]` ≤ 8, `y`, `show`, `theme: light|dark`, `out`) — phone banners drop in from the top, newest on top; past `show` the older ones tuck behind. Real-looking but generic: app names only, never a real person's name or number.
+- `stat-bars` (`title`, `rows[{label, value, hero}]` ≤ 7, `max`, `suffix`, `digits`, `at`, `stagger`, `grow`, `y`) — bars grow right to left one by one while their numbers count; the `hero` row is in the accent.
+- `gauge-ring` (`value` 0–100, `from`, `label`, `suffix`, `digits`, `at`, `dur`, `size`, `y`) — a ring sweeps to the value with a glowing head and ticks; the number counts in the middle, the label sits under the ring.
+- `live-timer` (`from`, `to`, `at`, `dur`, `format: mm:ss|mm:ss.cc|hh:mm:ss`, `digits`, `label`, `ring`, `warn`, `y`, `size`) — a stopwatch (from < to) or countdown (from > to) in tabular digits with a pulsing red dot; `warn` = the last seconds pulse in the accent. A long span over a short `dur` plays fast.
+
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
 - `tech-grid` (`cell`, `glows`, `floor`) — the dark grid world; put it on track 0 under every Laser scene.

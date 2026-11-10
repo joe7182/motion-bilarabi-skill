@@ -31,6 +31,7 @@ import { cutout, orbitRing } from './cutout'
 import { editorialType } from './editorial'
 import { glitchText, zoomCallout } from './glitch'
 import { redPen, sketchWords } from './sketch'
+import { gaugeRing, liveTimer, notifyStack, statBars } from './data-fx'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
 import { codeFile, permissionPrompt } from './devtools'
@@ -129,6 +130,10 @@ registerPrimitive(glitchText)
 registerPrimitive(zoomCallout)
 registerPrimitive(sketchWords)
 registerPrimitive(redPen)
+registerPrimitive(notifyStack)
+registerPrimitive(statBars)
+registerPrimitive(gaugeRing)
+registerPrimitive(liveTimer)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)

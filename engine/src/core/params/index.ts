@@ -23,6 +23,7 @@ import { cutoutParams, orbitRingParams } from './cutout'
 import { editorialTypeParams } from './editorial'
 import { glitchTextParams, zoomCalloutParams } from './glitch'
 import { redPenParams, sketchWordsParams } from './sketch'
+import { gaugeRingParams, liveTimerParams, notifyStackParams, statBarsParams } from './data-fx'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
 import { codeFileParams, permissionPromptParams } from './devtools'
@@ -95,6 +96,10 @@ export const PARAMS = {
   'zoom-callout': zoomCalloutParams,
   'sketch-words': sketchWordsParams,
   'red-pen': redPenParams,
+  'notify-stack': notifyStackParams,
+  'stat-bars': statBarsParams,
+  'gauge-ring': gaugeRingParams,
+  'live-timer': liveTimerParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,
