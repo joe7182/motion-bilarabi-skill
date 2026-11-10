@@ -28,6 +28,7 @@ import { captions } from './captions'
 import { arabicMove } from './arabic-move'
 import { effectList, liveCursor, voiceNote, commentDrop, headStack, predictKeys, dayDial, postWall, photoLook } from './creator-fx'
 import { cutout, orbitRing } from './cutout'
+import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
 import { codeFile, permissionPrompt } from './devtools'
 import { loadedDie, serverBatch, tokenOdds, tokenStream } from './odds'
@@ -118,5 +119,10 @@ registerPrimitive(permissionPrompt)
 registerPrimitive(codeFile)
 registerPrimitive(skillDeck)
 registerPrimitive(twinSync)
+registerPrimitive(techGrid)
+registerPrimitive(laserType)
+registerPrimitive(laserBeam)
+registerPrimitive(glowWords)
+registerPrimitive(beatSlam)
 registerPrimitive(contextWindow)
 registerPrimitive(codeChat)

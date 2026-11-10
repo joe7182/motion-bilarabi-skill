@@ -20,6 +20,7 @@ import { ecgLineParams, microscopeParams, timingIssueOfEcgLine } from './bio-fx'
 import { heavyWordParams, saidWrittenParams, timingIssueOfHeavyWord, timingIssueOfSaidWritten, timingIssueOfWordCut, viewfinderParams, wordCutParams } from './type-tricks'
 import { effectListParams, liveCursorParams, voiceNoteParams, commentDropParams, headStackParams, predictKeysParams, dayDialParams, postWallParams, photoLookParams } from './creator-fx'
 import { cutoutParams, orbitRingParams } from './cutout'
+import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
 import { codeFileParams, permissionPromptParams } from './devtools'
 import { loadedDieParams, serverBatchParams, tokenOddsParams, tokenStreamParams } from './odds'
@@ -84,6 +85,11 @@ export const PARAMS = {
   'code-file': codeFileParams,
   'skill-deck': skillDeckParams,
   'twin-sync': twinSyncParams,
+  'tech-grid': techGridParams,
+  'laser-type': laserTypeParams,
+  'laser-beam': laserBeamParams,
+  'glow-words': glowWordsParams,
+  'beat-slam': beatSlamParams,
   'context-window': contextWindowParams,
   cutout: cutoutParams,
   'orbit-ring': orbitRingParams,

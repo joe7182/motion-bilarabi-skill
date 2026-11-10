@@ -105,6 +105,14 @@ there, ask where they put it. Its `README.md` is the install guide.
 - `skill-deck` (`skills[{name, ver}]`, `docks[{name, tint}]`, `preloaded`, `question`, `source`, `fanAt`, `dealAt`, `dealTo`) — skills as cards; a package box fans them and deals them along arcs into app windows.
 - `twin-sync` (`rows`, `you`, `friend`, `lock`, `lockAt`, `fillAt`, `matchAt`, `badge`) — your machine and a friend's; the lock file snaps shut and the friend's rows fill to match.
 
+## Laser pack (dark cinematic tech look)
+Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
+- `tech-grid` (`cell`, `glows`, `floor`) — the dark grid world; put it on track 0 under every Laser scene.
+- `laser-type` (`lines` ≤ 2, `accent` words, `at`, `cut`, `y`, `size`) — a laser cuts the headline in: hot edge, cooling to white, sparks.
+- `glow-words` (`words[{text, at, key}]`, `y`, `size`) — a dim sentence whose words light up as they are said; `key` words stay lit. English words keep their order.
+- `laser-beam` (`beams[{from, to, at, dur, colour}]`, `boxes[{label, sub, x, y, from}]`, `marks`, `crosshair`) — beams with a hot head, diagram boxes, red ✕, guide lines. Two crossing red beams = strike-out.
+- `beat-slam` (`words[{text, at}]`, `flash`) — on each beat a full-frame orange flash with one giant word.
+
 ## Explainers (when no preset fits)
 An educational explainer («ليش…؟ شلون…؟») is written as its own `edit.json`, one visual per
 sentence, timed to the voice's word times. Read `explainers.md` before writing one: the building

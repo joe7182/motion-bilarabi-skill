@@ -672,7 +672,7 @@ function buildLayers(ctx: Parameters<Primitive<CutoutParams>['build']>[0], p: Cu
   // The type pane: the scene's word, big, in the display face.
   const type = pane('النص · TYPE', 220, false)
   const word = document.createElement('div')
-  Object.assign(word.style, { position: 'absolute', left: '0', right: '0', top: `${Math.round(h * 0.12)}px`, textAlign: 'center', fontFamily: ctx.look.fontDisplay, fontWeight: '900', fontSize: `${Math.round(200 * k)}px`, color: '#ffffff', textShadow: `0 ${Math.round(6 * k)}px ${Math.round(30 * k)}px rgba(0,0,0,0.45)` })
+  Object.assign(word.style, { position: 'absolute', left: '0', right: '0', top: `${Math.round(h * 0.5)}px`, textAlign: 'center', fontFamily: ctx.look.fontDisplay, fontWeight: '900', fontSize: `${Math.round(200 * k)}px`, color: '#ffffff', textShadow: `0 ${Math.round(6 * k)}px ${Math.round(30 * k)}px rgba(0,0,0,0.45)` })
   lineUnit(word, p.word)
   type.d.append(word)
   // The sound pane: a waveform across the lower third, the played part in the accent colour.

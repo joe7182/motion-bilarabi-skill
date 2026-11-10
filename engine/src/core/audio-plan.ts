@@ -10,6 +10,7 @@ import { cuesOfProfileCard } from './params/profile-card'
 import { cuesOfTypeStretch } from './params/type-stretch'
 import { cuesOfLettersJoin } from './params/letters-join'
 import { cuesOfEffectList, cuesOfLiveCursor, cuesOfVoiceNote, cuesOfCommentDrop, cuesOfHeadStack, cuesOfPredictKeys, cuesOfDayDial, cuesOfPostWall, cuesOfPhotoLook } from './params/creator-fx'
+import { cuesOfBeatSlam, cuesOfGlowWords, cuesOfLaserBeam, cuesOfLaserType, cuesOfTechGrid } from './params/laser'
 import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
 import { cuesOfCodeFile, cuesOfPermissionPrompt } from './params/devtools'
 import { cuesOfLoadedDie, cuesOfServerBatch, cuesOfTokenOdds, cuesOfTokenStream } from './params/odds'
@@ -97,6 +98,11 @@ export const CUES: Record<string, CuesOf> = {
   'code-file': cuesOfCodeFile as CuesOf,
   'skill-deck': cuesOfSkillDeck as CuesOf,
   'twin-sync': cuesOfTwinSync as CuesOf,
+  'tech-grid': cuesOfTechGrid as CuesOf,
+  'laser-type': cuesOfLaserType as CuesOf,
+  'laser-beam': cuesOfLaserBeam as CuesOf,
+  'glow-words': cuesOfGlowWords as CuesOf,
+  'beat-slam': cuesOfBeatSlam as CuesOf,
   'context-window': cuesOfContextWindow as CuesOf,
   cutout: cuesOfCutout as CuesOf,
   'orbit-ring': cuesOfOrbitRing as CuesOf,
