@@ -29,6 +29,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | كلمات فوق بعض | kinetic-text with `"mode": "stack"` | رتّب «…» كلمات فوق بعض |
 | شطب الكلمة | a word in kinetic-text with `"strike": { "at": s }` | اشطب كلمة «…» لما أقول «…» |
 | تحريري متحرك | scene `"type": "editorial-type"` | سوّ العنوان تحريري، «…» بالخط المائل، وحدّدها وبدّلها بـ «…» |
+| جلتش | scene `"type": "glitch-text"` | خلّ «…» يدخل بجلتش ويتحوّل لـ «…» |
 | ضربة العنوان | scene `"type": "slam"` | خلّ العنوان ينضرب بقوة |
 | تمدّد الكشيدة | scene `"type": "type-stretch"` | مدّد كلمة «…» بالكشيدة |
 | تجميع الحروف | scene `"type": "letters-join"` | خلّ حروف «…» تتجمّع |
@@ -81,6 +82,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | زوم دوللي | cutout with `"background": "clean", "dolly": [1, 1.35]` | سوّ زوم دوللي |
 | تركيز خلفي | cutout with `"background": "blur"` | غبّش الخلفية وخلّني واضح |
 | حلقة مدار | scene `"type": "orbit-ring"` | خلّ كلمات «…» تدور حول راسي |
+| عدسة تكبير | scene `"type": "zoom-callout"` | كبّر «…» بعدسة واكتب «…» |
 | مقطع فيديو | scene `"type": "video"` | حط مقطعي هنا، وكتّم صوته |
 
 ## الانتقالات — Transitions

@@ -40,6 +40,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'kinetic-text:stack', group: 'text', ar: 'كلمات فوق بعض', does: 'كلمات تتراكم سطر تحت سطر', ask: 'رتّب «…» كلمات فوق بعض', img: 'kinetic-stack' },
   { id: 'kinetic-text:strike', group: 'text', ar: 'شطب الكلمة', does: 'خط يشطب كلمة غلط لحظة ما تقولها', ask: 'اشطب كلمة «…» لما أقول «…»', img: 'strike', use: 'a word in kinetic-text with `"strike": { "at": s }`' },
   { id: 'editorial-type', group: 'text', ar: 'تحريري متحرك', does: 'خط عريض ويا خط مائل (أميري) بنفس العنوان، الكلمات تطلع من الضبابية، صندوق تحديد مثل برامج التصميم، وكلمة تتبدّل بكلمة', ask: 'سوّ العنوان تحريري، «…» بالخط المائل، وحدّدها وبدّلها بـ «…»', img: 'editorial-type' },
+  { id: 'glitch-text', group: 'text', ar: 'جلتش', does: 'العنوان يتشوّش ويدخل: نسخ حمرة وزرقة تنفصل وشرائح تزحلق، ضربات على الإيقاع، ويتشوّش لكلمات ثانية', ask: 'خلّ «…» يدخل بجلتش ويتحوّل لـ «…»', img: 'glitch-text' },
   { id: 'slam', group: 'text', ar: 'ضربة العنوان', does: 'الكلمات تنضرب من كبير ومغبّش لمكانها', ask: 'خلّ العنوان ينضرب بقوة' },
   { id: 'type-stretch', group: 'text', ar: 'تمدّد الكشيدة', does: 'الكلمة تتمدّد بالكشيدة ويا مسطرة', ask: 'مدّد كلمة «…» بالكشيدة', img: 'type-stretch' },
   { id: 'letters-join', group: 'text', ar: 'تجميع الحروف', does: 'الحروف تطير وتتجمّع لكلمة متصلة', ask: 'خلّ حروف «…» تتجمّع', img: 'letters-join' },
@@ -80,6 +81,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'cutout:dolly', group: 'person', ar: 'زوم دوللي', does: 'الخلفية تبتعد وإنت ثابت', ask: 'سوّ زوم دوللي', img: 'dolly-zoom', use: 'cutout with `"background": "clean", "dolly": [1, 1.35]`' },
   { id: 'cutout:blur', group: 'person', ar: 'تركيز خلفي', does: 'الغرفة تتغبّش وإنت واضح', ask: 'غبّش الخلفية وخلّني واضح', img: 'back-focus', use: 'cutout with `"background": "blur"`' },
   { id: 'orbit-ring', group: 'person', ar: 'حلقة مدار', does: 'كلمات تدور حول راسك من قدّام ومن ورا', ask: 'خلّ كلمات «…» تدور حول راسي', img: 'orbit-ring' },
+  { id: 'zoom-callout', group: 'person', ar: 'عدسة تكبير', does: 'دائرة على تفصيلة بالمقطع، خطين، وعدسة تطلع تكبّرها ويا عنوان', ask: 'كبّر «…» بعدسة واكتب «…»' },
   { id: 'video', group: 'person', ar: 'مقطع فيديو', does: 'مقطعك كما هو، مع زوم أو كتم الصوت', ask: 'حط مقطعي هنا، وكتّم صوته' },
   // Transitions
   { id: 'transition:paper-tear', group: 'transitions', ar: 'تمزيق ورق', does: 'اللقطة نفسها تتمزّق بحواف ورق حقيقية', ask: 'انتقل بتمزيق ورق', img: 'paper-tear' },

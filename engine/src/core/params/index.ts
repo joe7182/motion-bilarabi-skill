@@ -21,6 +21,7 @@ import { heavyWordParams, saidWrittenParams, timingIssueOfHeavyWord, timingIssue
 import { effectListParams, liveCursorParams, voiceNoteParams, commentDropParams, headStackParams, predictKeysParams, dayDialParams, postWallParams, photoLookParams } from './creator-fx'
 import { cutoutParams, orbitRingParams } from './cutout'
 import { editorialTypeParams } from './editorial'
+import { glitchTextParams, zoomCalloutParams } from './glitch'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
 import { codeFileParams, permissionPromptParams } from './devtools'
@@ -89,6 +90,8 @@ export const PARAMS = {
   'tech-grid': techGridParams,
   'laser-type': laserTypeParams,
   'editorial-type': editorialTypeParams,
+  'glitch-text': glitchTextParams,
+  'zoom-callout': zoomCalloutParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

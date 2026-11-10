@@ -1,6 +1,7 @@
 import { screenClipFrameAt, screenClipLastFrame, screenClipParams } from './params/screen-clip'
 import { videoParams } from './params/video'
 import { cutoutParams } from './params/cutout'
+import { zoomCalloutParams } from './params/glitch'
 import { videoFrameAt, videoLastFrame } from './video'
 
 /**
@@ -8,7 +9,7 @@ import { videoFrameAt, videoLastFrame } from './video'
  * Stage 1B's `screen-clip`. The Node side (frame extraction, project checks, job hash) treats both
  * the same through `mediaSceneOf`, so a new frame-drawing type is added here once.
  */
-export const MEDIA_SCENE_TYPES: ReadonlySet<string> = new Set(['video', 'screen-clip', 'cutout'])
+export const MEDIA_SCENE_TYPES: ReadonlySet<string> = new Set(['video', 'screen-clip', 'cutout', 'zoom-callout'])
 
 export interface MediaScene {
   media: string
@@ -24,8 +25,8 @@ export interface MediaScene {
 
 /** The media mapping of a frame-drawing scene (params parsed), or undefined for any other type. */
 export function mediaSceneOf(sc: { type: string; params: unknown }): MediaScene | undefined {
-  if (sc.type === 'video' || sc.type === 'cutout') {
-    const p = sc.type === 'cutout' ? cutoutParams.parse(sc.params) : videoParams.parse(sc.params)
+  if (sc.type === 'video' || sc.type === 'cutout' || sc.type === 'zoom-callout') {
+    const p = sc.type === 'cutout' ? cutoutParams.parse(sc.params) : sc.type === 'zoom-callout' ? zoomCalloutParams.parse(sc.params) : videoParams.parse(sc.params)
     return {
       media: p.media,
       in: p.in,

@@ -29,6 +29,7 @@ import { arabicMove } from './arabic-move'
 import { effectList, liveCursor, voiceNote, commentDrop, headStack, predictKeys, dayDial, postWall, photoLook } from './creator-fx'
 import { cutout, orbitRing } from './cutout'
 import { editorialType } from './editorial'
+import { glitchText, zoomCallout } from './glitch'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
 import { codeFile, permissionPrompt } from './devtools'
@@ -123,6 +124,8 @@ registerPrimitive(twinSync)
 registerPrimitive(techGrid)
 registerPrimitive(laserType)
 registerPrimitive(editorialType)
+registerPrimitive(glitchText)
+registerPrimitive(zoomCallout)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)
