@@ -30,6 +30,7 @@ import { effectList, liveCursor, voiceNote, commentDrop, headStack, predictKeys,
 import { cutout, orbitRing } from './cutout'
 import { editorialType } from './editorial'
 import { glitchText, zoomCallout } from './glitch'
+import { redPen, sketchWords } from './sketch'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
 import { codeFile, permissionPrompt } from './devtools'
@@ -126,6 +127,8 @@ registerPrimitive(laserType)
 registerPrimitive(editorialType)
 registerPrimitive(glitchText)
 registerPrimitive(zoomCallout)
+registerPrimitive(sketchWords)
+registerPrimitive(redPen)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)

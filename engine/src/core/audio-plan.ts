@@ -12,6 +12,7 @@ import { cuesOfLettersJoin } from './params/letters-join'
 import { cuesOfEffectList, cuesOfLiveCursor, cuesOfVoiceNote, cuesOfCommentDrop, cuesOfHeadStack, cuesOfPredictKeys, cuesOfDayDial, cuesOfPostWall, cuesOfPhotoLook } from './params/creator-fx'
 import { cuesOfEditorialType } from './params/editorial'
 import { cuesOfGlitchText, cuesOfZoomCallout } from './params/glitch'
+import { cuesOfRedPen, cuesOfSketchWords } from './params/sketch'
 import { cuesOfBeatSlam, cuesOfGlowWords, cuesOfLaserBeam, cuesOfLaserType, cuesOfTechGrid } from './params/laser'
 import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
 import { cuesOfCodeFile, cuesOfPermissionPrompt } from './params/devtools'
@@ -105,6 +106,8 @@ export const CUES: Record<string, CuesOf> = {
   'editorial-type': cuesOfEditorialType as CuesOf,
   'glitch-text': cuesOfGlitchText as CuesOf,
   'zoom-callout': cuesOfZoomCallout as CuesOf,
+  'sketch-words': cuesOfSketchWords as CuesOf,
+  'red-pen': cuesOfRedPen as CuesOf,
   'laser-beam': cuesOfLaserBeam as CuesOf,
   'glow-words': cuesOfGlowWords as CuesOf,
   'beat-slam': cuesOfBeatSlam as CuesOf,

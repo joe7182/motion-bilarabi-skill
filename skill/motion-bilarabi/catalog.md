@@ -30,6 +30,8 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | شطب الكلمة | a word in kinetic-text with `"strike": { "at": s }` | اشطب كلمة «…» لما أقول «…» |
 | تحريري متحرك | scene `"type": "editorial-type"` | سوّ العنوان تحريري، «…» بالخط المائل، وحدّدها وبدّلها بـ «…» |
 | جلتش | scene `"type": "glitch-text"` | خلّ «…» يدخل بجلتش ويتحوّل لـ «…» |
+| رسم بالقلم | scene `"type": "sketch-words"` | ارسم «…» بالقلم الرصاص |
+| قلم المحرّر الأحمر | scene `"type": "red-pen"` | اشطب «…» بالأحمر واكتب فوقها «…» |
 | ضربة العنوان | scene `"type": "slam"` | خلّ العنوان ينضرب بقوة |
 | تمدّد الكشيدة | scene `"type": "type-stretch"` | مدّد كلمة «…» بالكشيدة |
 | تجميع الحروف | scene `"type": "letters-join"` | خلّ حروف «…» تتجمّع |

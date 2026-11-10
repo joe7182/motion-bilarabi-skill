@@ -22,6 +22,7 @@ import { effectListParams, liveCursorParams, voiceNoteParams, commentDropParams,
 import { cutoutParams, orbitRingParams } from './cutout'
 import { editorialTypeParams } from './editorial'
 import { glitchTextParams, zoomCalloutParams } from './glitch'
+import { redPenParams, sketchWordsParams } from './sketch'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
 import { codeFileParams, permissionPromptParams } from './devtools'
@@ -92,6 +93,8 @@ export const PARAMS = {
   'editorial-type': editorialTypeParams,
   'glitch-text': glitchTextParams,
   'zoom-callout': zoomCalloutParams,
+  'sketch-words': sketchWordsParams,
+  'red-pen': redPenParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

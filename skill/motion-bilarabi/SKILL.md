@@ -121,6 +121,10 @@ there, ask where they put it. Its `README.md` is the install guide.
 - `glitch-text` (`lines` ≤ 2, `accent`, `at`, `settle`, `hits[{at, dur, strength}]`, `to{lines, accent, at}`, `out`, `scan`, `y`, `size`) — the headline glitches in (red/cyan split, slipping bands, blocks, scanlines through the letters) and snaps clean; `hits` are bursts on beats; `to` glitches it into new words; `out` breaks it away. Strongest on dark worlds (`backdrop` `world: ink`). Arabic words only (they are laid out right to left one by one).
 - `zoom-callout` (`media`, `in`, `spot{x, y, r}`, `lens{x, y, size}`, `shape: circle|rect`, `at`, `out`, `label`) — over a `video` of the same media: a ring lands on the spot, two guide lines draw, and an inset grows there showing the spot magnified, with a label. `in` = the video's `in` + how far into that video this scene starts. Keep the lens and label off the face (`lens.y` low, over the shirt); pick a spot that stays still in the clip.
 
+## Sketch and red pen
+- `sketch-words` (`lines` ≤ 3, `accent`, `at`, `draw`, `fill: hatch|solid|none`, `boil`, `out`, `y`, `size`) — the words are traced in pencil (two wobbly passes), then cross-hatching fills them; the lines boil like a drawing. Best on the cream looks, for an idea that is still a draft.
+- `red-pen` (`marks[{kind: circle|underline|strike|arrow|check|cross|caret|bracket, x, y, w, h, at, dur}]`, `notes[{text, x, y, at, dur, rotate, size}]`, `pen`, `colour: red|accent`, `out`) — an editor's red pen over what is on screen, on a track above it; each mark draws stroke by stroke with a pen nib at the tip, notes are handwritten in from the right. Boxes are frame fractions: take them from a still of the text underneath (an arrow runs from (x, y) to (x+w, y+h)). The classic: strike the wrong word, a caret under it, the right word as a note.
+
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
 - `tech-grid` (`cell`, `glows`, `floor`) — the dark grid world; put it on track 0 under every Laser scene.
