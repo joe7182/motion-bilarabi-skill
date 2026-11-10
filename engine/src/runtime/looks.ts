@@ -32,10 +32,16 @@ export const BUNDLED_FAMILIES = ['Cairo', 'Tajawal'] as const
 export const MONO_FAMILY = 'JetBrains Mono'
 export const FONT_MONO = `'${MONO_FAMILY}', monospace`
 
+/** The bundled editorial serif (index.html): Amiri bold, italic and bold italic (editorial-type). */
+export const SERIF_FAMILY = 'Amiri'
+export const FONT_SERIF = `'${SERIF_FAMILY}', serif`
+const SERIF_FACES = [`700 40px '${SERIF_FAMILY}'`, `italic 400 40px '${SERIF_FAMILY}'`, `italic 700 40px '${SERIF_FAMILY}'`]
+
 /** CSS font shorthands to preload: each bundled family at each distinct FONT_WEIGHT, plus the code face. */
 export const REQUIRED_FONTS: readonly string[] = [
   ...BUNDLED_FAMILIES.flatMap((family) => [...new Set(Object.values(FONT_WEIGHT))].map((w) => `${w} 40px ${family}`)),
   `400 40px '${MONO_FAMILY}'`,
+  ...SERIF_FACES,
 ]
 
 const DISPLAY = "'Cairo', sans-serif"

@@ -114,6 +114,9 @@ there, ask where they put it. Its `README.md` is the install guide.
 - `skill-deck` (`skills[{name, ver}]`, `docks[{name, tint}]`, `preloaded`, `question`, `source`, `fanAt`, `dealAt`, `dealTo`) — skills as cards; a package box fans them and deals them along arcs into app windows.
 - `twin-sync` (`rows`, `you`, `friend`, `lock`, `lockAt`, `fillAt`, `matchAt`, `badge`) — your machine and a friend's; the lock file snaps shut and the friend's rows fill to match.
 
+## Editorial type (magazine headline)
+- `editorial-type` (`lines[{words[{text, at, serif, accent}]}]` ≤ 4 lines × 6 words, `select{line, word, at, out, label, colour: accent|blue|fg}`, `swaps[{line, word, to, at}]`, `out`, `y`, `size`) — bold sans words mixed with italic serif ones (Amiri), each blurring in as it is said; a design-tool selection box (dashed edges, handles, a label chip) lands on one word; a swap blurs the word out, resizes its slot and blurs the new word in, and the box follows. One or two serif words per headline; the serif word is the one to select or swap. Best on the cream looks. Lines that are too wide shrink to fit.
+
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
 - `tech-grid` (`cell`, `glows`, `floor`) — the dark grid world; put it on track 0 under every Laser scene.

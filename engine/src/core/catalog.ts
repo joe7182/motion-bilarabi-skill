@@ -39,6 +39,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'kinetic-text:giant', group: 'text', ar: 'كلمة عملاقة', does: 'كلمة وحدة تملأ الشاشة', ask: 'خلّ كلمة «…» عملاقة بالنص' },
   { id: 'kinetic-text:stack', group: 'text', ar: 'كلمات فوق بعض', does: 'كلمات تتراكم سطر تحت سطر', ask: 'رتّب «…» كلمات فوق بعض', img: 'kinetic-stack' },
   { id: 'kinetic-text:strike', group: 'text', ar: 'شطب الكلمة', does: 'خط يشطب كلمة غلط لحظة ما تقولها', ask: 'اشطب كلمة «…» لما أقول «…»', img: 'strike', use: 'a word in kinetic-text with `"strike": { "at": s }`' },
+  { id: 'editorial-type', group: 'text', ar: 'تحريري متحرك', does: 'خط عريض ويا خط مائل (أميري) بنفس العنوان، الكلمات تطلع من الضبابية، صندوق تحديد مثل برامج التصميم، وكلمة تتبدّل بكلمة', ask: 'سوّ العنوان تحريري، «…» بالخط المائل، وحدّدها وبدّلها بـ «…»', img: 'editorial-type' },
   { id: 'slam', group: 'text', ar: 'ضربة العنوان', does: 'الكلمات تنضرب من كبير ومغبّش لمكانها', ask: 'خلّ العنوان ينضرب بقوة' },
   { id: 'type-stretch', group: 'text', ar: 'تمدّد الكشيدة', does: 'الكلمة تتمدّد بالكشيدة ويا مسطرة', ask: 'مدّد كلمة «…» بالكشيدة', img: 'type-stretch' },
   { id: 'letters-join', group: 'text', ar: 'تجميع الحروف', does: 'الحروف تطير وتتجمّع لكلمة متصلة', ask: 'خلّ حروف «…» تتجمّع', img: 'letters-join' },

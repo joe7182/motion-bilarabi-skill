@@ -71,3 +71,13 @@ SOFTWARE.
 - **Licence:** SIL Open Font License 1.1, Copyright 2020 The JetBrains Mono Project Authors
   (https://github.com/JetBrains/JetBrainsMono). The full licence text is
   `assets/fonts/jetbrains-mono/OFL.txt` (the package's `LICENSE`, verbatim), shipped beside the font.
+
+## Amiri (font)
+
+- **What:** three faces, Amiri Bold (700), Italic (400) and Bold Italic (700), as
+  `assets/fonts/amiri/Amiri-Bold.ttf`, `Amiri-Italic.ttf` and `Amiri-BoldItalic.ttf`, copied
+  unchanged from the Google Fonts repository (`ofl/amiri`). Used for the serif words of the
+  `editorial-type` scene.
+- **Licence:** SIL Open Font License 1.1, Copyright 2010-2022 The Amiri Project Authors
+  (https://github.com/aliftype/amiri). The full licence text is `assets/fonts/amiri/OFL.txt`
+  (verbatim), shipped beside the fonts.

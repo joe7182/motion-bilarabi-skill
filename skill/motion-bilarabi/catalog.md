@@ -28,6 +28,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | كلمة عملاقة | kinetic-text with `"mode": "giant"` | خلّ كلمة «…» عملاقة بالنص |
 | كلمات فوق بعض | kinetic-text with `"mode": "stack"` | رتّب «…» كلمات فوق بعض |
 | شطب الكلمة | a word in kinetic-text with `"strike": { "at": s }` | اشطب كلمة «…» لما أقول «…» |
+| تحريري متحرك | scene `"type": "editorial-type"` | سوّ العنوان تحريري، «…» بالخط المائل، وحدّدها وبدّلها بـ «…» |
 | ضربة العنوان | scene `"type": "slam"` | خلّ العنوان ينضرب بقوة |
 | تمدّد الكشيدة | scene `"type": "type-stretch"` | مدّد كلمة «…» بالكشيدة |
 | تجميع الحروف | scene `"type": "letters-join"` | خلّ حروف «…» تتجمّع |
