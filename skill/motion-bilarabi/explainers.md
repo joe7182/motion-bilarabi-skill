@@ -10,10 +10,12 @@ documented in `engine/src/core/params/<file>.ts`; `mba validate` names any wrong
 2. **Voice:** `mba project init <dir> voice.mp3`, `mba ingest <dir>`, `mba transcribe <dir>`.
    Check the transcript words line up with the script (whisper may split or misspell words);
    take the **text from the script**, the **times from the transcript**.
-3. **Long silences:** find them with ffmpeg `silencedetect=noise=-38dB:d=0.4`. Shorten every
-   pause over 0.5 s: pauses the script marks `[long pause]` to 0.45 s, the rest to 0.3 s. Cut the
-   audio (atrim + concat), then map every time through the cuts (subtract what was removed before
-   it) and use the tightened voice as the project's media.
+3. **Long silences:** find them with ffmpeg `silencedetect=noise=-38dB:d=0.4` and **show the list
+   to the user** (time, length, the words around it). Shorten only the ones they pick — a pause
+   the script marks `[long pause]` is often deliberate emphasis. Suggested lengths: 0.45 s for a
+   kept beat, 0.3 s otherwise. Keep the original voice untouched; write the tightened copy as a new
+   file (atrim + concat), map every time through the cuts, and say in the storyboard where time
+   was removed.
 4. **Layout:** headline on track 5 (`kinetic-text`, `mode: line`, one boxed word, `y` ≈ 0.06);
    objects on track 3 below it, never touching it; the bottom ~15 % stays free for subtitles.
 5. **Subtitles:** one `captions` scene (track 6, `y` 0.88) whose cues come from `groupCaptions`

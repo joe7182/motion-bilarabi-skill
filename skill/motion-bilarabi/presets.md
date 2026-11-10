@@ -86,7 +86,7 @@ for a verdict, `said` for said-vs-written, `heavy` for a burden) — **never a n
 ```json
 {
   "preset": "list", "label": "رقم", "motion": "easy",
-  "hook":  { "say": "أربع أشياء", "text": "العربي يبان احترافي", "box": "احترافي" },
+  "hook":  { "say": "أربع أشياء", "text": "العربي يبان احترافي", "box": "احترافي", "show": { "kind": "heavy", "word": "احترافي" } },
   "items": [
     { "say": "أولاً الحروف",   "title": "الحروف",  "text": "خلها متصلة",    "show": { "kind": "join", "word": "العربي" } },
     { "say": "ثانياً التطويل", "title": "التطويل", "text": "الكشيدة تمدّ",   "show": { "kind": "stretch", "word": "تتمدد" } },

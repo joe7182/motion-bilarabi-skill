@@ -68,6 +68,10 @@ Decide the profile before scoring and state it in the log.
 
 - **motion** — made from scratch by the engine (graphics, type, UI, 3D). This is the default.
 - **edit** — talking-head editor mode: most `contact.jpg` tiles show a real filmed person.
+- **explainer** — an educational reel (a diagram, a UI, a number to read). Judge whether each idea
+  has time to land: a viewer must be able to read every label and follow the diagram before it
+  changes. Holds of 1–3 s on a readable beat are correct here; `movingPct` and `maxEventGap` are
+  reported but do not cap the score. A plain fade is allowed for small labels and subtitles.
 
 The builder normally states the profile when calling you. If it does not, use the rule above.
 
@@ -130,7 +134,9 @@ professional editor would publish this"; 10 means you found nothing to improve.
 
 ### 6. Sound sync
 
-Judged on the final render (V1 renders carry a voice, planned SFX and optional music). The builder
+Judged on the final render. Score only the audio the project calls for: a voice-only reel
+(`autoSfx: false`, the skill's default) is judged on the voice alone — no SFX is not a fault. When
+SFX are planned, the placement rules below apply. The builder
 names the render and passes its `mba verify` loudness line; open the render's audio yourself
 (`ffmpeg -i <render> -af ebur128=peak=true -f null -` for loudness, `astats` / a waveform for the
 rest). With no audio track, score **10** and write "no audio" as the evidence.

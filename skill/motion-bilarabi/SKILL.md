@@ -25,13 +25,24 @@ there, ask where they put it. Its `README.md` is the install guide.
    fine for a video on a beat). It copies the user's files in — never edit their originals. Write
    `<dir>/preset.json`.
 5. **Timing:**
-   - Voice-over: `mba project add <dir> voice.mp3 --kind voice`, `mba ingest <dir>`, `mba transcribe <dir>`, then `mba preset <dir>`.
+   - Voice-over (needs whisper — `mba doctor` must show it ✓; install it first if not):
+     `mba project add <dir> voice.mp3 --kind voice`, `mba ingest <dir>`, `mba transcribe <dir>`, then `mba preset <dir>`.
+   - Voice-over without whisper: write `<dir>/transcript.json` by hand — `{"words":[{"text":"…","start":0.12,"end":0.48}, …]}`,
+     times read from the waveform (or from silences: `ffmpeg -i voice.wav -af silencedetect=n=-35dB:d=0.25 -f null -`) — then `mba preset <dir>`.
    - No voice: `mba preset <dir> --script script.txt --bpm 120` (words on the beat).
-6. **Storyboard images:** `mba preset` prints the exact `mba still …` command (one moment per
-   section). Run it, look at every image yourself first (does each part show its idea?), show them,
-   and **wait for approval.** Notes → edit `preset.json`, run `mba preset` again, new images.
-7. **Render:** `mba render <dir>` → `<dir>/renders/vNNN-final.mp4`. Then `mba review <video> --out …`
-   and check `metrics.json`: no `nearBlankRuns` longer than 0.2 s. Send the video.
+   - Long pauses: list the silences over 0.5 s to the user and ask which to shorten; never cut them all.
+     Keep the original voice untouched in `source/`; a tightened copy is a new file.
+6. **Check the plan:** `mba validate <dir>` must say OK before any image.
+7. **Storyboard images:** `mba preset` prints the exact `mba still …` command (one moment per
+   section). Run it, look at every image yourself first (does each part show its idea? can a phone
+   viewer read it?), show them, and **wait for approval.** Notes → edit, run again, new images.
+8. **Render:** `mba render <dir>` → `<dir>/renders/vNNN-final.mp4`.
+9. **Delivery gate (all must pass before you send the video):**
+   - `mba verify <dir>` — the render matches the plan (frames, length, audio).
+   - `mba review <video> --out <dir>/review/rN` — exits 1 and writes `verdict.json` when frame 0 is
+     blank, a blank run over 0.2 s was not drawn by a transition, or the text audit finds issues.
+   - Open `contact.jpg` and `phone.jpg` from the review kit; fix anything unreadable at phone size,
+     then render again. Only then send the video.
 
 ## Rules that never bend
 - Every final video is **60 fps**. No sound effects (presets set `autoSfx: false`).

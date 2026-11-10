@@ -227,8 +227,16 @@ async function main(argv: string[]): Promise<number> {
         ...m.notes.map((n) => `ملاحظة — Note: ${n}`),
         `مجلد المراجعة — Review kit: ${out}`,
       ]
+      // The delivery gate: a blank opening frame, a blank run over 0.2 s that no transition drew,
+      // or any text audit issue fails the review (exit 1, verdict.json lists why).
+      const problems: string[] = []
+      if (m.frame0Blank) problems.push('frame 0 is blank')
+      for (const r of m.nearBlankRuns) if (!r.designed && r.end - r.start > 0.2) problems.push(`blank frames ${fmtTime(r.start)}–${fmtTime(r.end)} s`)
+      if (issues) problems.push(`${issues} text audit issue(s)`)
+      await writeFileAtomic(join(out, 'verdict.json'), JSON.stringify({ pass: problems.length === 0, problems }, null, 2) + '\n')
+      lines.push(problems.length ? `✗ لم تنجح المراجعة — Review failed: ${problems.join('; ')}` : '✓ نجحت المراجعة — Review passed')
       process.stdout.write(lines.join('\n') + '\n')
-      return 0
+      return problems.length ? 1 : 0
     }
     case 'reference': {
       let sceneThr: number | undefined
