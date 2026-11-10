@@ -6,7 +6,7 @@ import { resolveFfmpeg, resolveFfprobe } from './tools'
 import { resolveWhisper } from './whisper'
 import { loadBrand, personalBrandPath } from './brand-fs'
 import { spawnSync } from 'node:child_process'
-import { DEFAULT_MATTE_MODEL } from './matte'
+import { DEFAULT_MATTE_MODEL, MODNET_MODEL } from './matte'
 
 /**
  * `mba doctor`: the setup check a new user runs first. Every check says what it found, and when
@@ -99,6 +99,21 @@ export async function runDoctor(opts: { engineDir?: string; home?: string } = {}
     fix: {
       terminal: `pip install mediapipe opencv-python && curl -L --create-dirs -o "${DEFAULT_MATTE_MODEL}" ${modelUrl}`,
       claude: 'ثبّت لي mediapipe و opencv-python بـ pip، ونزّل نموذج selfie_segmenter.tflite إلى ~/.mba/models — Install mediapipe and opencv-python with pip, and download the selfie_segmenter.tflite model into ~/.mba/models',
+    },
+  })
+
+  // Professional mask: MODNet portrait matting (soft hair edges) through onnxruntime.
+  const ort = spawnSync('python', ['-c', 'import onnxruntime; print(onnxruntime.__version__)'], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })
+  const ortOk = ort.status === 0
+  const modnet = existsSync(MODNET_MODEL)
+  const modnetUrl = 'https://huggingface.co/Xenova/modnet/resolve/main/onnx/model.onnx'
+  add({
+    id: 'matte-pro', need: 'optional', ok: ortOk && modnet,
+    ar: 'قناع احترافي للشعر والحواف ‏(MODNet)', en: 'Professional mask: soft hair and edges (MODNet)',
+    found: [ortOk ? `onnxruntime ${ort.stdout.trim()}` : 'onnxruntime: —', modnet ? MODNET_MODEL : 'model: —'].join(' · '),
+    fix: {
+      terminal: `pip install onnxruntime && curl -L --create-dirs -o "${MODNET_MODEL}" ${modnetUrl}`,
+      claude: 'ثبّت لي onnxruntime بـ pip، ونزّل نموذج MODNet ‏(model.onnx من huggingface.co/Xenova/modnet) باسم modnet.onnx إلى ~/.mba/models — Install onnxruntime with pip and download the MODNet model (model.onnx from huggingface.co/Xenova/modnet) as modnet.onnx into ~/.mba/models',
     },
   })
 

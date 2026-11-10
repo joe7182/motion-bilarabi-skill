@@ -1,15 +1,21 @@
 """Person matte for `mba matte`: reads a working copy, writes a grayscale matte video (white = person).
 
-MediaPipe selfie segmentation (Apache-2.0). Usage:
-  python scripts/matte.py <in.mp4> <out.mp4> <model.tflite> <ffmpeg> <fps>
+Usage:
+  python scripts/matte.py <in.mp4> <out.mp4> <selfie.tflite> <ffmpeg> <fps> [modnet.onnx]
 
-The model sees a 256 x 256 image, so a tall frame squashed into it loses most of its detail. Here:
-- small clips are upscaled so the matte is made (and written) at least 1080 wide;
-- a portrait frame is segmented as two overlapping squares (top and bottom), blended in the overlap;
-- the confidence is snapped to the real picture edges with a guided filter (the frame is the guide),
-  then sharpened (smoothstep 0.25..0.75) and smoothed in time (65/35 with the previous frame).
-Progress goes to stderr.
+Two engines:
+- MODNet portrait matting (Apache-2.0, ONNX, when the model file and onnxruntime are present): a true
+  alpha matte — soft hair, see-through edges. MediaPipe still runs as a guard: alpha far from the
+  person is cleared and the person's solid core is filled, so the matte never has holes or specks.
+- MediaPipe selfie segmentation alone (the fallback): a confidence mask, sharpened.
+
+Both then: small clips are upscaled so the matte is at least 1080 wide; portrait frames are segmented
+as two overlapping squares; the edge is snapped to the real picture with a guided filter (the frame
+is the guide); and the matte is smoothed in time only where the picture is still (motion-aware), so
+it does not flicker and does not lag behind movement. Frames repeated by the fps conversion reuse
+the previous result. Progress goes to stderr.
 """
+import os
 import subprocess
 import sys
 
@@ -20,6 +26,7 @@ from mediapipe.tasks import python as mpt
 from mediapipe.tasks.python import vision
 
 MIN_WIDTH = 1080
+MODNET_SHORT = 640  # MODNet input: the short side, a multiple of 32
 
 
 def segmenter(model: str):
@@ -41,7 +48,6 @@ def confidence(seg, rgb: np.ndarray, ms: int) -> np.ndarray:
 def guided(guide: np.ndarray, src: np.ndarray, r: int, eps: float) -> np.ndarray:
     if hasattr(cv2, "ximgproc"):
         return cv2.ximgproc.guidedFilter(guide, src, r, eps)
-    # Plain grey guided filter (He et al.) when opencv-contrib is missing.
     g = cv2.cvtColor(guide, cv2.COLOR_RGB2GRAY) if guide.ndim == 3 else guide
     box = lambda x: cv2.boxFilter(x, -1, (2 * r + 1, 2 * r + 1))
     mg, ms_ = box(g), box(src)
@@ -50,8 +56,35 @@ def guided(guide: np.ndarray, src: np.ndarray, r: int, eps: float) -> np.ndarray
     return box(a) * g + box(b)
 
 
+def modnet_session(path: str):
+    try:
+        import onnxruntime as ort
+    except ImportError:
+        return None
+    if not path or not os.path.exists(path):
+        return None
+    opts = ort.SessionOptions()
+    opts.intra_op_num_threads = max(1, (os.cpu_count() or 4) - 1)
+    return ort.InferenceSession(path, sess_options=opts, providers=["CPUExecutionProvider"])
+
+
+def modnet_alpha(sess, rgb: np.ndarray) -> np.ndarray:
+    h, w = rgb.shape[:2]
+    if w <= h:
+        iw, ih = MODNET_SHORT, int(round(h * MODNET_SHORT / w / 32) * 32)
+    else:
+        ih, iw = MODNET_SHORT, int(round(w * MODNET_SHORT / h / 32) * 32)
+    x = cv2.resize(rgb, (iw, ih), interpolation=cv2.INTER_AREA).astype(np.float32) / 127.5 - 1.0
+    x = np.transpose(x, (2, 0, 1))[None]
+    out = sess.run(None, {sess.get_inputs()[0].name: x})[0][0, 0]
+    return cv2.resize(out.astype(np.float32), (w, h), interpolation=cv2.INTER_CUBIC)
+
+
 def main() -> int:
     src, dst, model, ffmpeg, fps = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], float(sys.argv[5])
+    modnet_path = sys.argv[6] if len(sys.argv) > 6 else ""
+    sess = modnet_session(modnet_path)
+    print(f"engine: {'modnet + mediapipe guard' if sess else 'mediapipe'}", file=sys.stderr, flush=True)
     cap = cv2.VideoCapture(src)
     if not cap.isOpened():
         print(f"cannot open {src}", file=sys.stderr)
@@ -61,20 +94,25 @@ def main() -> int:
     total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     scale = max(1.0, MIN_WIDTH / w0)
     w, h = int(round(w0 * scale / 2) * 2), int(round(h0 * scale / 2) * 2)
-    split = h > 1.15 * w  # portrait: two squares
+    split = h > 1.15 * w
     enc = subprocess.Popen(
         [ffmpeg, "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "gray", "-s", f"{w}x{h}", "-framerate", f"{fps:g}", "-i", "-",
-         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "12", "-preset", "medium", dst],
+         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "10", "-preset", "medium", dst],
         stdin=subprocess.PIPE,
     )
-    # Blend weights for the two squares: 1 above the overlap (top square), ramping to 0 below it.
     ramp = None
     if split:
         lo, hi = h - w, w
         ys = np.arange(h, dtype=np.float32)
         ramp = np.clip((hi - ys) / max(1, hi - lo), 0, 1)[:, None]
-    r = max(4, int(round(w / 135)))
+    unit = w / 1080.0
+    r_fine = max(2, int(round(4 * unit)))
+    r_coarse = max(4, int(round(8 * unit)))
+    guard_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(60 * unit) | 1, int(60 * unit) | 1))
+    core_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(24 * unit) | 1, int(24 * unit) | 1))
     prev = None
+    prev_gray = None
+    prev_small = None
     n = 0
     segs = [segmenter(model)] + ([segmenter(model)] if split else [])
     try:
@@ -85,23 +123,49 @@ def main() -> int:
             if scale > 1:
                 bgr = cv2.resize(bgr, (w, h), interpolation=cv2.INTER_CUBIC)
             rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
-            ms = int(round(n * 1000 / fps))
-            if split:
-                top = confidence(segs[0], rgb[:w], ms)
-                bottom = confidence(segs[1], rgb[h - w:], ms)
-                conf = np.zeros((h, w), np.float32)
-                conf[:w] += top * ramp[:w]
-                conf[h - w:] += bottom * (1 - ramp[h - w:])
+            gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY).astype(np.float32) / 255.0
+            small = cv2.resize(gray, (96, int(96 * h / w)), interpolation=cv2.INTER_AREA)
+            # A frame repeated by the fps conversion: reuse the previous matte unchanged.
+            if prev is not None and prev_small is not None and float(np.mean(np.abs(small - prev_small))) < 0.0015:
+                x = prev
             else:
-                conf = confidence(segs[0], rgb, ms)
-                if conf.shape != (h, w):
-                    conf = cv2.resize(conf, (w, h), interpolation=cv2.INTER_LINEAR)
-            x = guided(rgb.astype(np.float32) / 255.0, conf, r, 1e-3)
-            x = np.clip((x - 0.25) / 0.5, 0, 1)
-            x = x * x * (3 - 2 * x)
-            if prev is not None:
-                x = 0.65 * x + 0.35 * prev
+                ms = int(round(n * 1000 / fps))
+                if split:
+                    conf = np.zeros((h, w), np.float32)
+                    conf[:w] += confidence(segs[0], rgb[:w], ms) * ramp[:w]
+                    conf[h - w:] += confidence(segs[1], rgb[h - w:], ms) * (1 - ramp[h - w:])
+                else:
+                    conf = confidence(segs[0], rgb, ms)
+                    if conf.shape != (h, w):
+                        conf = cv2.resize(conf, (w, h), interpolation=cv2.INTER_LINEAR)
+                guide = rgb.astype(np.float32) / 255.0
+                if sess is not None:
+                    a = modnet_alpha(sess, rgb)
+                    # Guard: nothing far from the person; the solid core always filled.
+                    near = cv2.dilate((conf > 0.2).astype(np.uint8), guard_k).astype(np.float32)
+                    near = cv2.GaussianBlur(near, (0, 0), 12 * unit)
+                    core = cv2.erode((conf > 0.92).astype(np.uint8), core_k).astype(np.float32)
+                    core = cv2.GaussianBlur(core, (0, 0), 4 * unit)
+                    a = np.maximum(np.clip(a, 0, 1) * near, core)
+                    x = np.clip(guided(guide, a, r_fine, 1e-4), 0, 1)
+                    if scale >= 1.5:
+                        # An upscaled small clip has no real strand detail: tighten the soft zone so
+                        # the edge does not read as blur.
+                        x = np.clip((x - 0.1) / 0.8, 0, 1)
+                        x = x * x * (3 - 2 * x)
+                else:
+                    x = guided(guide, conf, r_coarse, 1e-3)
+                    x = np.clip((x - 0.25) / 0.5, 0, 1)
+                    x = x * x * (3 - 2 * x)
+                # Motion-aware smoothing: hold the edge where the picture is still, follow it where it moves.
+                if prev is not None and prev_gray is not None:
+                    motion = cv2.GaussianBlur(np.abs(gray - prev_gray), (0, 0), 6 * unit)
+                    keep = 0.5 * (1 - np.clip(motion / 0.06, 0, 1))
+                    x = x * (1 - keep) + prev * keep
+                x = np.where(x < 0.015, 0, np.where(x > 0.985, 1, x)).astype(np.float32)
+                prev_gray = gray
             prev = x
+            prev_small = small
             enc.stdin.write((x * 255 + 0.5).astype(np.uint8).tobytes())
             n += 1
             if n % 30 == 0:

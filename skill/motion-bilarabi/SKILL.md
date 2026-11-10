@@ -60,7 +60,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 - Overlays: `effect-list`, `live-cursor`, `voice-note`, `comment-drop`, `head-stack`, `predict-keys`, `day-dial`, `post-wall`, `photo-look` (banknote · press · vintage newspaper · impact), `captions`, `arabic-move`.
 - `arabic-move` with `cut: true` holds the word to a hard cut (no exit), so short voice lines (~1.7 s) fit: the scene needs only the entrance.
 - A `video` scene plays the clip's own sound. When a separate voice-over carries the audio, set `muted: true` on every `video` scene of that clip.
-- On a person (`cutout`, after `mba matte`):
+- On a person (`cutout`, after `mba matte`; with MODNet installed the matte is a true soft matte — hair strands, no halo — so ask for a 1080p+ clip):
   - `background: "blur"` — back focus: the room itself, only blurred.
   - `mode: "grid"` (`pick`, `zoom`) — grid zoom: a carousel of video cards (the clip in different looks) over the head scrolls to the black-and-white card, the cursor picks it, it lands on the eyes as a lens and turns the whole scene black and white. A good opener.
   - `mode: "letters"` (`word`) — letter dive: the clip plays inside a giant word on paper, then the camera dives through a letter.

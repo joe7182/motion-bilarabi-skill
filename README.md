@@ -134,6 +134,17 @@ curl -L --create-dirs -o ~/.mba/models/selfie_segmenter.tflite https://storage.g
 ```
 أو في Claude: «ثبّت لي mediapipe وopencv-python بـ pip، ونزّل نموذج selfie_segmenter.tflite إلى ~/.mba/models»
 
+**للقناع الاحترافي (شعر وحواف ناعمة):** نموذج MODNet ‏(Apache-2.0، ‏٢٦ ميغا) — With MODNet the cut-out keeps real hair strands:
+```bash
+pip install onnxruntime
+```
+```bash
+curl -L --create-dirs -o ~/.mba/models/modnet.onnx https://huggingface.co/Xenova/modnet/resolve/main/onnx/model.onnx
+```
+أو في Claude: «ثبّت لي onnxruntime بـ pip، ونزّل نموذج MODNet ‏(model.onnx من huggingface.co/Xenova/modnet) باسم modnet.onnx إلى ~/.mba/models»
+
+صوّر بدقة 1080p أو أعلى: كل ما زادت الدقة، طلع القصّ أنظف — Film at 1080p or higher: the sharper the clip, the cleaner the cut.
+
 ## ٨ · افحص التجهيز — Check
 ```bash
 cd ~/motion-bilarabi/engine && npx tsx src/cli.ts doctor

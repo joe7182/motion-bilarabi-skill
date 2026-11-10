@@ -42,9 +42,12 @@ function drawOver(g: CanvasRenderingContext2D, img: HTMLImageElement, w: number,
   g.restore()
 }
 
-/** Matte → alpha: smoothstep between 110 and 190 (a crisp cut, no fringe of the room). */
+/**
+ * Matte → alpha: the matte is a true soft matte (MODNet), so it is kept soft — only the faint tails
+ * are trimmed (below 14 → clear, above 242 → solid). Hair strands stay see-through.
+ */
 const EDGE = Uint8ClampedArray.from({ length: 256 }, (_, v) => {
-  const x = Math.min(1, Math.max(0, (v - 110) / 80))
+  const x = Math.min(1, Math.max(0, (v - 14) / 228))
   return Math.round(255 * x * x * (3 - 2 * x))
 })
 
@@ -127,6 +130,8 @@ export const cutout: Primitive<CutoutParams> = {
     const clean = mk()
     const fill = mk()
     const grow = mk()
+    const deco = mk()
+    const deco2 = mk()
     const bw = mk()
     // grid mode: the cards of the carousel (slot −3..3, the middle one is picked), each a look of the clip.
     const LOOKS = ['none', 'sepia(0.35) contrast(1.1)', 'sepia(0.55) saturate(1.3)', 'saturate(1.6) contrast(1.15)', 'hue-rotate(35deg) saturate(1.3)', 'brightness(1.15) contrast(0.9)', 'grayscale(0.4) sepia(0.3)']
@@ -181,12 +186,39 @@ export const cutout: Primitive<CutoutParams> = {
         drawCover(person.g, matteImg, w, h, p.fit)
         const m = person.g.getImageData(0, 0, w, h)
         const f = frame.g.getImageData(0, 0, w, h)
-        // A crisp edge: the matte's soft fringe (where the room bleeds through) is choked to a
-        // 1–2 px anti-aliased cut.
         for (let i = 0; i < m.data.length; i += 4) {
           f.data[i + 3] = EDGE[m.data[i]!]!
         }
         person.g.putImageData(f, 0, 0)
+        // Colour decontamination: a see-through edge pixel still carries the room's colour (a light
+        // or dark fringe in the hair). Its colour is replaced by the person's own colour nearby: the
+        // solid core of the cut-out (alpha ≥ 235) blurred — premultiplied, so only the person counts.
+        const core = new ImageData(new Uint8ClampedArray(f.data), w, h)
+        for (let i = 3; i < core.data.length; i += 4) if (core.data[i]! < 235) core.data[i] = 0
+        deco.g.putImageData(core, 0, 0)
+        deco2.g.clearRect(0, 0, w, h)
+        deco2.g.filter = `blur(${(10 * k).toFixed(1)}px)`
+        deco2.g.drawImage(deco.c, 0, 0)
+        deco2.g.filter = 'none'
+        const near = deco2.g.getImageData(0, 0, w, h).data
+        // The room behind each pixel (the clean plate) solves the compositing equation
+        // I = a·F + (1 − a)·B for the person's true colour F; faint pixels lean on the core colour.
+        const room = cleanPlate(f, w, h).data
+        let touched = false
+        for (let i = 0; i < f.data.length; i += 4) {
+          const a8 = f.data[i + 3]!
+          if (a8 === 0 || a8 >= 250) continue
+          const a = a8 / 255
+          const trust = Math.min(1, Math.max(0, (a - 0.12) / 0.45))
+          const hasCore = near[i + 3]! >= 4
+          for (let c = 0; c < 3; c++) {
+            const solved = Math.min(255, Math.max(0, (f.data[i + c]! - (1 - a) * room[i + c]!) / Math.max(a, 0.12)))
+            const fallback = hasCore ? near[i + c]! : solved
+            f.data[i + c] = fallback + (solved - fallback) * trust
+          }
+          touched = true
+        }
+        if (touched) person.g.putImageData(f, 0, 0)
         const t = Math.max(0, localT)
         const e = easeOutCubic(seg(t, p.at, p.at + p.dur))
         if (layers) {
@@ -196,11 +228,17 @@ export const cutout: Primitive<CutoutParams> = {
         }
         out.clearRect(0, 0, w, h)
         if (p.background === 'blur') {
-          // Back focus: the room itself, only blurred (same light, same colour), overscanned a hair so
-          // the blur never pulls in an edge.
+          // Back focus: the room itself, only blurred — from the clean plate (the room without the
+          // person), so no blurred ghost of the person halos around them. Overscanned a hair so the
+          // blur never pulls in an edge.
+          clean.g.putImageData(cleanPlate(f, w, h), 0, 0)
           out.save()
           out.filter = `blur(${(p.blur * k * e).toFixed(2)}px)`
-          drawOver(out, frameImg, w, h, p.fit, 1 + 0.03 * e)
+          const over = 1 + 0.03 * e
+          out.translate(w / 2, h / 2)
+          out.scale(over, over)
+          out.translate(-w / 2, -h / 2)
+          out.drawImage(e > 0 ? clean.c : frame.c, 0, 0)
           out.restore()
         } else if (p.background === 'clean') {
           // The room without the person (blow away leaves the room behind): the shot as it is, and
