@@ -23,7 +23,7 @@ import {
   type MediaRole,
 } from './node/project'
 import { ingestProject } from './node/ingest'
-import { makeMatte } from './node/matte'
+import { makeMatte, makePlate } from './node/matte'
 import { transcribeMedia, TRANSCRIPT_FILE, whisperPromptArg } from './node/whisper'
 import { explainProject } from './node/explain'
 import { presetProject } from './node/preset'
@@ -67,6 +67,7 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
+  mba plate <projectDir> <mediaId> <photo-or-clip>   (optional: the empty scene from the same camera spot, for professional blow-away, clones, dolly, back focus)
   mba transcribe <projectDir> [--media m1]
   mba doctor
       (setup check: what is installed, and how to fix what is missing, by terminal or in the Claude app)
@@ -143,6 +144,13 @@ async function main(argv: string[]): Promise<number> {
     if (!dir || !id) usage('الاستخدام: mba matte <projectDir> <mediaId> [--model file] — Usage: mba matte <projectDir> <mediaId> [--model file]')
     const out = await makeMatte(dir!, id!, (values.model as string | undefined) ?? undefined, (l) => process.stderr.write(l + '\n'))
     process.stdout.write(`قناع الشخص جاهز — Person matte written: ${out}\n`)
+    return 0
+  }
+  if (command === 'plate') {
+    const [dir, id, file] = positionals.slice(1)
+    if (!dir || !id || !file) usage('الاستخدام: mba plate <projectDir> <mediaId> <صورة المكان فاضي> — Usage: mba plate <projectDir> <mediaId> <empty-scene photo or clip>')
+    const out = await makePlate(dir!, id!, file!, (l) => process.stderr.write(l + '\n'))
+    process.stdout.write(`خلفية المكان جاهزة — Clean plate written: ${out}\n`)
     return 0
   }
   if (command === 'doctor') {

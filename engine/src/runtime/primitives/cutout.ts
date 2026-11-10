@@ -169,6 +169,10 @@ export const cutout: Primitive<CutoutParams> = {
     }
     // layers mode: the shot split into labelled glass panes in depth (room, you, list, type, sound).
     const layers = p.mode === 'layers' ? buildLayers(ctx, p, view) : null
+    // The clean plate from `mba matte` (the real room), drawn once; without it the room is filled in per frame.
+    let platePx: ImageData | null = null
+    let plateTried = false
+    const roomOf = (f: ImageData) => platePx ?? cleanPlate(f, w, h)
     const frameImg = new Image()
     const matteImg = new Image()
     frameImg.decoding = matteImg.decoding = 'sync'
@@ -179,6 +183,15 @@ export const cutout: Primitive<CutoutParams> = {
       async update(localT) {
         const n = videoFrameAt(p, Math.max(0, localT), ctx.duration, ctx.fps)
         await Promise.all([load(frameImg, frameUrl(p.media, n)), load(matteImg, frameUrl(mid, n))])
+        if (p.plate && !plateTried) {
+          plateTried = true
+          const pi = new Image()
+          pi.decoding = 'sync'
+          await load(pi, p.plate)
+          const pc = mk()
+          drawCover(pc.g, pi, w, h, p.fit)
+          platePx = pc.g.getImageData(0, 0, w, h)
+        }
         frame.g.clearRect(0, 0, w, h)
         drawCover(frame.g, frameImg, w, h, p.fit)
         // The person: matte brightness → alpha.
@@ -203,7 +216,7 @@ export const cutout: Primitive<CutoutParams> = {
         const near = deco2.g.getImageData(0, 0, w, h).data
         // The room behind each pixel (the clean plate) solves the compositing equation
         // I = a·F + (1 − a)·B for the person's true colour F; faint pixels lean on the core colour.
-        const room = cleanPlate(f, w, h).data
+        const room = roomOf(f).data
         let touched = false
         for (let i = 0; i < f.data.length; i += 4) {
           const a8 = f.data[i + 3]!
@@ -222,7 +235,7 @@ export const cutout: Primitive<CutoutParams> = {
         const t = Math.max(0, localT)
         const e = easeOutCubic(seg(t, p.at, p.at + p.dur))
         if (layers) {
-          clean.g.putImageData(cleanPlate(f, w, h), 0, 0)
+          clean.g.putImageData(roomOf(f), 0, 0)
           layers.draw(t, clean.c, person.c)
           return
         }
@@ -231,7 +244,7 @@ export const cutout: Primitive<CutoutParams> = {
           // Back focus: the room itself, only blurred — from the clean plate (the room without the
           // person), so no blurred ghost of the person halos around them. Overscanned a hair so the
           // blur never pulls in an edge.
-          clean.g.putImageData(cleanPlate(f, w, h), 0, 0)
+          clean.g.putImageData(roomOf(f), 0, 0)
           out.save()
           out.filter = `blur(${(p.blur * k * e).toFixed(2)}px)`
           const over = 1 + 0.03 * e
@@ -243,7 +256,7 @@ export const cutout: Primitive<CutoutParams> = {
         } else if (p.background === 'clean') {
           // The room without the person (blow away leaves the room behind): the shot as it is, and
           // over the person's place the room filled in from either side of each row, softened.
-          clean.g.putImageData(cleanPlate(f, w, h), 0, 0)
+          clean.g.putImageData(roomOf(f), 0, 0)
           drawCover(out, frameImg, w, h, p.fit)
           fill.g.clearRect(0, 0, w, h)
           fill.g.filter = `blur(${(22 * k).toFixed(1)}px)`

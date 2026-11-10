@@ -29,6 +29,8 @@ export const cutoutParams = videoParams.extend({
   background: z.enum(['none', 'blur', 'clean']).default('none'),
   /** Dolly zoom (with `background: clean`): the room scales from [0] to [1] over the scene while the person holds still. */
   dolly: z.tuple([z.number().min(0.5).max(3), z.number().min(0.5).max(3)]).optional(),
+  /** The room without the person (a data URL), filled in automatically from `mba matte`'s clean plate. */
+  plate: z.string().optional(),
   /** Background blur at full (px on a 1080 px frame). */
   blur: z.number().min(0).max(60).default(22),
   /** layers: the effect names on the list pane; `lit` (0-based) is the lit one. */

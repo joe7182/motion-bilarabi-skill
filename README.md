@@ -145,6 +145,15 @@ curl -L --create-dirs -o ~/.mba/models/modnet.onnx https://huggingface.co/Xenova
 
 صوّر بدقة 1080p أو أعلى: كل ما زادت الدقة، طلع القصّ أنظف — Film at 1080p or higher: the sharper the clip, the cleaner the cut.
 
+**اختياري — خلفية المكان فاضي (Clean plate):** قبل أو بعد التصوير، صوّر المكان بدونك من نفس مكان الكاميرا
+(صورة أو ثانيتين فيديو). المؤثرات اللي تشيلك من المشهد (التطاير، النسخ، الزوم الدوللي، التركيز الخلفي)
+تكشف الخلفية الحقيقية بدل ما يتخيّلها المحرّك — Optional: a photo of the empty scene from the same spot makes
+every effect that removes you show the real room.
+```bash
+npx tsx src/cli.ts plate <project> m1 empty-room.jpg
+```
+أو في Claude: «هذي صورة المكان فاضي، استخدمها كخلفية للقناع»
+
 ## ٨ · افحص التجهيز — Check
 ```bash
 cd ~/motion-bilarabi/engine && npx tsx src/cli.ts doctor

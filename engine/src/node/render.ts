@@ -17,13 +17,14 @@ import { screenClipLayout, screenClipParams } from '../core/params/screen-clip'
 import { PRIMITIVE_IDS } from '../core/primitive-ids'
 import { validateSceneParams } from '../core/params/index'
 import { frameCount, frameToTime } from '../core/clock'
-import { FORMAT_SIZE, safeRect } from '../core/types'
+import { FORMAT_SIZE, safeRect, type Format } from '../core/types'
 import type { Brand } from '../core/brand'
 import { loadBrand } from './brand-fs'
 import { ffmpegVersionLine, resolveFfmpeg } from './tools'
 import { storyboardPlugin } from './preview-plugins'
 import { audioPlugin } from './preview-audio'
 import { appendLog, findProjectFor, nextVersion } from './project'
+import { attachPlates, placeAroundFaces } from './face-place'
 import { INGEST_RECIPE, SET_BT709, type MediaRecord } from './ingest'
 import { createFrameServer, framesNeeded, pidAlive, type FrameRange, type FrameServer, type FrameServerStats } from './framesrv'
 import { couldNotWrite, fsStep, renameWithRetry, rmWithRetry, writeFileAtomic } from './fsx'
@@ -209,6 +210,14 @@ export async function loadStoryboardFile(
   }
   fillSignatureCards(obj)
   await inlinePhoneImages(obj, dir)
+  // Face-aware placement: headlines and stamps over a filmed face move below the chin (or above the head).
+  if (project) {
+    const fmt = ((obj.format as Format | undefined) ?? project.manifest.format ?? '9:16') as Format
+    const size = FORMAT_SIZE[fmt] ?? FORMAT_SIZE['9:16']
+    const media = new Map(project.manifest.media.filter((m) => m.work).map((m) => [m.id, m.work!] as [string, string]))
+    placeAroundFaces(obj, project.dir, media, fmt, size.w / size.h)
+    attachPlates(obj, project.dir, media)
+  }
   const known: string[] = [...PRIMITIVE_IDS]
   if (opts.testTypes && Array.isArray(obj.scenes)) {
     for (const sc of obj.scenes as unknown[]) {

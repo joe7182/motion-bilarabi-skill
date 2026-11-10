@@ -43,7 +43,7 @@ export const effectList: Primitive<EffectListParams> = {
     const s = ctx.safe
     const w = Math.round(p.width * s.w)
     const x = p.side === 'left' ? s.x : s.x + s.w - w
-    const fs = Math.round(32 * k)
+    const fs = Math.round(40 * k)
     const panel = div('effect-list', {
       position: 'absolute', left: `${x}px`, top: `${s.y + p.top * s.h}px`, width: `${w}px`,
       background: ctx.look.vars.fg, color: ctx.look.vars.bg, borderRadius: `${Math.round(22 * k)}px`,

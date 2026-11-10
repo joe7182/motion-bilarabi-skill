@@ -80,9 +80,31 @@ def modnet_alpha(sess, rgb: np.ndarray) -> np.ndarray:
     return cv2.resize(out.astype(np.float32), (w, h), interpolation=cv2.INTER_CUBIC)
 
 
+def head_box(x: np.ndarray):
+    """The head in a matte, normalized [x0, y0, x1, y1]: from the top of the person down to about the
+    chin (1.55 head widths), the head width taken just below the crown. None when no person."""
+    hh, ww = 192, 108
+    m = cv2.resize(x, (ww, hh), interpolation=cv2.INTER_AREA) > 0.5
+    rows = np.where(m.sum(axis=1) > 2)[0]
+    if rows.size == 0:
+        return None
+    top = int(rows[0])
+    band = m[top + 4: top + 14]
+    widths = band.sum(axis=1) if band.size else np.array([0])
+    hw = float(np.median(widths)) if widths.size else 0.0
+    if hw < 3:
+        return None
+    ys, xs = np.nonzero(m[top: top + int(hw * 1.2) + 1])
+    cx = float(xs.mean()) if xs.size else ww / 2
+    cell = (x.shape[1] / ww) / (x.shape[0] / hh)  # a grid cell's width over its height
+    chin = top + 1.55 * hw * cell
+    return [round(max(0.0, (cx - 0.55 * hw) / ww), 4), round(top / hh, 4), round(min(1.0, (cx + 0.55 * hw) / ww), 4), round(min(1.0, chin / hh), 4)]
+
+
 def main() -> int:
     src, dst, model, ffmpeg, fps = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], float(sys.argv[5])
     modnet_path = sys.argv[6] if len(sys.argv) > 6 else ""
+    keep_plate = len(sys.argv) > 7 and sys.argv[7] == "keep-plate"
     sess = modnet_session(modnet_path)
     print(f"engine: {'modnet + mediapipe guard' if sess else 'mediapipe'}", file=sys.stderr, flush=True)
     cap = cv2.VideoCapture(src)
@@ -110,6 +132,10 @@ def main() -> int:
     r_coarse = max(4, int(round(8 * unit)))
     guard_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(60 * unit) | 1, int(60 * unit) | 1))
     core_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(24 * unit) | 1, int(24 * unit) | 1))
+    faces = []
+    plate_sum = None
+    plate_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(0.035 * w) | 1, int(0.035 * w) | 1))
+    plate_n = None
     prev = None
     prev_gray = None
     prev_small = None
@@ -166,6 +192,14 @@ def main() -> int:
                 prev_gray = gray
             prev = x
             prev_small = small
+            faces.append(head_box(x))
+            # The clean plate: every bit of room the person ever uncovers, averaged over time.
+            if plate_sum is None:
+                plate_sum = np.zeros((h, w, 3), np.float32)
+                plate_n = np.zeros((h, w), np.float32)
+            free = (cv2.dilate(x, plate_k) < 0.03).astype(np.float32)
+            plate_sum += bgr.astype(np.float32) * free[..., None]
+            plate_n += free
             enc.stdin.write((x * 255 + 0.5).astype(np.uint8).tobytes())
             n += 1
             if n % 30 == 0:
@@ -175,6 +209,39 @@ def main() -> int:
             s.close()
     enc.stdin.close()
     code = enc.wait()
+    # The clean plate (work/<id>.plate.jpg): the room seen behind the person; places never seen are
+    # filled smoothly from around them (inpainting), then softened so the fill does not read as a patch.
+    if plate_sum is not None and not keep_plate:
+        seen = plate_n >= max(3, 0.08 * n)  # trust only room seen in enough frames
+        plate = np.where(seen[..., None], plate_sum / np.maximum(plate_n, 1)[..., None], 0).astype(np.uint8)
+        hole = (~seen).astype(np.uint8) * 255
+        if hole.any():
+            # Normalized blur (only seen room counts): the wall's colours continue smoothly into the
+            # hole, coarse to fine, with no dark rim where the hole meets the room.
+            sw, sh = max(8, w // 8), max(8, h // 8)
+            m = cv2.resize(seen.astype(np.float32), (sw, sh), interpolation=cv2.INTER_AREA)
+            c = cv2.resize(plate.astype(np.float32) * seen[..., None], (sw, sh), interpolation=cv2.INTER_AREA)
+            fill = np.zeros_like(c)
+            have = np.zeros((sh, sw), np.float32)
+            for sigma in (2, 6, 16, 40, 110):
+                num = cv2.GaussianBlur(c, (0, 0), sigma)
+                den = cv2.GaussianBlur(m, (0, 0), sigma)
+                ok = (den > 0.02) & (have < 1)
+                fill[ok] = num[ok] / den[ok][:, None]
+                have[ok] = 1
+            if (have < 1).any():  # still unreached: the room's mean colour
+                mean = (c.reshape(-1, 3).sum(0) / max(1e-3, m.sum()))
+                fill[have < 1] = mean
+            fill = cv2.GaussianBlur(fill, (0, 0), 2)
+            up = cv2.resize(fill, (w, h), interpolation=cv2.INTER_CUBIC)
+            plate = np.where(seen[..., None], plate, np.clip(up, 0, 255)).astype(np.uint8)  # no black left in the hole
+            soft = cv2.GaussianBlur(hole.astype(np.float32) / 255, (0, 0), 10 * unit)[..., None]
+            plate = np.clip(plate.astype(np.float32) * (1 - soft) + up * soft, 0, 255).astype(np.uint8)
+        cv2.imwrite(dst.replace('.matte.mp4', '.plate.jpg'), plate, [cv2.IMWRITE_JPEG_QUALITY, 90])
+    # The head per frame, for face-aware placement of text (work/<id>.matte.face.json).
+    import json
+    with open(dst.rsplit('.', 1)[0] + '.face.json', 'w') as fh:
+        json.dump({'fps': fps, 'w': w, 'h': h, 'boxes': faces}, fh)
     print(f"frames {n}", file=sys.stderr)
     return code
 

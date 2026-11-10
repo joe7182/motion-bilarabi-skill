@@ -71,6 +71,13 @@ there, ask where they put it. Its `README.md` is the install guide.
 - Overlays: `effect-list`, `live-cursor`, `voice-note`, `comment-drop`, `head-stack`, `predict-keys`, `day-dial`, `post-wall`, `photo-look` (banknote · press · vintage newspaper · impact), `captions`, `arabic-move`.
 - `arabic-move` with `cut: true` holds the word to a hard cut (no exit), so short voice lines (~1.7 s) fit: the scene needs only the entrance.
 - A `video` scene plays the clip's own sound. When a separate voice-over carries the audio, set `muted: true` on every `video` scene of that clip.
+- **Optional clean plate (offer it):** when the user wants an effect that shows the room without the
+  person (blow away, clones, dolly zoom, back focus, layers), ask once: «تبي نتيجة احترافية؟ صوّر
+  المكان فاضي (صورة أو ٢ ثانية فيديو) من نفس مكان الكاميرا وبنفس الإضاءة» — then
+  `mba plate <dir> <mediaId> <photo-or-clip>` (fitted and aligned to the clip automatically; kept when
+  the matte is rebuilt). If they skip it, the engine builds the room from what the clip shows.
+- Text never covers a filmed face: line headlines and stamps over a person move below the chin (or
+  above the head) automatically; `"face": "keep"` in a scene's params opts out.
 - On a person (`cutout`, after `mba matte`; with MODNet installed the matte is a true soft matte — hair strands, no halo — so ask for a 1080p+ clip):
   - `background: "blur"` — back focus: the room itself, only blurred.
   - `mode: "grid"` (`pick`, `zoom`) — grid zoom: a carousel of video cards (the clip in different looks) over the head scrolls to the black-and-white card, the cursor picks it, it lands on the eyes as a lens and turns the whole scene black and white. A good opener.

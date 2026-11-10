@@ -22,7 +22,7 @@ export const effectListParams = z.object({
   /** Which frame edge the panel hugs. */
   side: z.enum(['left', 'right']).default('left'),
   /** Panel width as a fraction of the safe width. */
-  width: z.number().min(0.25).max(0.6).default(0.36),
+  width: z.number().min(0.25).max(0.7).default(0.46),
   /** Panel top as a fraction of the safe height. */
   top: z.number().min(0).max(0.6).default(0.04),
   ease,
