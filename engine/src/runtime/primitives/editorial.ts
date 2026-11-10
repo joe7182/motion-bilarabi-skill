@@ -53,6 +53,8 @@ export const editorialType: Primitive<EditorialTypeParams> = {
         ? { fontFamily: FONT_SERIF, fontStyle: 'italic', fontWeight: '700', fontSize: `${f3(px * 1.4)}px`, lineHeight: '1.05' }
         : { fontFamily: ctx.look.fontDisplay, fontStyle: 'normal', fontWeight: '900', fontSize: `${f3(px)}px`, lineHeight: '1.3' })
       el.style.color = accent ? accentVar : fg
+      // Harakat (a shadda, a fatha…) sit above the line box: give the word room so they never touch the line above.
+      if (/[ً-ْٰ]/.test(el.textContent ?? '')) el.style.paddingTop = serif ? '0.32em' : '0.22em'
       el.style.gridArea = '1 / 1'
       el.style.justifySelf = 'center'
       el.style.willChange = 'filter, transform, opacity'
