@@ -1,4 +1,4 @@
-import { clamp01, easeInCubic, easeInOutCubic, easeOutBack, easeOutCubic, seg } from '../../core/ease'
+import { clamp01, easeInCubic, easeInOutCubic, easeInOutSine, easeOutBack, easeOutCubic, seg } from '../../core/ease'
 import { cutoutParams, matteId, orbitRingParams, type CutoutParams, type OrbitRingParams } from '../../core/params/cutout'
 import { videoFrameAt } from '../../core/video'
 import { FONT_MONO } from '../looks'
@@ -162,6 +162,8 @@ export const cutout: Primitive<CutoutParams> = {
       pivot = { x: best.x, y: best.y }
       return pivot
     }
+    // layers mode: the shot split into labelled glass panes in depth (room, you, list, type, sound).
+    const layers = p.mode === 'layers' ? buildLayers(ctx, p, view) : null
     const frameImg = new Image()
     const matteImg = new Image()
     frameImg.decoding = matteImg.decoding = 'sync'
@@ -187,6 +189,11 @@ export const cutout: Primitive<CutoutParams> = {
         person.g.putImageData(f, 0, 0)
         const t = Math.max(0, localT)
         const e = easeOutCubic(seg(t, p.at, p.at + p.dur))
+        if (layers) {
+          clean.g.putImageData(cleanPlate(f, w, h), 0, 0)
+          layers.draw(t, clean.c, person.c)
+          return
+        }
         out.clearRect(0, 0, w, h)
         if (p.background === 'blur') {
           // Back focus: the room itself, only blurred (same light, same colour), overscanned a hair so
@@ -213,6 +220,15 @@ export const cutout: Primitive<CutoutParams> = {
           fill.g.drawImage(grow.c, 0, 0)
           fill.g.globalCompositeOperation = 'source-over'
           out.drawImage(fill.c, 0, 0)
+          if (p.dolly) {
+            // Dolly zoom: the empty room scales about the frame centre; the person is drawn over it unscaled.
+            const k2 = easeInOutSine(Math.min(1, t / Math.max(0.01, ctx.duration)))
+            const s = p.dolly[0] + (p.dolly[1] - p.dolly[0]) * k2
+            clean.g.clearRect(0, 0, w, h)
+            clean.g.drawImage(out.canvas, 0, 0)
+            out.clearRect(0, 0, w, h)
+            out.drawImage(clean.c, (w - w * s) / 2, (h - h * s) / 2, w * s, h * s)
+          }
         }
         if (p.mode === 'clones') {
           // A clone row: copies slide out from behind the person to both sides, smaller with
@@ -548,4 +564,101 @@ export const orbitRing: Primitive<OrbitRingParams> = {
       },
     }
   },
+}
+
+/**
+ * layers mode: five full-frame panes in a 3D rig — the room (clean plate), you (the cut-out), the
+ * effect list, the type and the sound. Flat they compose the plain shot; from `at` over `dur` they
+ * pull apart in depth and turn to show their edges and labels, then fold back over the last 0.55 s.
+ */
+function buildLayers(ctx: Parameters<Primitive<CutoutParams>['build']>[0], p: CutoutParams, view: HTMLCanvasElement) {
+  const { w, h } = ctx.size
+  const k = w / 1080
+  view.style.display = 'none'
+  const stage = document.createElement('div')
+  Object.assign(stage.style, { position: 'absolute', inset: '0', overflow: 'hidden', background: '#0e1311', perspective: `${Math.round(2300 * k)}px`, perspectiveOrigin: '50% 46%' })
+  const rig = document.createElement('div')
+  Object.assign(rig.style, { position: 'absolute', inset: '0', transformStyle: 'preserve-3d' })
+  stage.append(rig)
+  ctx.layer.append(stage)
+  const pane = (label: string, z: number, withCanvas: boolean) => {
+    const d = document.createElement('div')
+    Object.assign(d.style, { position: 'absolute', inset: '0', boxSizing: 'border-box', borderRadius: `${Math.round(10 * k)}px` })
+    let g: CanvasRenderingContext2D | null = null
+    if (withCanvas) {
+      const c = document.createElement('canvas')
+      c.width = w
+      c.height = h
+      Object.assign(c.style, { position: 'absolute', inset: '0', width: `${w}px`, height: `${h}px` })
+      d.append(c)
+      g = c.getContext('2d')!
+    }
+    const tag = document.createElement('div')
+    Object.assign(tag.style, { position: 'absolute', top: `${Math.round(26 * k)}px`, right: `${Math.round(30 * k)}px`, fontFamily: FONT_MONO, fontWeight: "700", fontSize: `${Math.round(40 * k)}px`, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.88)', direction: 'rtl', whiteSpace: 'nowrap' })
+    lineUnit(tag, label)
+    d.append(tag)
+    rig.append(d)
+    return { d, tag, z, g }
+  }
+  const room = pane('الخلفية · ROOM', -430, true)
+  const me = pane('إنت · ME', -160, true)
+  // The list pane: a dark panel of effect names, one lit.
+  const list = pane('المؤثرات · LIST', 70, false)
+  const panel = document.createElement('div')
+  Object.assign(panel.style, { position: 'absolute', left: `${Math.round(60 * k)}px`, top: `${Math.round(270 * k)}px`, width: `${Math.round(330 * k)}px`, padding: `${Math.round(22 * k)}px`, boxSizing: 'border-box', background: 'rgba(16,40,30,0.94)', borderRadius: `${Math.round(18 * k)}px`, direction: 'rtl', fontFamily: ctx.look.fontBody, color: '#e8efe9' })
+  const ttl = document.createElement('div')
+  Object.assign(ttl.style, { fontSize: `${Math.round(22 * k)}px`, opacity: '0.7', marginBottom: `${Math.round(12 * k)}px` })
+  lineUnit(ttl, 'بهذا الفيديو')
+  panel.append(ttl)
+  p.items.forEach((it, i) => {
+    const row = document.createElement('div')
+    const on = i === p.lit
+    Object.assign(row.style, { fontSize: `${Math.round(30 * k)}px`, fontWeight: on ? '800' : '500', padding: `${Math.round(6 * k)}px ${Math.round(12 * k)}px`, borderRadius: `${Math.round(8 * k)}px`, background: on ? '#ffffff' : 'transparent', color: on ? '#10281e' : i < p.lit ? '#e8efe9' : 'rgba(232,239,233,0.5)' })
+    lineUnit(row, it)
+    panel.append(row)
+  })
+  list.d.append(panel)
+  // The type pane: the scene's word, big, in the display face.
+  const type = pane('النص · TYPE', 220, false)
+  const word = document.createElement('div')
+  Object.assign(word.style, { position: 'absolute', left: '0', right: '0', top: `${Math.round(h * 0.12)}px`, textAlign: 'center', fontFamily: ctx.look.fontDisplay, fontWeight: '900', fontSize: `${Math.round(200 * k)}px`, color: '#ffffff', textShadow: `0 ${Math.round(6 * k)}px ${Math.round(30 * k)}px rgba(0,0,0,0.45)` })
+  lineUnit(word, p.word)
+  type.d.append(word)
+  // The sound pane: a waveform across the lower third, the played part in the accent colour.
+  const sound = pane('الصوت · SOUND', 400, true)
+  const bars = Array.from({ length: 64 }, (_, i) => 0.25 + 0.75 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.43)) * (0.6 + 0.4 * ctx.rng()))
+  const panes = [room, me, list, type, sound]
+  const accentVar = ctx.look.vars.accent
+  const accent = accentVar.startsWith('var(') ? getComputedStyle(ctx.layer).getPropertyValue(accentVar.slice(4, -1)).trim() || '#ff5a1f' : accentVar
+  return {
+    draw(t: number, cleanRoom: HTMLCanvasElement, personCanvas: HTMLCanvasElement) {
+      const open = easeInOutCubic(seg(t, p.at, p.at + p.dur))
+      const close = easeInOutCubic(seg(t, ctx.duration - 0.55, ctx.duration - 0.05))
+      const e = open * (1 - close)
+      room.g!.clearRect(0, 0, w, h)
+      room.g!.drawImage(cleanRoom, 0, 0)
+      me.g!.clearRect(0, 0, w, h)
+      me.g!.drawImage(personCanvas, 0, 0)
+      // Sound: the bars breathe with time; the played share grows.
+      const sg = sound.g!
+      sg.clearRect(0, 0, w, h)
+      const bw = (w * 0.84) / bars.length
+      const played = Math.min(1, t / Math.max(0.5, ctx.duration))
+      bars.forEach((b, i) => {
+        const amp = b * (0.7 + 0.3 * Math.sin(t * 9 + i * 0.8))
+        const bh = amp * h * 0.11
+        sg.fillStyle = i / bars.length < played ? accent : 'rgba(255,255,255,0.92)'
+        sg.fillRect(w * 0.08 + i * bw, h * 0.76 - bh / 2, Math.max(2, bw * 0.55), bh)
+      })
+      rig.style.transform = `translateZ(${(-560 * k * e).toFixed(1)}px) rotateY(${(-38 * e).toFixed(2)}deg) rotateX(${(4 * e).toFixed(2)}deg)`
+      panes.forEach((q, i) => {
+        q.d.style.transform = `translateZ(${(q.z * k * e).toFixed(1)}px)`
+        q.d.style.outline = e > 0.001 ? `${Math.max(1, Math.round(3 * k))}px solid rgba(255,255,255,${(0.6 * e).toFixed(3)})` : 'none'
+        q.d.style.background = i >= 2 && e > 0.001 ? `rgba(255,255,255,${(0.05 * e).toFixed(3)})` : 'transparent'
+        q.tag.style.opacity = e.toFixed(3)
+        // List, type and sound exist only while the shot is apart.
+        if (i >= 2) q.d.style.opacity = Math.min(1, e * 1.6).toFixed(3)
+      })
+    },
+  }
 }

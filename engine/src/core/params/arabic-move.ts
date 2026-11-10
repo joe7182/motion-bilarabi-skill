@@ -52,7 +52,7 @@ export function arabicMoveEntrance(p: Pick<ArabicMoveParams, 'move' | 'text' | '
     case 'decrypt': return 0.6 + 0.14 * Math.max(0, Array.from(p.text).length - 1)
     case 'redacted-stamp': return 1.15 + 0.6 * (words - 1) + (p.stamp ? 0.7 : 0)
     case 'letters-snap': return lettersSnapAt(n) + 0.25
-    case 'kufi-tiles': return 2.2 + 0.06 * n
+    case 'kufi-tiles': return 1.7 + 0.06 * n
     case 'echo-stack': return 0.6
   }
 }

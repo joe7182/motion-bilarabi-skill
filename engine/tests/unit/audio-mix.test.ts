@@ -197,6 +197,13 @@ describe('audioHashInputs (JobHashInput.audio)', () => {
       { id: 'scene:v1', hash: 'bbb' },
     ])
   })
+  it('a muted video scene adds no clip audio', () => {
+    const sb = parseStoryboard(
+      { version: 1, audio: [{ kind: 'voice', media: 'm1' }], scenes: [{ id: 'v1', type: 'video', start: 0, duration: 2, params: { media: 'm2', in: 0, muted: true } }] },
+      ['video'],
+    )
+    expect(audioHashInputs(sb, [{ id: 'm1', sourceHash: 'aaa' }, { id: 'm2', sourceHash: 'bbb' }])).toEqual([{ id: 'a0', hash: 'aaa' }])
+  })
 })
 
 describe('preview audio (runtime/preview/audio.ts, node/preview-audio.ts)', () => {

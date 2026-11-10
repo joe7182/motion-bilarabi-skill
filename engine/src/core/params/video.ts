@@ -18,6 +18,8 @@ export const videoParams = z.object({
   speed: z.number().finite().min(0.25).max(4).default(1),
   fit: z.enum(['cover', 'contain']).default('cover'),
   zoom: z.array(zoomKey).optional(),
+  /** true: the clip's own sound is left out of the mix (a separate voice-over carries the audio). */
+  muted: z.boolean().default(false),
 })
 
 export type VideoParams = z.infer<typeof videoParams>

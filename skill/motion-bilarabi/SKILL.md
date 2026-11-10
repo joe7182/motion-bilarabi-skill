@@ -59,6 +59,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 ## Creator effects (scene types)
 - Overlays: `effect-list`, `live-cursor`, `voice-note`, `comment-drop`, `head-stack`, `predict-keys`, `day-dial`, `post-wall`, `photo-look` (banknote · press · vintage newspaper · impact), `captions`, `arabic-move`.
 - `arabic-move` with `cut: true` holds the word to a hard cut (no exit), so short voice lines (~1.7 s) fit: the scene needs only the entrance.
+- A `video` scene plays the clip's own sound. When a separate voice-over carries the audio, set `muted: true` on every `video` scene of that clip.
 - On a person (`cutout`, after `mba matte`):
   - `background: "blur"` — back focus: the room itself, only blurred.
   - `mode: "grid"` (`pick`, `zoom`) — grid zoom: a carousel of video cards (the clip in different looks) over the head scrolls to the black-and-white card, the cursor picks it, it lands on the eyes as a lens and turns the whole scene black and white. A good opener.
@@ -66,9 +67,25 @@ there, ask where they put it. Its `README.md` is the install guide.
   - `mode: "clones"` — a clone row beside the person.
   - `mode: "code"` — the whole frame turns into code, the person in their own colours.
   - `mode: "dust"` + `background: "clean"` — blow away: the person dissolves, the room stays.
-  - `orbit-ring` as a `back` scene below the cutout and a `front` scene above it; clip `zoom` under a still cutout = dolly zoom.
+  - `mode: "layers"` (`word`, `items`, `lit`) — layer explode: the shot splits into labelled 3D panes (room, you, effect list, type, voice waveform) from `at` over `dur`, then folds back at the scene end.
+  - `background: "clean"` + `dolly: [1.45, 1]` — dolly zoom: the empty room scales while the person holds still (no double head).
+  - `orbit-ring` as a `back` scene below the cutout and a `front` scene above it.
 - Cuts: `profile-grid` (the scene shrinks into a tile of the creator's profile grid, the camera dives into the next scene's tile; **ask the user for 6–10 of their own post covers** and pass them as `tiles` (files next to the storyboard), and their handle as `user`), `page-turn`, `paper-tear`, `pen-dot-curtain`, `pixel-curtain`, `ink-slab`, `blinds`, `blade-slice`, `layer-explode`.
 - A transition only moves scenes on its own track and below: put a full-frame cutout on track 0 when a cut must carry it.
+
+## How a model picks words (explainers)
+- `token-stream` (`tokens[{text, at, joinNext}]`) — the answer builds token by token; `joinNext` keeps a split word joined.
+- `token-odds` (`prompt`, `options[{text, p}]`, `temps[{at, t}]`, `showTemp`, `pick`) — next-token probability bars; temperature sharpens/flattens them live.
+- `loaded-die` (`faces` ×6, `rolls[{at, face}]`) — a 3D die with a token per face; repeat the strong token to load it.
+- `server-batch` (`questions`, `answer`, `changed`, `outAt`, `flipAt`) — questions from several people enter one server together; your answer comes out and one word flips.
+
+## Developer-tool explainers
+- `permission-prompt` (`command`, `option` 0 Yes · 1 don't ask again · 2 No, `moveAt`, `pickAt`, `note`) — Claude Code's approval box; the selector lands on the option.
+- `code-file` (`file`, `lines[{text, at, mark: add|secret|ok, tag}]`) — an editor or terminal pane; lines type in, secrets glow red with a tag.
+
+## Skill-package explainers
+- `skill-deck` (`skills[{name, ver}]`, `docks[{name, tint}]`, `preloaded`, `question`, `source`, `fanAt`, `dealAt`, `dealTo`) — skills as cards; a package box fans them and deals them along arcs into app windows.
+- `twin-sync` (`rows`, `you`, `friend`, `lock`, `lockAt`, `fillAt`, `matchAt`, `badge`) — your machine and a friend's; the lock file snaps shut and the friend's rows fill to match.
 
 ## Explainers (when no preset fits)
 An educational explainer («ليش…؟ شلون…؟») is written as its own `edit.json`, one visual per

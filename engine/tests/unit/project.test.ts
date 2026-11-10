@@ -116,8 +116,8 @@ describe('projectSchema (E1a)', () => {
 })
 
 describe('video params (E1a)', () => {
-  it('defaults: speed 1, fit cover', () => {
-    expect(PARAMS.video.parse({ media: 'm1', in: 0 })).toEqual({ media: 'm1', in: 0, speed: 1, fit: 'cover' })
+  it('defaults: speed 1, fit cover, not muted', () => {
+    expect(PARAMS.video.parse({ media: 'm1', in: 0 })).toEqual({ media: 'm1', in: 0, speed: 1, fit: 'cover', muted: false })
   })
   it('accepts zoom keys and contain', () => {
     const p = PARAMS.video.parse({ media: 'm2', in: 1.5, speed: 0.25, fit: 'contain', zoom: [{ t: 0, scale: 1 }, { t: 1, scale: 1.15, x: 0.5, y: 0.4 }] })

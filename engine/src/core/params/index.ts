@@ -20,6 +20,9 @@ import { ecgLineParams, microscopeParams, timingIssueOfEcgLine } from './bio-fx'
 import { heavyWordParams, saidWrittenParams, timingIssueOfHeavyWord, timingIssueOfSaidWritten, timingIssueOfWordCut, viewfinderParams, wordCutParams } from './type-tricks'
 import { effectListParams, liveCursorParams, voiceNoteParams, commentDropParams, headStackParams, predictKeysParams, dayDialParams, postWallParams, photoLookParams } from './creator-fx'
 import { cutoutParams, orbitRingParams } from './cutout'
+import { skillDeckParams, twinSyncParams } from './skills-fx'
+import { codeFileParams, permissionPromptParams } from './devtools'
+import { loadedDieParams, serverBatchParams, tokenOddsParams, tokenStreamParams } from './odds'
 import { codeChatParams, contextWindowParams, knowledgeTimelineParams, misquoteParams, signatureCardParams, webCrawlParams } from './explainer'
 import { commentStickersParams, timingIssueOfCommentStickers } from './comment-stickers'
 import { logoRowParams, timingIssueOfLogoRow } from './logo-row'
@@ -73,6 +76,14 @@ export const PARAMS = {
   'code-chat': codeChatParams,
   'web-crawl': webCrawlParams,
   'misquote': misquoteParams,
+  'token-stream': tokenStreamParams,
+  'token-odds': tokenOddsParams,
+  'loaded-die': loadedDieParams,
+  'server-batch': serverBatchParams,
+  'permission-prompt': permissionPromptParams,
+  'code-file': codeFileParams,
+  'skill-deck': skillDeckParams,
+  'twin-sync': twinSyncParams,
   'context-window': contextWindowParams,
   cutout: cutoutParams,
   'orbit-ring': orbitRingParams,

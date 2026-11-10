@@ -28,6 +28,9 @@ import { captions } from './captions'
 import { arabicMove } from './arabic-move'
 import { effectList, liveCursor, voiceNote, commentDrop, headStack, predictKeys, dayDial, postWall, photoLook } from './creator-fx'
 import { cutout, orbitRing } from './cutout'
+import { skillDeck, twinSync } from './skills-fx'
+import { codeFile, permissionPrompt } from './devtools'
+import { loadedDie, serverBatch, tokenOdds, tokenStream } from './odds'
 import { codeChat, contextWindow, knowledgeTimeline, misquote, signatureCard, webCrawl } from './explainer'
 import { heavyWord, saidWritten, viewfinder, wordCut } from './type-tricks'
 import { logoRow } from './logo-row'
@@ -107,5 +110,13 @@ registerPrimitive(knowledgeTimeline)
 registerPrimitive(signatureCard)
 registerPrimitive(webCrawl)
 registerPrimitive(misquote)
+registerPrimitive(tokenStream)
+registerPrimitive(tokenOdds)
+registerPrimitive(loadedDie)
+registerPrimitive(serverBatch)
+registerPrimitive(permissionPrompt)
+registerPrimitive(codeFile)
+registerPrimitive(skillDeck)
+registerPrimitive(twinSync)
 registerPrimitive(contextWindow)
 registerPrimitive(codeChat)

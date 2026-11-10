@@ -136,7 +136,7 @@ export function audioHashInputs(sb: Storyboard, records: readonly { id: string; 
   const hashOf = (media: string) => records.find((r) => r.id === media)?.sourceHash ?? `missing:${media}`
   const out = (sb.audio ?? []).map((c) => ({ id: c.id, hash: c.sfx !== undefined ? `sfx:${sfxKey(c.sfx, c.variant ?? 0, c.duration)}` : hashOf(c.media!) }))
   for (const sc of sb.scenes) {
-    if (sc.type === 'video') out.push({ id: `scene:${sc.id}`, hash: hashOf(videoParams.parse(sc.params).media) })
+    if (sc.type === 'video' && !videoParams.parse(sc.params).muted) out.push({ id: `scene:${sc.id}`, hash: hashOf(videoParams.parse(sc.params).media) })
   }
   return out
 }
@@ -447,6 +447,7 @@ export async function resolveAudioClips(project: Project, sb: Storyboard, total:
   for (const sc of sb.scenes) {
     if (sc.type !== 'video' || sc.start >= total) continue
     const p = videoParams.parse(sc.params)
+    if (p.muted) continue
     const { input } = workOf(p.media)
     out.push({
       id: `scene:${sc.id}`, bus: 'voice', input, in: p.in, duration: Math.min(sc.duration, total - sc.start), speed: p.speed,

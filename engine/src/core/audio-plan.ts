@@ -10,6 +10,9 @@ import { cuesOfProfileCard } from './params/profile-card'
 import { cuesOfTypeStretch } from './params/type-stretch'
 import { cuesOfLettersJoin } from './params/letters-join'
 import { cuesOfEffectList, cuesOfLiveCursor, cuesOfVoiceNote, cuesOfCommentDrop, cuesOfHeadStack, cuesOfPredictKeys, cuesOfDayDial, cuesOfPostWall, cuesOfPhotoLook } from './params/creator-fx'
+import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
+import { cuesOfCodeFile, cuesOfPermissionPrompt } from './params/devtools'
+import { cuesOfLoadedDie, cuesOfServerBatch, cuesOfTokenOdds, cuesOfTokenStream } from './params/odds'
 import { cuesOfCutout, cuesOfOrbitRing } from './params/cutout'
 import { cuesOfCodeChat, cuesOfContextWindow, cuesOfKnowledgeTimeline, cuesOfMisquote, cuesOfSignatureCard, cuesOfWebCrawl } from './params/explainer'
 import { cuesOfCommentStickers } from './params/comment-stickers'
@@ -86,6 +89,14 @@ export const CUES: Record<string, CuesOf> = {
   'code-chat': cuesOfCodeChat as CuesOf,
   'web-crawl': cuesOfWebCrawl as CuesOf,
   'misquote': cuesOfMisquote as CuesOf,
+  'token-stream': cuesOfTokenStream as CuesOf,
+  'token-odds': cuesOfTokenOdds as CuesOf,
+  'loaded-die': cuesOfLoadedDie as CuesOf,
+  'server-batch': cuesOfServerBatch as CuesOf,
+  'permission-prompt': cuesOfPermissionPrompt as CuesOf,
+  'code-file': cuesOfCodeFile as CuesOf,
+  'skill-deck': cuesOfSkillDeck as CuesOf,
+  'twin-sync': cuesOfTwinSync as CuesOf,
   'context-window': cuesOfContextWindow as CuesOf,
   cutout: cuesOfCutout as CuesOf,
   'orbit-ring': cuesOfOrbitRing as CuesOf,

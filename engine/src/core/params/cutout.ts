@@ -15,7 +15,7 @@ import { videoParams } from './video'
  * `background: blur` draws the whole clip behind, blurring in from `at` (back focus).
  */
 export const cutoutParams = videoParams.extend({
-  mode: z.enum(['person', 'clones', 'code', 'dust', 'letters', 'grid']).default('person'),
+  mode: z.enum(['person', 'clones', 'code', 'dust', 'letters', 'grid', 'layers']).default('person'),
   /** grid: local s (after `at`) the cursor clicks the middle card, and the lens opens. */
   pick: z.number().min(0.4).max(4).default(1.2),
   zoom: z.number().min(0.6).max(5).default(1.9),
@@ -27,8 +27,13 @@ export const cutoutParams = videoParams.extend({
   dur: z.number().min(0.1).max(4).default(0.8),
   /** blur: back focus (the room blurred). clean: the room without the person (for dust). */
   background: z.enum(['none', 'blur', 'clean']).default('none'),
+  /** Dolly zoom (with `background: clean`): the room scales from [0] to [1] over the scene while the person holds still. */
+  dolly: z.tuple([z.number().min(0.5).max(3), z.number().min(0.5).max(3)]).optional(),
   /** Background blur at full (px on a 1080 px frame). */
   blur: z.number().min(0).max(60).default(22),
+  /** layers: the effect names on the list pane; `lit` (0-based) is the lit one. */
+  items: z.array(oneLineAr(16, 'items[]')).min(2).max(9).default(['جريدة', 'مصباح', 'جزيئات', 'دوللي', 'طبقات', 'صوت', 'ختم']),
+  lit: z.number().int().min(0).max(8).default(4),
   /** clones: copies each side. */
   clones: z.number().int().min(1).max(4).default(2),
   /** code: the glyphs the person is drawn with (Latin). */
