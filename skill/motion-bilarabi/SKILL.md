@@ -18,9 +18,17 @@ there, ask where they put it. Its `README.md` is the install guide.
 1. **Setup once:** `mba doctor`. Fix anything marked ✗, giving the user both ways: the terminal
    command, and the sentence to paste in the Claude app's Code tab (doctor prints both).
 2. **Pick the preset** from the user's script — see `presets.md` (table + every field).
-3. **Read the motion feel** from their words: smooth / ناعم / سلس / easy ease → `"motion": "easy"`;
-   sharp / حاد / قوي / snappy / بدون ease → `"snappy"`; nothing said → `easy`. If «سريع» could mean
-   a short video rather than snappy motion, ask one question.
+3. **Style and motion (one message, before any plan):** unless their words already chose them, ask:
+   «أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر — والحركة ناعمة ولا حادة؟
+   وإذا تبي مؤثر معيّن لجملة، اكتب الجملة واسمه (القائمة كاملة بصفحة EFFECTS.md).»
+   Map the answer with `catalog.md` (style → `look`, plus the Laser pack for ٣). Motion: smooth / ناعم /
+   سلس / easy ease → `"motion": "easy"`; sharp / حاد / قوي / snappy / بدون ease → `"snappy"`; nothing
+   said → `easy`. If «سريع» could mean a short video rather than snappy motion, ask one question.
+   No answer, or «إنت اختار» → pick the style that fits the script and say which in one line.
+   **Per-sentence picks:** when the user names an effect for a sentence («الجملة ٢: شطب الكلمة»,
+   «بين القسم ١ و٢: تمزيق ورق»), look the name up in `catalog.md` and use exactly that; design
+   every other sentence yourself. If a pick breaks a rule below (text over the face, a headline
+   on an object), keep the effect and move it, and say so.
 4. **Project:** `mba project init <dir> [media...] --format 9:16` (60 fps by default; no media is
    fine for a video on a beat). It copies the user's files in — never edit their originals. Write
    `<dir>/preset.json`.
@@ -58,6 +66,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 | Need | Command / field |
 |---|---|
 | Is everything installed? | `mba doctor` |
+| An effect by its Arabic name | `catalog.md` (the user sees EFFECTS.md with previews) |
 | Build the storyboard | `mba preset <dir>` (`--script s.txt --bpm 120` without voice) |
 | Check a frame | `mba still <dir> --t 2.5,6 --out stills` |
 | Validate | `mba validate <dir>` |
