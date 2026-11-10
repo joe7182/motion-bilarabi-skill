@@ -156,7 +156,7 @@ export const REVEAL = {
 
 /**
  * Print-shop transitions: page-turn (paper sweeps over the frame the way an Arabic page turns),
- * paper-tear (paper covers the frame, then rips down a ragged seam), pen-dot-curtain (pen-dot
+ * paper-tear (the outgoing shot itself rips in two: white fibrous torn edges, the pieces fly apart over the next scene), pen-dot-curtain (pen-dot
  * diamonds spread from an ink drop and shrink away), pixel-curtain (square cells fill and clear in
  * a seeded order), ink-slab (an ink slab with an accent edge sweeps across, the new scene behind it),
  * blinds (slats open from their right ends).
