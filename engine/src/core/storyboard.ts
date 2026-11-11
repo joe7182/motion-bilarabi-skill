@@ -242,6 +242,7 @@ const cameraSchema = z.object({
   // Plan 3 Task 4: the living camera (both optional; absent = no jitter, exactly as before).
   handheld: z.object({ amp: z.number().finite().min(0).max(CAMERA.maxHandheld).default(1) }).optional(),
   shakes: z.array(z.object({ at: z.number().finite().min(0), amp: z.number().finite().min(0).max(CAMERA.maxShake) })).optional(),
+  pulses: z.array(z.object({ at: z.number().finite().min(0), amp: z.number().finite().min(0).max(0.3) })).max(256).optional(),
 })
 
 const storyboardSchema = z.object({

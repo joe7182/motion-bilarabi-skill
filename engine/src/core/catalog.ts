@@ -71,6 +71,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'laser-type', group: 'laser', ar: 'قصّ بالليزر', does: 'ليزر يقصّ العنوان، الحافة حمرة وتبرد للأبيض، وشرار', ask: 'خلّ العنوان يتقصّ بالليزر', img: 'laser-type' },
   { id: 'laser-beam', group: 'laser', ar: 'أشعة ليزر', does: 'شعاع ليزر، خطوط إرشاد، مخطط بصناديق وعلامة ✕', ask: 'خلّ شعاع ليزر يمرّ، وارسم مخطط «…» ← «…»', img: 'laser-beam' },
   { id: 'glow-words', group: 'laser', ar: 'كلمات تتوهّج', does: 'الجملة باهتة وكل كلمة تتوهّج لما تنقال', ask: 'خلّ الجملة تتوهّج كلمة كلمة', img: 'glow-words' },
+  { id: 'beat-pulse', group: 'laser', ar: 'نبضة الإيقاع', does: 'على كل ضربة: موجة دائرية، خطوط سرعة، وميض على الحواف، والكاميرا تنط ويا الضربة (`camera.pulses`)', ask: 'خلّ الفيديو ينبض ويا الإيقاع ١٢٠', img: 'beat-pulse' },
   { id: 'beat-slam', group: 'laser', ar: 'ضربات الإيقاع', does: 'على كل ضربة، الشاشة برتقالية وكلمة عملاقة', ask: 'سوّ ضربات «و · هذا · جنون» على الإيقاع', img: 'beat-slam' },
   // Person
   { id: 'cutout', group: 'person', ar: 'قصّ الشخص', does: 'يقصّك من الفيديو بحواف احترافية؛ أي شي بمسار أوطى يصير وراك', ask: 'حط العنوان وراي' },

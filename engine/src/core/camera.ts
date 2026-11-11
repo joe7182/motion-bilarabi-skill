@@ -81,6 +81,8 @@ export interface CameraSpec {
   handheld?: { amp: number }
   /** Plan 3: decaying shakes on hits; `at` absolute seconds (a word or pause anchor in the file), `amp` 0..30 px. */
   shakes?: { at: number; amp: number }[]
+  /** Beat kicks: on each `at` (absolute s) the zoom punches in by `amp` (0..0.3) and eases back (`pulseAt`). */
+  pulses?: { at: number; amp: number }[]
 }
 
 /** The camera's screen-space jitter at a time: frame px and radians (rotation about the frame centre). */
@@ -105,6 +107,8 @@ export const CAMERA = {
   handheldPeriod: 25,
   /** A shake acts over [at, at + shakeWindow) s. */
   shakeWindow: 0.7,
+  /** A beat kick acts over [at, at + pulseWindow) s. */
+  pulseWindow: 0.45,
 } as const
 
 export interface CameraPose {
@@ -122,6 +126,25 @@ const smoothstep = (u: number): number => u * u * (3 - 2 * u)
  * constant rate. Keys sharing an `at` cut: the later one holds from that time on.
  */
 export function cameraAt(c: CameraSpec, t: number): CameraPose {
+  const p = keyedAt(c, t)
+  if (!c.pulses?.length) return p
+  return { ...p, zoom: p.zoom * pulseAt(c.pulses, t) }
+}
+
+/**
+ * Beat kicks (pure): each pulse multiplies the zoom by `1 + amp·e^(−11·d)` for d = t − at in
+ * [0, CAMERA.pulseWindow), so the frame punches in on the beat and eases back before the next one.
+ */
+export function pulseAt(pulses: { at: number; amp: number }[], t: number): number {
+  let z = 1
+  for (const q of pulses) {
+    const d = t - q.at
+    if (d >= 0 && d < CAMERA.pulseWindow) z *= 1 + q.amp * Math.exp(-11 * d)
+  }
+  return z
+}
+
+function keyedAt(c: CameraSpec, t: number): CameraPose {
   const keys = c.keys
   const pose = (k: CameraKey): CameraPose => ({ x: k.x, y: k.y, zoom: k.zoom })
   const first = keys[0]

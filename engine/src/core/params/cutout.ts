@@ -31,6 +31,12 @@ export const cutoutParams = videoParams.extend({
   dolly: z.tuple([z.number().min(0.5).max(3), z.number().min(0.5).max(3)]).optional(),
   /** The room without the person (a data URL), filled in automatically from `mba matte`'s clean plate. */
   plate: z.string().optional(),
+  /**
+   * The desk line: no person below this frame fraction (fading out over `feather`), so a desk,
+   * a laptop or hands in front of the person never become part of the cut-out (or of its clones).
+   */
+  below: z.number().min(0.2).max(1).optional(),
+  feather: z.number().min(0).max(0.2).default(0.05),
   /** Background blur at full (px on a 1080 px frame). */
   blur: z.number().min(0).max(60).default(22),
   /** layers: the effect names on the list pane; `lit` (0-based) is the lit one. */

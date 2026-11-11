@@ -1,5 +1,7 @@
 import { easeInOutCubic, easeOutCubic, seg } from '../../core/ease'
 import { MOCKUP, screenMockupParams, type ScreenMockupParams } from '../../core/params/screen-mockup'
+import { videoFrameAt } from '../../core/video'
+import { frameUrl } from './video'
 import type { Primitive } from './registry'
 
 const f2 = (x: number) => x.toFixed(2)
@@ -23,7 +25,7 @@ export const screenMockup: Primitive<ScreenMockupParams> = {
     const dark = p.theme === 'dark'
     const accent = ctx.look.vars.accent
     const W = (p.size ?? (phone ? 0.6 : 0.96)) * s.w
-    const H = W * (phone ? MOCKUP.phoneAspect : MOCKUP.browserAspect)
+    const H = W * (phone ? MOCKUP.phoneAspect : (p.aspect ?? MOCKUP.browserAspect))
     const cx = s.x + s.w / 2
     const cy = s.y + p.y * s.h
     const stage = div(ctx.layer, { position: 'absolute', left: `${f2(cx - W / 2)}px`, top: `${f2(cy - H / 2)}px`, width: `${f2(W)}px`, height: `${f2(H)}px`, perspective: `${f2(2400 * k)}px` })
@@ -69,8 +71,11 @@ export const screenMockup: Primitive<ScreenMockupParams> = {
     const img = document.createElement('img')
     img.alt = ''
     img.decoding = 'sync'
-    img.src = p.image
+    // A screenshot, or the first frame of a recording (its size sets the screen's page height).
+    const frameOf = (t: number) => videoFrameAt(p, t, ctx.duration, ctx.fps)
+    img.src = p.media ? frameUrl(p.media, frameOf(0)) : p.image!
     await img.decode()
+    if (p.media) img.dataset.n = String(frameOf(0))
     const imgH = viewW * (img.naturalHeight / Math.max(1, img.naturalWidth))
     Object.assign(img.style, { position: 'absolute', left: '0', top: '0', width: `${f2(viewW)}px`, height: `${f2(imgH)}px`, maxWidth: 'none', display: 'block' })
     view.append(img)
@@ -95,8 +100,22 @@ export const screenMockup: Primitive<ScreenMockupParams> = {
     }
 
     return {
-      update(localT) {
+      async update(localT) {
         const t = Math.max(0, localT)
+        if (p.media) {
+          const n = String(frameOf(localT))
+          if (img.dataset.n !== n) {
+            delete img.dataset.n
+            const url = frameUrl(p.media, Number(n))
+            img.src = url
+            try {
+              await img.decode()
+            } catch (e) {
+              throw new Error(`تعذّر تحميل الإطار ${n} من المادة ${p.media} — screen-mockup ${p.media}: frame ${n} could not be loaded (${url}; ${e instanceof Error ? e.message : String(e)})`)
+            }
+            img.dataset.n = n
+          }
+        }
         const sy = scrollAt(t)
         img.style.transform = `translateY(${f2(-sy)}px)`
 

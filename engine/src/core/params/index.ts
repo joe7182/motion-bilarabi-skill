@@ -25,6 +25,7 @@ import { glitchTextParams, zoomCalloutParams } from './glitch'
 import { redPenParams, sketchWordsParams } from './sketch'
 import { spaceFieldParams } from './space'
 import { screenMockupParams } from './screen-mockup'
+import { beatPulseParams } from './beat'
 import { gaugeRingParams, liveTimerParams, notifyStackParams, statBarsParams } from './data-fx'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
@@ -104,6 +105,7 @@ export const PARAMS = {
   'live-timer': liveTimerParams,
   'space-field': spaceFieldParams,
   'screen-mockup': screenMockupParams,
+  'beat-pulse': beatPulseParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

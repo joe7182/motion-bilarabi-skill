@@ -12,10 +12,18 @@ import type { Cue } from '../audio-plan'
 const at = z.number().min(0)
 const unit = z.number().min(0).max(1)
 
-export const screenMockupParams = z.object({
+export const screenMockupParams = z
+  .object({
   device: z.enum(['browser', 'phone']).default('browser'),
   /** The screenshot (a project image path or a data URL): one screen, or a whole tall page to scroll. */
-  image: z.string().min(1),
+  image: z.string().min(1).optional(),
+  /**
+   * Or a screen recording: a project video (`m1`…) playing in the device, frame-exact, from media
+   * time `in` at `speed`. Focus boxes and taps are then fractions of the video frame.
+   */
+  media: z.string().min(1).optional(),
+  in: z.number().finite().min(0).default(0),
+  speed: z.number().finite().min(0.25).max(4).default(1),
   /** The address-bar text (browser), e.g. `motionbilarabi.com/start`. */
   url: z.string().max(60).optional(),
   /** Local s the device rises in. */
@@ -35,12 +43,15 @@ export const screenMockupParams = z.object({
   taps: z.array(z.object({ x: unit, y: unit, at })).max(8).default([]),
   /** Device width as a fraction of the safe width (default: browser 0.96, phone 0.6). */
   size: z.number().min(0.3).max(1).optional(),
+  /** Browser window height / width (default 1.4; a single landscape screenshot fits about 0.7). */
+  aspect: z.number().min(0.4).max(2.2).optional(),
   /** Vertical centre, fraction of the safe height. */
   y: unit.default(0.5),
   /** A slight 3D tilt that settles flat as the device lands. */
   tilt: z.boolean().default(true),
   theme: z.enum(['light', 'dark']).default('light'),
 })
+  .refine((p) => (p.image === undefined) !== (p.media === undefined), { path: ['image'], message: 'أعطِ صورة image أو تسجيل media، واحد منهم — give exactly one of image or media' })
 export type ScreenMockupParams = z.infer<typeof screenMockupParams>
 
 /** Browser window height / width, and the phone's (screen inside the bezel). */

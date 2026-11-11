@@ -130,6 +130,27 @@ export const cutout: Primitive<CutoutParams> = {
     const clean = mk()
     const fill = mk()
     const grow = mk()
+    const band = mk()
+    /**
+     * The desk in front: with `below`, the clip's own pixels under the desk line (the desk, the
+     * laptop, the hands), sharp, faded in over `feather` above the line, drawn over the person and
+     * any clones so the copies sit behind the desk instead of carrying cut-out pieces of it.
+     */
+    const drawDesk = () => {
+      if (p.below === undefined) return
+      const y1 = p.below * h
+      const y0 = Math.max(0, y1 - Math.max(1, p.feather * h))
+      band.g.clearRect(0, 0, w, h)
+      band.g.drawImage(frame.c, 0, 0)
+      band.g.globalCompositeOperation = 'destination-in'
+      const gr = band.g.createLinearGradient(0, y0, 0, y1)
+      gr.addColorStop(0, 'rgba(0,0,0,0)')
+      gr.addColorStop(1, 'rgba(0,0,0,1)')
+      band.g.fillStyle = gr
+      band.g.fillRect(0, y0, w, h - y0)
+      band.g.globalCompositeOperation = 'source-over'
+      out.drawImage(band.c, 0, 0)
+    }
     const deco = mk()
     const deco2 = mk()
     const bw = mk()
@@ -199,8 +220,13 @@ export const cutout: Primitive<CutoutParams> = {
         drawCover(person.g, matteImg, w, h, p.fit)
         const m = person.g.getImageData(0, 0, w, h)
         const f = frame.g.getImageData(0, 0, w, h)
+        // The desk line: rows below it lose the person (a soft fade over `feather`).
+        const cutY = p.below === undefined ? h : p.below * h
+        const fadeH = Math.max(1, p.feather * h)
         for (let i = 0; i < m.data.length; i += 4) {
-          f.data[i + 3] = EDGE[m.data[i]!]!
+          const y = (i >> 2) / w
+          const keep = y < cutY ? 1 : Math.max(0, 1 - (y - cutY) / fadeH)
+          f.data[i + 3] = keep >= 1 ? EDGE[m.data[i]!]! : EDGE[m.data[i]!]! * keep
         }
         person.g.putImageData(f, 0, 0)
         // Colour decontamination: a see-through edge pixel still carries the room's colour (a light
@@ -313,6 +339,7 @@ export const cutout: Primitive<CutoutParams> = {
           out.filter = `drop-shadow(0 ${(12 * k).toFixed(1)}px ${(18 * k).toFixed(1)}px rgba(0,0,0,0.4))`
           out.drawImage(person.c, 0, 0)
           out.restore()
+          drawDesk()
         } else if (p.mode === 'code') {
           // The whole frame turns into code. Above a scan line sweeping down, every cell becomes a
           // character of a code listing: the room in faint grey-green lines, the person in their own
@@ -552,7 +579,10 @@ export const cutout: Primitive<CutoutParams> = {
             }
           }
           out.globalAlpha = 1
-        } else out.drawImage(person.c, 0, 0)
+        } else {
+          out.drawImage(person.c, 0, 0)
+          drawDesk()
+        }
       },
     }
   },

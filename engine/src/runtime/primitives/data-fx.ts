@@ -103,7 +103,7 @@ export const statBars: Primitive<StatBarsParams> = {
     const title = p.title ? div(box, { fontWeight: '900', fontSize: `${f2(72 * k)}px`, marginBottom: `${f2(44 * k)}px`, lineHeight: '1.3' }, p.title) : null
     const rows = p.rows.map((r) => {
       const row = div(box, { display: 'flex', alignItems: 'center', gap: `${f2(24 * k)}px`, margin: `${f2(26 * k)}px 0` })
-      const label = div(row, { width: '28%', flex: 'none', fontWeight: '800', fontSize: `${f2(54 * k)}px`, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: r.hero ? accent : fg })
+      const label = div(row, { width: '44%', flex: 'none', fontWeight: '800', fontSize: `${f2(52 * k)}px`, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: r.hero ? accent : fg })
       label.textContent = r.label
       const track = div(row, { flex: '1', height: `${f2(80 * k)}px`, position: 'relative', borderRadius: `${f2(14 * k)}px`, background: 'color-mix(in srgb, currentColor 8%, transparent)' })
       const bar = div(track, { position: 'absolute', right: '0px', top: '0px', bottom: '0px', width: '0%', borderRadius: `${f2(14 * k)}px`, background: r.hero ? accent : fg, opacity: r.hero ? '1' : '0.86' })

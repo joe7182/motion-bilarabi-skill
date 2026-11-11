@@ -68,6 +68,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | قصّ بالليزر | scene `"type": "laser-type"` | خلّ العنوان يتقصّ بالليزر |
 | أشعة ليزر | scene `"type": "laser-beam"` | خلّ شعاع ليزر يمرّ، وارسم مخطط «…» ← «…» |
 | كلمات تتوهّج | scene `"type": "glow-words"` | خلّ الجملة تتوهّج كلمة كلمة |
+| نبضة الإيقاع | scene `"type": "beat-pulse"` | خلّ الفيديو ينبض ويا الإيقاع ١٢٠ |
 | ضربات الإيقاع | scene `"type": "beat-slam"` | سوّ ضربات «و · هذا · جنون» على الإيقاع |
 
 ## مؤثرات على شخصك — Effects on you (needs a clip + mba matte)

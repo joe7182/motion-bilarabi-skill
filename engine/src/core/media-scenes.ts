@@ -2,6 +2,7 @@ import { screenClipFrameAt, screenClipLastFrame, screenClipParams } from './para
 import { videoParams } from './params/video'
 import { cutoutParams } from './params/cutout'
 import { zoomCalloutParams } from './params/glitch'
+import { screenMockupParams } from './params/screen-mockup'
 import { videoFrameAt, videoLastFrame } from './video'
 
 /**
@@ -9,7 +10,7 @@ import { videoFrameAt, videoLastFrame } from './video'
  * Stage 1B's `screen-clip`. The Node side (frame extraction, project checks, job hash) treats both
  * the same through `mediaSceneOf`, so a new frame-drawing type is added here once.
  */
-export const MEDIA_SCENE_TYPES: ReadonlySet<string> = new Set(['video', 'screen-clip', 'cutout', 'zoom-callout'])
+export const MEDIA_SCENE_TYPES: ReadonlySet<string> = new Set(['video', 'screen-clip', 'cutout', 'zoom-callout', 'screen-mockup'])
 
 export interface MediaScene {
   media: string
@@ -35,6 +36,13 @@ export function mediaSceneOf(sc: { type: string; params: unknown }): MediaScene 
       frameAt: (t, len, fps) => videoFrameAt(p, t, len, fps),
       lastFrame: (len, fps) => videoLastFrame(p, len, fps),
     }
+  }
+  if (sc.type === 'screen-mockup') {
+    // Only a recording-in-the-device mockup draws media frames; a screenshot one is a plain scene.
+    const p = screenMockupParams.parse(sc.params)
+    if (p.media === undefined) return undefined
+    const v = { in: p.in, speed: p.speed }
+    return { media: p.media, in: p.in, speed: p.speed, still: false, frameAt: (t, len, fps) => videoFrameAt(v, t, len, fps), lastFrame: (len, fps) => videoLastFrame(v, len, fps) }
   }
   if (sc.type === 'screen-clip') {
     const p = screenClipParams.parse(sc.params)
