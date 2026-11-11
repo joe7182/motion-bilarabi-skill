@@ -3,7 +3,7 @@
 Every part has `say`: the phrase it is spoken on (first match after the previous part). Optional on
 every part: `text` (headline, ≤ 4 words; default: the phrase), `box` (the one word in the red box),
 `show` (what sits under the headline), `rec: true` (a camera REC frame over the part).
-Every preset also takes `look`, `"motion": "easy" | "snappy"` and `"beat": { "bpm": 120 }`.
+Every preset also takes `"pack"` (the style: `signature-cream`, `dark-tech`, `cinematic-laser`, `swiss-red` — it sets the look, layout, marks, transitions and motion feel; see «Style packs» in SKILL.md), `look` (only without a pack), `"motion": "easy" | "snappy"` (leave it out to use the pack's feel) and `"beat": { "bpm": 120 }`.
 
 ## Which preset
 | # | `preset` | Script shape | Default look |

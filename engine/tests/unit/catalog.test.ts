@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { CATALOG, isInternal, STYLES } from '../../src/core/catalog'
+import { PACKS, packList } from '../../src/packs/index'
 import { effectsMd, skillCatalogMd } from '../../src/core/catalog-docs'
 import { ARABIC_MOVES } from '../../src/core/params/arabic-move'
 import { TRANSITION_IDS } from '../../src/core/params/transitions'
@@ -37,6 +38,11 @@ describe('effects catalog', () => {
     for (const name of used) expect(existsSync(resolve(effectsDir, `${name}.jpg`)), String(name)).toBe(true)
     const files = readdirSync(effectsDir).map((f) => f.replace(/\.jpg$/, ''))
     expect(files.filter((f) => !used.has(f))).toEqual([])
+  })
+
+  it('the style menu is the packs, in order', () => {
+    expect(STYLES.map((s) => s.id)).toEqual(packList().map((p) => p.id))
+    for (const s of STYLES) expect(s.look).toBe(PACKS[s.id as keyof typeof PACKS].look)
   })
 
   it('styles use real looks and scene types', () => {

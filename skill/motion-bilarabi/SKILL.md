@@ -21,9 +21,9 @@ there, ask where they put it. Its `README.md` is the install guide.
 3. **Style and motion (one message, before any plan):** unless their words already chose them, ask:
    «أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر — والحركة ناعمة ولا حادة؟
    وإذا تبي مؤثر معيّن لجملة، اكتب الجملة واسمه (القائمة كاملة بصفحة EFFECTS.md).»
-   Map the answer with `catalog.md` (style → `look`, plus the Laser pack for ٣). Motion: smooth / ناعم /
+   The style is a **pack**: write its id from `catalog.md` as `"pack"` in `preset.json` (see «Style packs» below). Motion: smooth / ناعم /
    سلس / easy ease → `"motion": "easy"`; sharp / حاد / قوي / snappy / بدون ease → `"snappy"`; nothing
-   said → `easy`. If «سريع» could mean a short video rather than snappy motion, ask one question.
+   said → leave `motion` out (the pack's own feel applies). If «سريع» could mean a short video rather than snappy motion, ask one question.
    No answer, or «إنت اختار» → pick the style that fits the script and say which in one line.
    **Per-sentence picks:** when the user names an effect for a sentence («الجملة ٢: شطب الكلمة»,
    «بين القسم ١ و٢: تمزيق ورق»), look the name up in `catalog.md` and use exactly that; design
@@ -164,6 +164,22 @@ Before designing a sentence by hand, ask the library: `mba recommend <dir> --fro
 - A song from Instagram's library can't be embedded: render silent, and also make a preview with a click track at the same BPM (ffmpeg `aevalsrc` sine clicks, higher pitch on each bar) so the person can judge the sync; they add the song in Instagram starting on a downbeat. Ask for a clip of the song to measure its tempo; if they can't, guess (epic/choir edits ≈ 120) and say so.
 - Person effects on a talking clip at a desk: give `cutout` a desk line (`"below": 0.6`, `"feather": 0.1`, frame fraction) — the desk and laptop stay real and sharp in front, and clones stand behind the desk instead of carrying cut-out pieces of it.
 - Screen recordings: `screen-mockup` with `"media": "m1", "in": <s>, "speed": 1` plays a recording inside the phone or browser (focus boxes and taps are fractions of the video frame).
+
+## Style packs
+A pack is one complete art direction. One choice sets the look, where the headline sits and which edge it hugs, how the key word is marked, the background, the frame marks, the transitions and the motion feel — so the video is coherent without picking effects one by one.
+- **Preset videos:** `"pack": "<id>"` in `preset.json`, then `mba preset`. Do not also add backgrounds, transitions or marks by hand.
+- **A storyboard you wrote yourself** (explainers, beat stories, concepts from `mba recommend`): `mba dress <dir or storyboard.json> --pack <id or number>`. It fills only what the storyboard left open (look, a headline's edge and entrance, background where track 0 is empty, a transition on cuts that have none, frame marks, motion blur) and never moves or retypes a scene; running it twice changes nothing. `mba recommend … --pack <id>` gives concept scenes already in the pack.
+- **The person's pick always wins.** An effect or transition they name stays, even when it is from another look; `mba validate` prints style notes as advice only. `"motion"` set by the person overrides the pack's feel.
+- **Which pack when nobody chose:** `signature-cream` for stories, tips and personal topics; `dark-tech` for tools, code and tutorials; `cinematic-laser` for hype, launches and beat videos; `swiss-red` for lists, numbers and business advice. Say which you picked in one line.
+
+| `pack` | Headline | Key word | Marks | Transitions |
+|---|---|---|---|---|
+| `signature-cream` | centred, upper third | orange box | chapter bar | paper tear, page turn, flood |
+| `dark-tech` | flush right, under a code tag | drawn underline | tag + corner ticks | glitch cut, pixel curtain, blade slice |
+| `cinematic-laser` | centred; a headline alone is laser-cut | accent colour | chapter bar | flood, iris, whip pan |
+| `swiss-red` | large, flush right | one red word | rules + section number | colour wipe, ink slab, blinds |
+
+`frame-marks` (`tag{text, corner, mono}`, `rules[{y, from, to, at}]`, `ticks`, `number{value, corner}`, `alpha`) is the pack furniture on the edges of the safe area; put it on a fixed track. `kinetic-text` takes `"align": "right" | "left"` and a word takes `"underline": true`.
 
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).

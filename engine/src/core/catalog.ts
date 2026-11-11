@@ -1,3 +1,4 @@
+import { packList } from '../packs/index'
 /**
  * The effects catalog: every scene type, its modes and every transition, with the Arabic name people
  * use, what it does, and a sentence to ask Claude. `scripts/catalog.ts` writes EFFECTS.md (with the
@@ -180,23 +181,23 @@ export const CATALOG: CatalogEntry[] = [
 
 export interface CatalogStyle {
   n: number
+  /** The style pack (src/packs): what goes in `"pack"`. */
+  id: string
   ar: string
   en: string
   look: string
   does: string
   ask: string
   img?: string
-  /** Extra scene types this style puts in (beyond the look). */
+  /** The scene types the pack brings (its background, marks, headline and key sentence), beyond the look. */
   with?: string[]
 }
 
-/** The style menu the skill offers before the storyboard: one look for the whole video. */
-export const STYLES: CatalogStyle[] = [
-  { n: 1, ar: 'كريمي توقيع', en: 'Signature cream', look: 'signature', does: 'ورق كريمي، حبر أسود، كلمة بصندوق برتقالي؛ رسومات تبني نفسها', ask: 'خلّ الستايل كريمي', img: 'heavy-word' },
-  { n: 2, ar: 'داكن تقني', en: 'Dark tech', look: 'dark-tech', does: 'خلفية فحمية وكتابة فاتحة وبرتقالي؛ للشروحات التقنية', ask: 'خلّ الستايل داكن', img: 'counter' },
-  { n: 3, ar: 'ليزر سينمائي', en: 'Cinematic laser', look: 'dark-tech', with: ['tech-grid', 'laser-type', 'glow-words', 'laser-beam', 'beat-slam'], does: 'شبكة داكنة، عنوان يتقصّ بالليزر، كلمات تتوهّج، ضربات على الإيقاع', ask: 'خلّ الستايل ليزر سينمائي', img: 'laser-type' },
-  { n: 4, ar: 'سويسري أحمر', en: 'Swiss red', look: 'swiss-red', does: 'أبيض مطفي، أسود، وكلمة حمرة وحدة بكل سطر؛ نظيف ومسطّح', ask: 'خلّ الستايل سويسري أحمر' },
-]
+/** The style menu the skill offers before the storyboard: one pack for the whole video (from src/packs). */
+export const STYLES: CatalogStyle[] = packList().map((p) => {
+  const brings = [...new Set([...p.background.map((b) => b.type), ...(p.marks ? ['frame-marks'] : []), p.roles.headline.type, p.roles.keySentence.type])].filter((t) => t !== 'backdrop' && t !== 'kinetic-text')
+  return { n: p.n, id: p.id, ar: p.ar, en: p.en, look: p.look, does: p.does, ask: p.ask, ...(p.img ? { img: p.img } : {}), ...(brings.length ? { with: brings } : {}) }
+})
 
 /** Scene types left out of the catalog: ids starting with `_` are internal/test-only. */
 export const isInternal = (id: string) => id.startsWith('_')

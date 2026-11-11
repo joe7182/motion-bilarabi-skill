@@ -5,20 +5,22 @@ People pick effects by their Arabic name (the GitHub page EFFECTS.md shows them 
 Match the name loosely (spelling, dialect, English); if two entries fit, ask one short question.
 A sentence the user did not assign is yours to design, following the rules in SKILL.md.
 
+**The style is a pack:** put `"pack": "<id>"` in `preset.json` — it sets the look, where the headline sits, the key-word mark,
+the background, the frame marks, the transitions and the motion feel. Nothing else to add by hand.
+
 **Where picks go:** `mba preset` writes `edit.json` from `preset.json` and overwrites it each run. Make every
 `preset.json` change first, run `mba preset` once, then put the picks into `edit.json`: replace that
 sentence's scene (same start and length, its words timed from `transcript.json`), add a transition
-between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole video, headlines as
-`laser-type`, the key sentence as `glow-words`. Then `mba validate`. Re-running `mba preset` drops the picks.
+between two scenes. Then `mba validate` (style notes are advice; the person's pick stands). Re-running `mba preset` drops the picks.
 
 ## Style menu (ask before the storyboard)
 
-| # | Name | Look | Adds |
-|---|---|---|---|
-| 1 | كريمي توقيع · Signature cream | `signature` | — |
-| 2 | داكن تقني · Dark tech | `dark-tech` | — |
-| 3 | ليزر سينمائي · Cinematic laser | `dark-tech` | `tech-grid`, `laser-type`, `glow-words`, `laser-beam`, `beat-slam` |
-| 4 | سويسري أحمر · Swiss red | `swiss-red` | — |
+| # | Name | `pack` | Look | Brings |
+|---|---|---|---|---|
+| 1 | كريمي توقيع · Signature cream | `signature-cream` | `signature` | `heavy-word` |
+| 2 | داكن تقني · Dark tech | `dark-tech` | `dark-tech` | `tech-grid`, `frame-marks`, `glitch-text` |
+| 3 | ليزر سينمائي · Cinematic laser | `cinematic-laser` | `dark-tech` | `tech-grid`, `laser-type`, `glow-words` |
+| 4 | سويسري أحمر · Swiss red | `swiss-red` | `swiss-red` | `frame-marks`, `editorial-type` |
 
 ## حركات النص — Text animation
 
