@@ -67,6 +67,7 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
+  mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3]   (the best concepts for a sentence, with ready scenes)
   mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]   (a web page screenshot for a screen-mockup: desktop browser or phone)
   mba plate <projectDir> <mediaId> <photo-or-clip>   (optional: the empty scene from the same camera spot, for professional blow-away, clones, dolly, back focus)
   mba transcribe <projectDir> [--media m1]
@@ -113,6 +114,10 @@ async function main(argv: string[]): Promise<number> {
         mobile: { type: 'boolean' },
         full: { type: 'boolean' },
         wait: { type: 'string' },
+        from: { type: 'string' },
+        to: { type: 'string' },
+        seconds: { type: 'string' },
+        top: { type: 'string' },
         brief: { type: 'string' },
         preset: { type: 'string' },
         script: { type: 'string' },
@@ -148,6 +153,14 @@ async function main(argv: string[]): Promise<number> {
     if (!dir || !id) usage('الاستخدام: mba matte <projectDir> <mediaId> [--model file] — Usage: mba matte <projectDir> <mediaId> [--model file]')
     const out = await makeMatte(dir!, id!, (values.model as string | undefined) ?? undefined, (l) => process.stderr.write(l + '\n'))
     process.stdout.write(`قناع الشخص جاهز — Person matte written: ${out}\n`)
+    return 0
+  }
+  if (command === 'recommend') {
+    const target = positionals[1]
+    if (!target) usage('الاستخدام: mba recommend <projectDir> --from s --to s | mba recommend "جملة" [--seconds s] — Usage: mba recommend <projectDir> --from s --to s, or a sentence')
+    const { recommendCommand } = await import('./node/recommend')
+    const num = (v: unknown) => (v === undefined ? undefined : Number(v))
+    process.stdout.write(recommendCommand(target!, { from: num(values.from), to: num(values.to), seconds: num(values.seconds), top: num(values.top) }) + '\n')
     return 0
   }
   if (command === 'shot') {
