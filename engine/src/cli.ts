@@ -67,7 +67,8 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
-  mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3]   (the best concepts for a sentence, with ready scenes)
+  mba dress <storyboard.json | projectDir> --pack <id|number> [--out file]   (put a style pack on a storyboard; fills only what it left open)
+  mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3] [--pack id]   (the best concepts for a sentence, with ready scenes)
   mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]   (a web page screenshot for a screen-mockup: desktop browser or phone)
   mba plate <projectDir> <mediaId> <photo-or-clip>   (optional: the empty scene from the same camera spot, for professional blow-away, clones, dolly, back focus)
   mba transcribe <projectDir> [--media m1]
@@ -118,6 +119,7 @@ async function main(argv: string[]): Promise<number> {
         to: { type: 'string' },
         seconds: { type: 'string' },
         top: { type: 'string' },
+        pack: { type: 'string' },
         brief: { type: 'string' },
         preset: { type: 'string' },
         script: { type: 'string' },
@@ -160,7 +162,16 @@ async function main(argv: string[]): Promise<number> {
     if (!target) usage('الاستخدام: mba recommend <projectDir> --from s --to s | mba recommend "جملة" [--seconds s] — Usage: mba recommend <projectDir> --from s --to s, or a sentence')
     const { recommendCommand } = await import('./node/recommend')
     const num = (v: unknown) => (v === undefined ? undefined : Number(v))
-    process.stdout.write(recommendCommand(target!, { from: num(values.from), to: num(values.to), seconds: num(values.seconds), top: num(values.top) }) + '\n')
+    process.stdout.write(recommendCommand(target!, { from: num(values.from), to: num(values.to), seconds: num(values.seconds), top: num(values.top), pack: values.pack as string | undefined }) + '\n')
+    return 0
+  }
+  if (command === 'dress') {
+    const target = positionals[1]
+    if (!target || !values.pack) usage('الاستخدام: mba dress <storyboard.json | projectDir> --pack <اسم أو رقم> [--out file] — Usage: mba dress <storyboard.json | projectDir> --pack <id or number> [--out file]')
+    const { dressCommand } = await import('./node/dress')
+    const r = dressCommand(target!, { pack: values.pack as string, out: values.out as string | undefined })
+    const body = r.changes.length ? `${r.changes.map((c) => `  + ${c}`).join('\n')}\nكُتب — written: ${r.file}` : 'ما في شي يتغيّر — nothing to change'
+    process.stdout.write(`الستايل — pack: ${r.pack}\n${body}\n`)
     return 0
   }
   if (command === 'shot') {

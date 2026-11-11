@@ -1,3 +1,5 @@
+import { dressScene } from '../packs/dress'
+import type { Pack } from '../packs/schema'
 /**
  * The concept library (Plan 4 v2, Wave A): finished ideas a sentence can become. Each concept reads
  * the sentence (its words and, when known, their times), says how well it fits (`score`, with a
@@ -215,7 +217,7 @@ export interface Recommendation {
 }
 
 /** Ranked concepts for a sentence (best first), each with its scenes built on the sentence's words. */
-export function recommend(s: Sentence, top = 3): Recommendation[] {
+export function recommend(s: Sentence, top = 3, pack?: Pack): Recommendation[] {
   const f = featuresOf(s)
   const len = s.end - s.start
   return CONCEPTS.map((c) => {
@@ -226,7 +228,7 @@ export function recommend(s: Sentence, top = 3): Recommendation[] {
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, top)
-    .map((x) => ({ id: x.c.id, ar: x.c.ar, score: +x.score.toFixed(2), why: x.why, scenes: x.c.build(s, x.c.id) }))
+    .map((x) => ({ id: x.c.id, ar: x.c.ar, score: +x.score.toFixed(2), why: x.why, scenes: x.c.build(s, x.c.id).map((sc) => (pack ? dressScene(sc, pack) : sc)) }))
 }
 
 /** A sentence from plain text spread over [start, end] (no word times): even spacing. */

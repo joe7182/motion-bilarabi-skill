@@ -1,13 +1,14 @@
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { recommend, sentenceOf, type Sentence } from '../library/concepts'
+import { getPack } from '../packs/index'
 
 /**
  * `mba recommend <projectDir> --from s --to s` or `mba recommend "<sentence>" [--seconds s]`:
  * the best concepts for a sentence, with reasons and ready scenes timed to its words (from the
  * project's transcript.json when a project is given).
  */
-export function recommendCommand(target: string, o: { from?: number; to?: number; seconds?: number; top?: number }): string {
+export function recommendCommand(target: string, o: { from?: number; to?: number; seconds?: number; top?: number; pack?: string }): string {
   let s: Sentence
   if (existsSync(target) && statSync(target).isDirectory()) {
     const tf = join(target, 'transcript.json')
@@ -21,7 +22,7 @@ export function recommendCommand(target: string, o: { from?: number; to?: number
     const seconds = o.seconds ?? Math.max(1.5, target.trim().split(/\s+/).length * 0.42)
     s = sentenceOf(target, 0, seconds)
   }
-  const recs = recommend(s, o.top ?? 3)
+  const recs = recommend(s, o.top ?? 3, o.pack ? getPack(o.pack) : undefined)
   const lines = [`«${s.text}» — ${(s.end - s.start).toFixed(2)} s`]
   if (recs.length === 0) lines.push('ما لقيت فكرة مناسبة — no concept fits; design this sentence by hand')
   recs.forEach((r, i) => {
