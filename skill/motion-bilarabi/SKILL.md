@@ -67,6 +67,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 |---|---|
 | Is everything installed? | `mba doctor` |
 | An effect by its Arabic name | `catalog.md` (the user sees EFFECTS.md with previews) |
+| Ideas for a sentence | `mba recommend <dir> --from s --to s` (ready scenes timed to the words) |
 | A web page or app screen | the user's screenshot, or `mba shot <url> img/x.jpg --full [--mobile]`, in a `screen-mockup` |
 | Build the storyboard | `mba preset <dir>` (`--script s.txt --bpm 120` without voice) |
 | Check a frame | `mba still <dir> --t 2.5,6 --out stills` |
@@ -144,6 +145,25 @@ Every idea lives in one world; the camera flies from one to the next and each on
 - `screen-mockup` (`device: browser|phone`, `image`, `url`, `at`, `scroll[{at, y, dur}]`, `focus[{x, y, w, h, at, out, zoom, label}]`, `taps[{x, y, at}]`, `size`, `y`, `tilt`, `theme`) — a real screenshot in a browser window (address bar with `url`) or a phone (island, status bar). `scroll` y is 0 (top) … 1 (bottom) of a tall screenshot; `focus` and `taps` are fractions of the whole image (x, w of its width; y, h of its full height), read them off the screenshot; a focus dims the rest, outlines the box, zooms the device onto it and can carry a label; taps glide a cursor (browser) or show a fingertip (phone) with a ripple.
 - **Reference images first.** When a sentence talks about a website, an app, a tool or a page, the visual is the real screen. Ask the user for screenshots or screen recordings (their own site, app, dashboard): «عندك لقطة شاشة للصفحة؟ أرسلها، أو أعطني الرابط وأصوّرها». Put them in the project folder (e.g. `img/`) and use the path.
 - No screenshot but a public link: capture it — `mba shot <url> img/site.jpg --full` (desktop page, scrolled so everything loads; `--mobile` for a phone-sized page; `--wait 1500` for slow pages). Only public pages: never sign in, never capture private or paid content. Prefer the user's own sites; for someone else's site, say which page you captured and ask before publishing. Look at the screenshot yourself before using it (blank sections, banners, anything personal).
+
+## Concepts: let the engine suggest (`mba recommend`)
+Before designing a sentence by hand, ask the library: `mba recommend <dir> --from <s> --to <s>` (the sentence's span in `transcript.json`) or `mba recommend "<sentence>" --seconds 3`. It prints the best concepts (karaoke ball, growth graph, before/after slider, one-to-many, shortlist funnel, strike-and-replace, UI chain, object chain, question pulse) with a reason and **ready scenes timed to the words** — paste them into `edit.json`, then adjust the words and labels. Use it as a first draft, never as the final word: two sentences in a row never use the same concept, and every sentence still needs a meaningful visual (rules above).
+
+## Physics and interface moments
+- `bounce-ball` (`words[{text, at, key}]` or `targets[{x, y, at}]` or `drop{x, y, at, bounce}`, `size`, `colour`, `look: glossy|flat`, `arc`, `trail`, `y`, `fontSize`, `out`) — a ball with real bounce physics: it drops in and hops onto each word as it is said (word dips, key word lights in the accent), squashes on landings, stretches in flight, casts a shadow; `targets` land it on objects of other scenes; `drop` falls onto a spot and settles with decaying bounces. Long lines shrink to fit.
+- `ui-morph` (`states[{kind: button|loader|check|toggle|slider|tabs|chart|toast|island, at, label, value}]`, `cursor`, `x`, `y`, `scale`) — one shape becomes each interface piece on springs; contents swap under a blur; a cursor clicks to cause each change. Put a state change on each beat or key word.
+- `spring-graph` (`values`, `at`, `step`, `callout`, `from`, `to`, `y`, `height`, `width`) — the hero dot springs point to point (right to left) drawing the line, the callout («+٢٢٪») pops on the last point.
+- `halftone-field` (`path[{x, y, at}]`, `hero`, `cell`, `reach`, `wipe{at, dur, colour}`, `alpha`) — a dot grid that swells around a moving hero dot; the wipe floods the frame with dots and opens the next scene (put the next scene's start inside the covered moment).
+- `before-after` (`before{image|text, label, filter}`, `after{…}`, `at`, `dur`, `from`, `to`, `y`, `width`, `aspect`) — two states under one divider; a hand drags it and the after-state comes in from the right. One screenshot with `before.filter: "grayscale(1) brightness(0.75)"` makes a quick before/after.
+- `fan-cards` (`input`, `outputs[{title, icon}]` 2–8, `at`, `stagger`, `y`) — one input card fans out into result cards along drawn curves.
+- `funnel` (`items[{text, keep}]`, `label`, `result`, `at`, `dur`, `y`) — candidates pour in; kept ones pass the neck and line up, the rest are struck and thrown out.
+
+## Beat stories (cut to music)
+- No voice: lay every scene on a beat grid — `const b = (n) => n * 60 / BPM` — one change per beat or every other beat, a bigger hit on each bar (every 4 beats).
+- `beat-pulse` (`bpm`, `from`, `count`, `accent`, or `at[]`; `kinds: ring|lines|edge`, `colour`, `strength`, `x`, `y`) on a top track: shockwave rings, speed lines and an edge flash on each beat. Pair it with camera kicks: `"camera": {"keys": [{"at": 0, "zoom": 1}], "pulses": [{"at": <beat s>, "amp": 0.035–0.09}], "shakes": [...]}` (bars stronger than beats).
+- A song from Instagram's library can't be embedded: render silent, and also make a preview with a click track at the same BPM (ffmpeg `aevalsrc` sine clicks, higher pitch on each bar) so the person can judge the sync; they add the song in Instagram starting on a downbeat. Ask for a clip of the song to measure its tempo; if they can't, guess (epic/choir edits ≈ 120) and say so.
+- Person effects on a talking clip at a desk: give `cutout` a desk line (`"below": 0.6`, `"feather": 0.1`, frame fraction) — the desk and laptop stay real and sharp in front, and clones stand behind the desk instead of carrying cut-out pieces of it.
+- Screen recordings: `screen-mockup` with `"media": "m1", "in": <s>, "speed": 1` plays a recording inside the phone or browser (focus boxes and taps are fractions of the video frame).
 
 ## Laser pack (dark cinematic tech look)
 Use when the user asks for a tech / cinematic / dark / glowing style (or «ليزر», «تقني», «سينمائي»).
