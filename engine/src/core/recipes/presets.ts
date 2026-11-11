@@ -2,6 +2,8 @@ import { z } from 'zod'
 import { OBJECT_IDS } from '../objects'
 import { LOOK_IDS } from '../storyboard'
 import { PACK_IDS } from '../pack-ids'
+import { PACKS } from '../../packs/index'
+import { dressPreset } from '../../packs/preset'
 import { isStretchable, splitWords } from '../text'
 import { normalizeAr, type Transcript } from '../transcript'
 import { lettersOf } from '../params/letters-join'
@@ -153,7 +155,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -173,7 +175,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -191,7 +193,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -210,7 +212,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -228,7 +230,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -247,7 +249,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -263,7 +265,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -279,7 +281,7 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The music's beat: show events and the badge snap to it (offset + n · 60 / bpm). */
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
     /** `easy`: easy ease, eased in and out (default); `snappy`: fast start, soft stop (ease-out). See EASE_WORDS. */
-    motion: z.enum(['easy', 'snappy']).default('easy'),
+    motion: z.enum(['easy', 'snappy']).optional(),
     /** Captions of the spoken words (absent: none): the skin and presentation. */
     captions: z.object({ skin: z.enum(CAPTION_SKINS).default('spoken-box'), presentation: z.enum(['pill', 'minimal', 'strip']).default('pill'), y: z.number().min(0.5).max(0.9).optional() }).optional(),
   }),
@@ -815,7 +817,10 @@ export function presetStoryboard(i: PresetInput): Record<string, unknown> {
   const tr = i.transcript
   if (tr.words.length === 0) throw new Error('التفريغ فارغ — the transcript has no words')
   const secs = sectionsOf(tr, partsOf(p))
-  return {
+  const pack = p.pack ? PACKS[p.pack] : undefined
+  // The person's choice first, then the pack's feel, then easy ease.
+  const motion = p.motion ?? pack?.motion.ease ?? 'easy'
+  const classic = {
     version: 1,
     format: '9:16',
     fps: i.fps,
@@ -825,6 +830,7 @@ export function presetStoryboard(i: PresetInput): Record<string, unknown> {
     autoSfx: false,
     camera: { fixedTracks: [5], keys: [{ at: 0, x: 0.5, y: 0.5, zoom: 1 }] },
     ...(tr.media === 'beat' ? {} : { audio: [{ kind: 'voice', media: tr.media }] }),
-    scenes: [...secs.flatMap((s) => sectionScenes(tr, s, p.beat)), ...extrasOf(p, secs), ...captionScenes(p, tr, secs)].map((sc) => (EASED.has(sc.type as string) ? { ...sc, params: { ...(sc.params as object), ease: p.motion === 'easy' ? 'easy' : 'out' } } : sc)),
+    scenes: [...secs.flatMap((s) => sectionScenes(tr, s, p.beat)), ...extrasOf(p, secs), ...captionScenes(p, tr, secs)].map((sc) => (EASED.has(sc.type as string) ? { ...sc, params: { ...(sc.params as object), ease: motion === 'easy' ? 'easy' : 'out' } } : sc)),
   }
+  return pack ? dressPreset(classic, secs, pack, { beat: p.beat ? { bpm: p.beat.bpm, offset: p.beat.offset } : undefined }) : classic
 }

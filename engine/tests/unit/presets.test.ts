@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { findPhrase, parsePreset, presetStoryboard } from '../../src/core/recipes/presets'
 import { parseStoryboard } from '../../src/core/storyboard'
+import { PACK_IDS } from '../../src/core/pack-ids'
+import { PACKS } from '../../src/packs/index'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
 import { validateSceneParams } from '../../src/core/params'
 
@@ -173,5 +175,68 @@ describe('presets without a pack', () => {
     }
     if (!existsSync(file)) writeFileSync(file, JSON.stringify(now, null, 1))
     expect(JSON.parse(JSON.stringify(now))).toEqual(JSON.parse(readFileSync(file, 'utf8')))
+  })
+})
+
+describe('presets with a pack', () => {
+  type Sc = { id: string; type: string; track?: number; start: number; duration: number; params: Record<string, unknown> }
+  type Sb = { scenes: Sc[]; transitions?: { type: string; at: number; duration: number; track: number }[]; look: string; pack?: string; motionBlur?: unknown; camera: { pulses?: unknown[]; fixedTracks: number[] } }
+  const build = (over: Record<string, unknown>) => presetStoryboard({ preset: parsePreset({ ...preset, ...over }), transcript: tr as never, fps: 60, seed: 1 }) as unknown as Sb
+  const head = (sb: Sb, id: string) => sb.scenes.find((s) => s.id === id)!
+  it('each pack gives a valid storyboard that carries the pack and its look', () => {
+    for (const id of PACK_IDS) {
+      const sb = build({ pack: id })
+      validateSceneParams(parseStoryboard(sb, PRIMITIVE_IDS))
+      expect(sb.pack).toBe(id)
+      expect(sb.look).toBe(PACKS[id].look)
+    }
+  })
+  it('packs place and mark the headline differently', () => {
+    const sig = [...PACK_IDS].map((id) => {
+      const h = head(build({ pack: id }), 'item1-h')
+      const boxed = (h.params.words as Record<string, unknown>[]).find((w) => w.box || w.underline || w.color)!
+      return [h.params.y, h.params.align, h.params.enter, boxed.box ? 'box' : boxed.underline ? 'underline' : 'colour'].join('|')
+    })
+    expect(new Set(sig).size).toBe(sig.length)
+  })
+  it('the laser pack cuts a headline that stands alone with the laser', () => {
+    const h = head(build({ pack: 'cinematic-laser' }), 'hook-h')
+    expect(h.type).toBe('laser-type')
+    expect(h.params.accent).toEqual(['احترافي'])
+  })
+  it('section cuts carry the pack transitions, never longer than the room, never overlapping', () => {
+    const sb = build({ pack: 'swiss-red' })
+    expect(sb.transitions!.length).toBeGreaterThanOrEqual(3)
+    expect(sb.transitions![0]!.type).toBe('ink-slab')
+    expect(sb.transitions!.some((t) => t.type === 'color-wipe')).toBe(true)
+    for (const t of sb.transitions!) expect(t.duration).toBeGreaterThanOrEqual(0.2)
+    expect(build({ pack: 'signature-cream' }).transitions!.every((t) => t.type !== 'morph')).toBe(true)
+  })
+  it('marks replace the chapter bar and count the sections', () => {
+    const sb = build({ pack: 'dark-tech' })
+    expect(sb.scenes.some((s) => s.type === 'chapter-bar')).toBe(false)
+    const marks = sb.scenes.filter((s) => s.type === 'frame-marks')
+    expect(marks.map((m) => (m.params.tag as { text: string }).text.slice(0, 2))).toEqual(['01', '02', '03', '04', '05'])
+    expect(sb.camera.fixedTracks).toContain(1)
+    expect(sb.scenes.filter((s) => s.type === 'backdrop')).toEqual([])
+    expect(sb.scenes[0]!.type).toBe('tech-grid')
+  })
+  it('a paper pack keeps every section on paper', () => {
+    const worlds = (id: string) => build({ pack: id }).scenes.filter((s) => s.type === 'backdrop').map((s) => s.params.world)
+    expect(new Set(worlds('signature-cream'))).toEqual(new Set(['paper']))
+    expect(worlds('signature-cream').length).toBe(5)
+  })
+  it("the person's motion beats the pack; the pack's feel is the default", () => {
+    const ease = (sb: Sb) => head(sb, 'item1-h').params.ease
+    expect(ease(build({ pack: 'dark-tech' }))).toBe('out')
+    expect(ease(build({ pack: 'dark-tech', motion: 'easy' }))).toBe('easy')
+    expect(ease(build({ pack: 'signature-cream' }))).toBe('easy')
+    expect(ease(build({}))).toBe('easy')
+  })
+  it('a pulse pack kicks the camera on the beat and blurs motion', () => {
+    const sb = build({ pack: 'cinematic-laser', beat: { bpm: 120 } })
+    expect(sb.camera.pulses!.length).toBeGreaterThan(8)
+    expect(sb.motionBlur).toEqual({ samples: 3, shutter: 180 })
+    expect(build({ pack: 'swiss-red', beat: { bpm: 120 } }).camera.pulses).toBeUndefined()
   })
 })
