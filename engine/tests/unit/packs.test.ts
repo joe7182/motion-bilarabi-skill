@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { PACKS, getPack, packList } from '../../src/packs/index'
 import { PACK_IDS, PACK_ROLES, packSchema, paramKeysOf } from '../../src/packs/schema'
+import { PACK_LOOK } from '../../src/core/pack-ids'
 import { TRANSITION_IDS } from '../../src/core/params/transitions'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
 
 describe('packs', () => {
   it('every pack parses and is registered under its id', () => {
     for (const id of PACK_IDS) expect(packSchema.parse(PACKS[id]).id).toBe(id)
+  })
+  it('the id list the storyboard knows matches the packs', () => {
+    for (const id of PACK_IDS) expect(PACK_LOOK[id]).toBe(PACKS[id].look)
   })
   it('numbers are 1..n with no gap', () => {
     expect(packList().map((p) => p.n)).toEqual(PACK_IDS.map((_, i) => i + 1))

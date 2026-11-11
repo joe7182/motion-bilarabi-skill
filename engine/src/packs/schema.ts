@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { PARAMS } from '../core/params/index'
 import { TRANSITION_IDS, type TransitionId } from '../core/params/transitions'
+import { PACK_IDS, type PackId } from '../core/pack-ids'
 import { LOOK_IDS, type LookId } from '../core/storyboard'
 
 /**
@@ -9,8 +10,7 @@ import { LOOK_IDS, type LookId } from '../core/storyboard'
  * dress the frame. Packs are data: they are applied when a storyboard is built (`mba preset`,
  * `mba dress`, `mba recommend --pack`), never at render time, so a storyboard without `pack` is untouched.
  */
-export const PACK_IDS = ['signature-cream', 'dark-tech', 'cinematic-laser', 'swiss-red'] as const
-export type PackId = (typeof PACK_IDS)[number]
+export { PACK_IDS, type PackId }
 
 /** What a preset or a concept asks a pack for. */
 export const PACK_ROLES = ['headline', 'keySentence', 'number', 'list', 'quote', 'compare', 'cta', 'signOff'] as const

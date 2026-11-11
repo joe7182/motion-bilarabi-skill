@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { OBJECT_IDS } from '../objects'
 import { LOOK_IDS } from '../storyboard'
+import { PACK_IDS } from '../pack-ids'
 import { isStretchable, splitWords } from '../text'
 import { normalizeAr, type Transcript } from '../transcript'
 import { lettersOf } from '../params/letters-join'
@@ -142,6 +143,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('list'),
     look: z.enum(LOOK_IDS).default('swiss-red'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     /** «حركة», «غلطة», «نصيحة»: the label word of the chapter bar. */
     label: txt(16).default('حركة'),
     hook: slot,
@@ -157,6 +160,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('problem'),
     look: z.enum(LOOK_IDS).default('signature'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     hook: slot,
     /** The pains (ink world), each with its object or words. */
     pains: z.array(slot).min(1).max(4),
@@ -175,6 +180,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('steps'),
     look: z.enum(LOOK_IDS).default('swiss-red'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     label: txt(16).default('خطوة'),
     hook: slot,
     audience: slot.optional(),
@@ -191,6 +198,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('asked'),
     look: z.enum(LOOK_IDS).default('swiss-red'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     label: txt(16).default('خطوة'),
     /** The headline over the comment stickers. */
     title: txt(40).default('سألتوني'),
@@ -208,6 +217,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('tool'),
     look: z.enum(LOOK_IDS).default('signature'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     hook: slot,
     intro: slot.optional(),
     /** The real recording moments: each slot's show is usually a `clip`. */
@@ -224,6 +235,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('loop'),
     look: z.enum(LOOK_IDS).default('signature'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     label: txt(16).default('نصيحة'),
     /** The search bar text that opens and closes the loop (frame 0 = the last frame). */
     topic: txt(26),
@@ -241,6 +254,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('system'),
     look: z.enum(LOOK_IDS).default('signature'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     hook: slot,
     /** Each part of the system with its show (layers, graph, logos, objects…). */
     parts: z.array(slot).min(2).max(6),
@@ -255,6 +270,8 @@ export const presetSchema = z.discriminatedUnion('preset', [
   z.object({
     preset: z.literal('teaser'),
     look: z.enum(LOOK_IDS).default('signature'),
+    /** A style pack (src/packs): layout, marks, background, transitions and motion; absent: the classic layout. */
+    pack: z.enum(PACK_IDS).optional(),
     /** One line per idea; the hero object morphs into each line's object. */
     lines: z.array(slot.extend({ object: z.enum(OBJECT_IDS) })).min(2).max(6),
     brand: slot.extend({ word: txt(20) }),

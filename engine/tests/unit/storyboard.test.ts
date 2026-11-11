@@ -22,6 +22,14 @@ describe('storyboard', () => {
     expect(sb.dir).toBe('rtl'); expect(sb.seed).toBe(1)
     expect(sb.scenes[0]!.params).toEqual({ text: 'جديد' })
   })
+  it('a pack supplies the look unless the storyboard names one', () => {
+    const base = { version: 1, scenes: [s('a')] }
+    expect(parseStoryboard({ ...base, pack: 'swiss-red' }, known).look).toBe('swiss-red')
+    expect(parseStoryboard({ ...base, pack: 'swiss-red', look: 'signature' }, known).look).toBe('signature')
+    expect(parseStoryboard(base, known).pack).toBeUndefined()
+    expect(parseStoryboard(base, known).look).toBe('dark-tech')
+    expect(() => parseStoryboard({ ...base, pack: 'nope' }, known)).toThrow(StoryboardError)
+  })
   it('duration is max end, overlap allowed', () => {
     expect(storyboardDuration(parseStoryboard(fixture('three-scenes.json'), known))).toBeCloseTo(7.5)
   })

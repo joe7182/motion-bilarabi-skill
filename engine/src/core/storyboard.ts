@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { FORMATS, type Format } from './types'
 import { brandSchema, formatPath, type Brand } from './brand'
 import { defaultTransitionDuration, TRANSITION_DURATION, TRANSITION_IDS, TRANSITION_PARAMS, type TransitionId } from './params/transitions'
+import { PACK_IDS, PACK_LOOK, type PackId } from './pack-ids'
 import { CAMERA, tourKeys, type CameraSpec, type ScenePlace } from './camera'
 
 export type { TransitionId }
@@ -138,6 +139,8 @@ export interface Storyboard {
   format: Format
   fps: 30 | 60
   look: LookId
+  /** The style pack the storyboard was built with (`mba preset`, `mba dress`); it supplies `look` when that is absent. */
+  pack?: PackId
   dir: 'rtl'
   seed: number
   brand?: Brand
@@ -250,6 +253,7 @@ const storyboardSchema = z.object({
   format: z.enum(FORMATS).default('9:16'),
   fps: z.union([z.literal(30), z.literal(60)]).default(30),
   look: z.enum(LOOK_IDS).default('dark-tech'),
+  pack: z.enum(PACK_IDS).optional(),
   dir: z.literal('rtl').default('rtl'),
   seed: z.number().int().default(1),
   brand: brandSchema.optional(),
@@ -364,8 +368,16 @@ function checkAudio(sb: Storyboard): void {
   })
 }
 
+/** A pack supplies the look when the storyboard names none (an explicit `look` recolours the pack). */
+function withPackLook(json: unknown): unknown {
+  if (!json || typeof json !== 'object') return json
+  const o = json as Record<string, unknown>
+  const look = typeof o.pack === 'string' ? (PACK_LOOK as Record<string, string>)[o.pack] : undefined
+  return look && o.look === undefined ? { ...o, look } : json
+}
+
 export function parseStoryboard(json: unknown, knownTypes: string[]): Storyboard {
-  const r = storyboardSchema.safeParse(json)
+  const r = storyboardSchema.safeParse(withPackLook(json))
   if (!r.success) {
     const issue = r.error.issues[0]!
     throw new StoryboardError(formatPath(issue.path), issue.message)
