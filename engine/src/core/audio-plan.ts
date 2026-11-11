@@ -16,6 +16,7 @@ import { cuesOfRedPen, cuesOfSketchWords } from './params/sketch'
 import { cuesOfSpaceField } from './params/space'
 import { cuesOfScreenMockup } from './params/screen-mockup'
 import { cuesOfBeatPulse } from './params/beat'
+import { cuesOfBounceBall } from './params/physics'
 import { cuesOfGaugeRing, cuesOfLiveTimer, cuesOfNotifyStack, cuesOfStatBars } from './params/data-fx'
 import { cuesOfBeatSlam, cuesOfGlowWords, cuesOfLaserBeam, cuesOfLaserType, cuesOfTechGrid } from './params/laser'
 import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
@@ -119,6 +120,7 @@ export const CUES: Record<string, CuesOf> = {
   'space-field': cuesOfSpaceField as CuesOf,
   'screen-mockup': cuesOfScreenMockup as CuesOf,
   'beat-pulse': cuesOfBeatPulse as CuesOf,
+  'bounce-ball': cuesOfBounceBall as CuesOf,
   'laser-beam': cuesOfLaserBeam as CuesOf,
   'glow-words': cuesOfGlowWords as CuesOf,
   'beat-slam': cuesOfBeatSlam as CuesOf,

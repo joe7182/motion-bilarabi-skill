@@ -115,6 +115,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 
 | Arabic name | Write | User might say |
 |---|---|---|
+| كرة تنط | scene `"type": "bounce-ball"` | خلّ كرة تنط على كلمات «…» وحدة وحدة |
 | شي يتحوّل | scene `"type": "morph-object"` | ارسم مصباح ويتحوّل لـ «…» |
 | رسم خطّي | scene `"type": "line-art"` | ارسم «…» بخطوط بسيطة |
 | أيقونة | scene `"type": "icon"` | حط أيقونة «…» |

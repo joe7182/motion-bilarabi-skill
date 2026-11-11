@@ -34,6 +34,7 @@ import { redPen, sketchWords } from './sketch'
 import { spaceField } from './space'
 import { screenMockup } from './screen-mockup'
 import { beatPulse } from './beat'
+import { bounceBall } from './physics'
 import { gaugeRing, liveTimer, notifyStack, statBars } from './data-fx'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
@@ -140,6 +141,7 @@ registerPrimitive(liveTimer)
 registerPrimitive(spaceField)
 registerPrimitive(screenMockup)
 registerPrimitive(beatPulse)
+registerPrimitive(bounceBall)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)

@@ -106,6 +106,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'transition:flood', group: 'transitions', ar: 'فيضان لون', does: 'لون يفيض من نقطة ويغطي', ask: 'انتقل بفيضان لون' },
   { id: 'transition:reveal', group: 'transitions', ar: 'كشف', does: 'العالم الجديد ينكشف تحت القديم', ask: 'اكشف المشهد الجاي من تحت' },
   // Objects
+  { id: 'bounce-ball', group: 'objects', ar: 'كرة تنط', does: 'كرة بفيزياء حقيقية تنط من كلمة لكلمة ويا الكلام، تنضغط بكل نطّة وظلها يكبر، أو تطيح على شي وتهدى بنطّات تقل', ask: 'خلّ كرة تنط على كلمات «…» وحدة وحدة', img: 'bounce-ball' },
   { id: 'morph-object', group: 'objects', ar: 'شي يتحوّل', does: 'رسومات (مصباح، ملف، بيت، عملة…) تتحوّل لبعض', ask: 'ارسم مصباح ويتحوّل لـ «…»', img: 'bulb' },
   { id: 'line-art', group: 'objects', ar: 'رسم خطّي', does: 'رسمة خطوط بسيطة لفكرة', ask: 'ارسم «…» بخطوط بسيطة' },
   { id: 'icon', group: 'objects', ar: 'أيقونة', does: 'أيقونة وعنوانها', ask: 'حط أيقونة «…»' },
