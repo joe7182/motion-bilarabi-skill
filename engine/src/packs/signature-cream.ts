@@ -10,6 +10,7 @@ export const signatureCream: Pack = {
   motion: { ease: 'easy', enter: 'rise', blur: 3, camera: 'drift' },
   transitions: { default: 'morph', section: 'paper-tear', more: ['page-turn', 'flood'] },
   background: [{ type: 'backdrop', params: { world: 'paper' } }],
+  stage: { kind: 'card', width: 1.06 },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'line', enter: 'rise' } },
     keySentence: { type: 'heavy-word', params: { size: 0.78 } },

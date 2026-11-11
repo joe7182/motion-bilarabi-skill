@@ -223,6 +223,16 @@ describe('presets with a pack', () => {
     expect(sb.scenes.filter((s) => s.type === 'backdrop')).toEqual([])
     expect(sb.scenes[0]!.type).toBe('tech-grid')
   })
+  it('each pack builds its own stage under the object, never under the comment card', () => {
+    const kinds = [...PACK_IDS].map((id) => {
+      const frames = build({ pack: id }).scenes.filter((s) => s.type === 'object-frame')
+      expect(frames.map((f) => f.id)).toEqual(['item1-frame', 'item2-frame', 'item3-frame'])
+      expect(frames.every((f) => (f.track ?? 0) === 2)).toBe(true)
+      return frames[0]!.params.kind
+    })
+    expect(new Set(kinds).size).toBe(PACK_IDS.length)
+    expect(build({}).scenes.some((s) => s.type === 'object-frame')).toBe(false)
+  })
   it('a paper pack keeps every section on paper', () => {
     const worlds = (id: string) => build({ pack: id }).scenes.filter((s) => s.type === 'backdrop').map((s) => s.params.world)
     expect(new Set(worlds('signature-cream'))).toEqual(new Set(['paper']))

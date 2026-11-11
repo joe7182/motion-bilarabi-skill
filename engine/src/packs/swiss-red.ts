@@ -11,6 +11,7 @@ export const swissRed: Pack = {
   transitions: { default: 'color-wipe', section: 'ink-slab', more: ['blinds', 'reveal'] },
   background: [{ type: 'backdrop', params: { world: 'paper' } }],
   marks: { rules: [{ y: 0.06 }, { y: 0.97 }], number: { value: 1, corner: 'top-left' } },
+  stage: { kind: 'column', width: 1.06 },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'stack', enter: 'mask-line' } },
     keySentence: { type: 'editorial-type', params: { size: 170 } },

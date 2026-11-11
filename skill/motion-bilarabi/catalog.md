@@ -17,10 +17,10 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 
 | # | Name | `pack` | Look | Brings |
 |---|---|---|---|---|
-| 1 | كريمي توقيع · Signature cream | `signature-cream` | `signature` | `heavy-word` |
-| 2 | داكن تقني · Dark tech | `dark-tech` | `dark-tech` | `tech-grid`, `frame-marks`, `glitch-text` |
-| 3 | ليزر سينمائي · Cinematic laser | `cinematic-laser` | `dark-tech` | `tech-grid`, `laser-type`, `glow-words` |
-| 4 | سويسري أحمر · Swiss red | `swiss-red` | `swiss-red` | `frame-marks`, `editorial-type` |
+| 1 | كريمي توقيع · Signature cream | `signature-cream` | `signature` | `object-frame`, `heavy-word` |
+| 2 | داكن تقني · Dark tech | `dark-tech` | `dark-tech` | `tech-grid`, `frame-marks`, `object-frame`, `glitch-text` |
+| 3 | ليزر سينمائي · Cinematic laser | `cinematic-laser` | `dark-tech` | `tech-grid`, `object-frame`, `laser-type`, `glow-words` |
+| 4 | سويسري أحمر · Swiss red | `swiss-red` | `swiss-red` | `frame-marks`, `object-frame`, `editorial-type` |
 
 ## حركات النص — Text animation
 
@@ -200,6 +200,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 |---|---|---|
 | خلفية | scene `"type": "backdrop"` | خلّ الخلفية داكنة |
 | ترجمة | scene `"type": "captions"` | حط ترجمة على كلامي |
+| منصّة الرسمة | scene `"type": "object-frame"` | حط الرسمة على بطاقة ورق |
 | علامات الإطار | scene `"type": "frame-marks"` | حط وسم «…» بالزاوية وخط رفيع فوق |
 | شريط الأقسام | scene `"type": "chapter-bar"` | حط شريط أقسام فوق |
 | شريط علوي | scene `"type": "hud"` | حط «…» ثابت فوق |

@@ -10,6 +10,7 @@ export const cinematicLaser: Pack = {
   motion: { ease: 'easy', enter: 'fade', blur: 3, camera: 'pulse' },
   transitions: { default: 'flood', section: 'iris', more: ['whip-pan', 'layer-explode'] },
   background: [{ type: 'tech-grid', params: { floor: true, glows: 2 } }],
+  stage: { kind: 'spot' },
   roles: {
     headline: { type: 'laser-type', params: { size: 220 } },
     keySentence: { type: 'glow-words', params: { size: 96 } },

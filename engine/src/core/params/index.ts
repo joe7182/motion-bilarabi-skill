@@ -28,6 +28,7 @@ import { screenMockupParams } from './screen-mockup'
 import { beatPulseParams } from './beat'
 import { bounceBallParams } from './physics'
 import { frameMarksParams } from './frame-marks'
+import { objectFrameParams } from './object-frame'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -113,6 +114,7 @@ export const PARAMS = {
   'beat-pulse': beatPulseParams,
   'bounce-ball': bounceBallParams,
   'frame-marks': frameMarksParams,
+  'object-frame': objectFrameParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,

@@ -172,12 +172,14 @@ A pack is one complete art direction. One choice sets the look, where the headli
 - **The person's pick always wins.** An effect or transition they name stays, even when it is from another look; `mba validate` prints style notes as advice only. `"motion"` set by the person overrides the pack's feel.
 - **Which pack when nobody chose:** `signature-cream` for stories, tips and personal topics; `dark-tech` for tools, code and tutorials; `cinematic-laser` for hype, launches and beat videos; `swiss-red` for lists, numbers and business advice. Say which you picked in one line.
 
-| `pack` | Headline | Key word | Marks | Transitions |
-|---|---|---|---|---|
-| `signature-cream` | centred, upper third | orange box | chapter bar | paper tear, page turn, flood |
-| `dark-tech` | flush right, under a code tag | drawn underline | tag + corner ticks | glitch cut, pixel curtain, blade slice |
-| `cinematic-laser` | centred; a headline alone is laser-cut | accent colour | chapter bar | flood, iris, whip pan |
-| `swiss-red` | large, flush right | one red word | rules + section number | colour wipe, ink slab, blinds |
+| `pack` | Headline | Key word | Marks | Under the object | Transitions |
+|---|---|---|---|---|---|
+| `signature-cream` | centred, upper third | orange box | chapter bar | a tilted paper card | paper tear, page turn, flood |
+| `dark-tech` | flush right, under a code tag | drawn underline | tag + corner ticks | an interface panel | glitch cut, pixel curtain, blade slice |
+| `cinematic-laser` | centred; a headline alone is laser-cut | accent colour | chapter bar | a pool of light and a glowing line | flood, iris, whip pan |
+| `swiss-red` | large, flush right | one red word | rules + section number | a rule, a caption, a red square | colour wipe, ink slab, blinds |
+
+`object-frame` (`kind: card | panel | spot | column`, `label`, `y`, `height`, `width`, `at`) is the pack's stage under the object of a sentence. A preset adds it by itself under small objects and words (never under a screen, a chat or the comment card). In a storyboard you write yourself, put it on the track just below the object, sized to the object's area, with the kind of the pack in use.
 
 `frame-marks` (`tag{text, corner, mono}`, `rules[{y, from, to, at}]`, `ticks`, `number{value, corner}`, `alpha`) is the pack furniture on the edges of the safe area; put it on a fixed track. `kinetic-text` takes `"align": "right" | "left"` and a word takes `"underline": true`.
 

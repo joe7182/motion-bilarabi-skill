@@ -28,6 +28,9 @@ export const PACK_PRESET = {
   pulseBeat: 0.012,
   /** Longest line of a laser-cut headline (characters), as `laser-type` takes it. */
   laserLine: 18,
+  /** The object stage goes under these shows (small objects and words; never a screen, a chat or a search bar) on this track. */
+  staged: ['type-stretch', 'letters-join', 'morph-object', 'kinetic-text', 'heavy-word', 'said-written', 'word-cut', 'counter', 'build-number', 'icon', 'line-art'],
+  stageTrack: 2,
   /** A laser headline that opens the video is already this far into its cut on frame 0 (never a blank first frame). */
   laserPreroll: 0.45,
 } as const
@@ -111,6 +114,17 @@ export function dressPreset(sb: Raw, secs: Section[], pack: Pack, opts: { beat?:
         params: { ...pack.marks, ...(m.tag ? { tag: { ...m.tag, text } } : {}), ...(m.number ? { number: { ...m.number, value: i + 1 } } : {}) },
       })
     })
+  }
+
+  // The pack's stage under each staged show, for as long as the show is up.
+  if (pack.stage) {
+    const { kind, ...place } = pack.stage
+    for (const sec of secs) {
+      const show = scenes.find((sc) => sc.id === `${sec.id}-show`)
+      if (!show || !(PACK_PRESET.staged as readonly string[]).includes(show.type) || show.params.mode === 'giant') continue
+      const label = (sec.badge?.title ?? sec.headline.join(' ')).slice(0, 28)
+      scenes.push({ id: `${sec.id}-frame`, type: 'object-frame', track: PACK_PRESET.stageTrack, start: show.start, duration: show.duration, params: { kind, ...place, ...(label ? { label } : {}) } })
+    }
   }
 
   // A transition on every section cut: the section transition into the first and the last section,

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { PARAMS } from '../core/params/index'
+import { OBJECT_FRAME_KINDS } from '../core/params/object-frame'
 import { TRANSITION_IDS, type TransitionId } from '../core/params/transitions'
 import { PACK_IDS, type PackId } from '../core/pack-ids'
 import { LOOK_IDS, type LookId } from '../core/storyboard'
@@ -58,6 +59,8 @@ export const packSchema = z.object({
   background: z.array(sceneRef).min(1).max(3),
   /** `frame-marks` params: the small furniture of the frame (absent: none). */
   marks: z.record(z.string(), z.unknown()).optional(),
+  /** The stage under the object of a sentence (`object-frame`): its kind and, when not the default, its place (absent: none). */
+  stage: z.object({ kind: z.enum(OBJECT_FRAME_KINDS), y: z.number().optional(), height: z.number().optional(), width: z.number().optional() }).optional(),
   roles: z.object({ headline: sceneRef, keySentence: sceneRef, number: sceneRef, list: sceneRef, quote: sceneRef, compare: sceneRef, cta: sceneRef, signOff: sceneRef }),
   /** What clashes with the look: `mba validate` advises against these, it never refuses them. */
   avoid: z.object({ scenes: z.array(z.string()), transitions: z.array(transition) }),

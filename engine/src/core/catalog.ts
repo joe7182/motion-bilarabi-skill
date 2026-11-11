@@ -174,6 +174,7 @@ export const CATALOG: CatalogEntry[] = [
   // Basics
   { id: 'backdrop', group: 'basics', ar: 'خلفية', does: 'خلفية ورقية فاتحة أو داكنة', ask: 'خلّ الخلفية داكنة' },
   { id: 'captions', group: 'basics', ar: 'ترجمة', does: 'ترجمة كلامك والكلمة المنطوقة ملوّنة', ask: 'حط ترجمة على كلامي' },
+  { id: 'object-frame', group: 'basics', ar: 'منصّة الرسمة', does: 'خلفية تحت الرسمة حسب الستايل: بطاقة ورق، لوحة واجهة، بقعة ضوء، أو عمود بخط رفيع', ask: 'حط الرسمة على بطاقة ورق' },
   { id: 'frame-marks', group: 'basics', ar: 'علامات الإطار', does: 'وسم صغير بالزاوية، خطوط رفيعة، علامات زوايا ورقم القسم — أثاث الستايل على حواف الشاشة', ask: 'حط وسم «…» بالزاوية وخط رفيع فوق' },
   { id: 'chapter-bar', group: 'basics', ar: 'شريط الأقسام', does: 'شرطات أعلى الشاشة لكل بند', ask: 'حط شريط أقسام فوق' },
   { id: 'hud', group: 'basics', ar: 'شريط علوي', does: 'معلومة ثابتة أعلى الشاشة', ask: 'حط «…» ثابت فوق' },
@@ -195,7 +196,7 @@ export interface CatalogStyle {
 
 /** The style menu the skill offers before the storyboard: one pack for the whole video (from src/packs). */
 export const STYLES: CatalogStyle[] = packList().map((p) => {
-  const brings = [...new Set([...p.background.map((b) => b.type), ...(p.marks ? ['frame-marks'] : []), p.roles.headline.type, p.roles.keySentence.type])].filter((t) => t !== 'backdrop' && t !== 'kinetic-text')
+  const brings = [...new Set([...p.background.map((b) => b.type), ...(p.marks ? ['frame-marks'] : []), ...(p.stage ? ['object-frame'] : []), p.roles.headline.type, p.roles.keySentence.type])].filter((t) => t !== 'backdrop' && t !== 'kinetic-text')
   return { n: p.n, id: p.id, ar: p.ar, en: p.en, look: p.look, does: p.does, ask: p.ask, ...(p.img ? { img: p.img } : {}), ...(brings.length ? { with: brings } : {}) }
 })
 
