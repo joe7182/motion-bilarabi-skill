@@ -31,6 +31,8 @@ export const PACK_PRESET = {
   /** The object stage goes under these shows (small objects and words; never a screen, a chat or a search bar) on this track. */
   staged: ['type-stretch', 'letters-join', 'morph-object', 'kinetic-text', 'heavy-word', 'said-written', 'word-cut', 'counter', 'build-number', 'icon', 'line-art'],
   stageTrack: 2,
+  /** A show of stacked words is placed by the frame (not the safe area) and runs taller: its stage sits here (safe-area fractions). */
+  wordsStage: { y: 0.645, height: 0.44 },
   /** A laser headline that opens the video is already this far into its cut on frame 0 (never a blank first frame). */
   laserPreroll: 0.45,
 } as const
@@ -123,7 +125,7 @@ export function dressPreset(sb: Raw, secs: Section[], pack: Pack, opts: { beat?:
       const show = scenes.find((sc) => sc.id === `${sec.id}-show`)
       if (!show || !(PACK_PRESET.staged as readonly string[]).includes(show.type) || show.params.mode === 'giant') continue
       const label = (sec.badge?.title ?? sec.headline.join(' ')).slice(0, 28)
-      scenes.push({ id: `${sec.id}-frame`, type: 'object-frame', track: PACK_PRESET.stageTrack, start: show.start, duration: show.duration, params: { kind, ...place, ...(label ? { label } : {}) } })
+      scenes.push({ id: `${sec.id}-frame`, type: 'object-frame', track: PACK_PRESET.stageTrack, start: show.start, duration: show.duration, params: { kind, ...(show.type === 'kinetic-text' ? PACK_PRESET.wordsStage : {}), ...place, ...(label ? { label } : {}) } })
     }
   }
 
@@ -141,7 +143,7 @@ export function dressPreset(sb: Raw, secs: Section[], pack: Pack, opts: { beat?:
     const type = i === 1 || i === secs.length - 1 ? outer : between
     const duration = r3(Math.min(defaultTransitionDuration(type), cut.shortest * PACK_PRESET.transitionShare, 2 * (at - lastEnd) - 0.02))
     if (duration < PACK_PRESET.minTransition) continue
-    transitions.push({ type, at: r3(at), duration, track: cut.track, params: {} })
+    transitions.push({ type, at: r3(at), duration, track: cut.track, params: { ...pack.transitions.params?.[type] } })
     lastEnd = at + duration / 2
   }
 

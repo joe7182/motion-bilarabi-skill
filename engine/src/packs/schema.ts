@@ -54,7 +54,13 @@ export const packSchema = z.object({
     blur: z.union([z.literal(0), z.literal(3)]),
     camera: z.enum(['locked', 'drift', 'pulse']),
   }),
-  transitions: z.object({ default: transition, section: transition, more: z.array(transition).max(4) }),
+  transitions: z.object({
+    default: transition,
+    section: transition,
+    more: z.array(transition).max(4),
+    /** Params per transition type, so a transition wears the pack's colours (absent: the transition's own defaults). */
+    params: z.record(z.string(), z.record(z.string(), z.unknown())).optional(),
+  }),
   /** Track-0 scenes laid for the whole video. */
   background: z.array(sceneRef).min(1).max(3),
   /** `frame-marks` params: the small furniture of the frame (absent: none). */

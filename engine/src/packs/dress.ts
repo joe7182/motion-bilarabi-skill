@@ -94,7 +94,7 @@ export function dressStoryboard(raw: Raw, pack: Pack): { storyboard: Raw; change
     if (transitions.some(near)) continue
     const duration = r3(Math.min(defaultTransitionDuration(type), cut.shortest * PACK_PRESET.transitionShare))
     if (duration < PACK_PRESET.minTransition) continue
-    transitions.push({ type, at, duration, track: cut.track, params: {} } as never)
+    transitions.push({ type, at, duration, track: cut.track, params: { ...pack.transitions.params?.[type] } } as never)
     addedCuts++
   }
   if (addedCuts) {

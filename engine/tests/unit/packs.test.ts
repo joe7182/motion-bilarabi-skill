@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { PACKS, getPack, packList } from '../../src/packs/index'
 import { PACK_IDS, PACK_ROLES, packSchema, paramKeysOf } from '../../src/packs/schema'
 import { PACK_LOOK } from '../../src/core/pack-ids'
-import { TRANSITION_IDS } from '../../src/core/params/transitions'
+import { TRANSITION_IDS, TRANSITION_PARAMS } from '../../src/core/params/transitions'
 import { kineticTextParams } from '../../src/core/params/kinetic-text'
 import { frameMarksParams } from '../../src/core/params/frame-marks'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
@@ -27,6 +27,10 @@ describe('packs', () => {
       for (const t of [...used, ...p.avoid.transitions]) expect(TRANSITION_IDS as readonly string[]).toContain(t)
       expect(used.filter((t) => p.avoid.transitions.includes(t))).toEqual([])
       expect(new Set(used).size).toBe(used.length)
+      for (const [t, params] of Object.entries(p.transitions.params ?? {})) {
+        expect(used as string[], `${p.id} params for ${t}`).toContain(t)
+        expect(TRANSITION_PARAMS[t as keyof typeof TRANSITION_PARAMS].safeParse(params).success, `${p.id}.${t}`).toBe(true)
+      }
     }
   })
   it('every role names a scene type and only params that type has', () => {

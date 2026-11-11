@@ -8,7 +8,7 @@ export const cinematicLaser: Pack = {
   look: 'dark-tech',
   layout: { headline: { y: 0.42, align: 'centre', maxPx: 240 }, showY: 0.72, objects: 'around', gap: 0.08, keyMark: 'colour' },
   motion: { ease: 'easy', enter: 'fade', blur: 3, camera: 'pulse' },
-  transitions: { default: 'flood', section: 'iris', more: ['whip-pan', 'layer-explode'] },
+  transitions: { default: 'flood', section: 'iris', more: ['whip-pan', 'layer-explode'], params: { flood: { color: 'accent' } } },
   background: [{ type: 'tech-grid', params: { floor: true, glows: 2 } }],
   stage: { kind: 'spot' },
   roles: {

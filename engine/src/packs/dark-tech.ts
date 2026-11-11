@@ -8,7 +8,7 @@ export const darkTech: Pack = {
   look: 'dark-tech',
   layout: { headline: { y: 0.24, align: 'right', maxPx: 130 }, showY: 0.6, objects: 'below', gap: 0.06, keyMark: 'underline' },
   motion: { ease: 'snappy', enter: 'mask', blur: 0, camera: 'locked' },
-  transitions: { default: 'glitch-cut', section: 'pixel-curtain', more: ['blade-slice', 'zoom-through'] },
+  transitions: { default: 'glitch-cut', section: 'pixel-curtain', more: ['blade-slice', 'zoom-through'], params: { 'pixel-curtain': { color: 'accent' } } },
   background: [{ type: 'tech-grid', params: { cell: 0.045, glows: 0 } }],
   marks: { tag: { text: '01', corner: 'top-right', mono: true }, ticks: true },
   stage: { kind: 'panel', width: 1 },

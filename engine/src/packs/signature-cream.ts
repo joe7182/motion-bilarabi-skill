@@ -8,7 +8,7 @@ export const signatureCream: Pack = {
   look: 'signature',
   layout: { headline: { y: 0.25, align: 'centre', maxPx: 180 }, showY: 0.58, objects: 'below', gap: 0.06, keyMark: 'box' },
   motion: { ease: 'easy', enter: 'rise', blur: 3, camera: 'drift' },
-  transitions: { default: 'morph', section: 'paper-tear', more: ['page-turn', 'flood'] },
+  transitions: { default: 'morph', section: 'paper-tear', more: ['pen-dot-curtain', 'page-turn'], params: { 'pen-dot-curtain': { color: 'accent', edge: 'fg' }, 'page-turn': { color: 'accent' } } },
   background: [{ type: 'backdrop', params: { world: 'paper' } }],
   stage: { kind: 'card', width: 1.06 },
   roles: {
