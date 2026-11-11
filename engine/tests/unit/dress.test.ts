@@ -55,3 +55,25 @@ describe('dressStoryboard', () => {
     for (const r of recs) for (const sc of r.scenes) expect((PARAMS as Record<string, { safeParse: (x: unknown) => { success: boolean } }>)[sc.type]!.safeParse(sc.params).success, r.id).toBe(true)
   })
 })
+
+import { packLint } from '../../src/packs/lint'
+import { beatTranscript, parsePreset, presetStoryboard } from '../../src/core/recipes/presets'
+
+describe('packLint', () => {
+  const h = (y: number) => ({ id: 's1-h', type: 'kinetic-text', start: 1, params: { mode: 'line', y } })
+  it('says nothing without a pack', () => {
+    expect(packLint({ scenes: [h(0.9)], transitions: [{ type: 'glitch-cut', at: 1 }] })).toEqual([])
+  })
+  it('advises against a clashing transition and scene, and a headline far from the pack band', () => {
+    const notes = packLint({ pack: 'swiss-red', scenes: [h(0.75), { id: 'x', type: 'glitch-text', start: 3, params: {} }], transitions: [{ type: 'glitch-cut', at: 2 }] })
+    expect(notes.map((n) => n.code)).toEqual(['headline-band', 'avoid-transition', 'avoid-scene'])
+    expect(notes[1]!.message).toMatch(/color-wipe/)
+  })
+  it('is silent on what the packs build themselves', () => {
+    const tr = beatTranscript('ثلاث حركات مهمة. أولاً الحروف متصلة دائماً. ثانياً الكلمة تكفي. تبي القالب علّق موشن.', 120)
+    for (const p of packList()) {
+      const sb = presetStoryboard({ preset: parsePreset({ preset: 'list', pack: p.id, hook: { say: 'ثلاث حركات', text: 'حركات مهمة', box: 'مهمة' }, items: [{ say: 'أولاً الحروف', title: 'الحروف' }, { say: 'ثانياً الكلمة', title: 'الكلمة' }], cta: { say: 'تبي القالب', text: 'علّق: موشن', keyword: 'موشن' } }), transcript: tr, fps: 30, seed: 1 })
+      expect(packLint(sb as never), p.id).toEqual([])
+    }
+  })
+})

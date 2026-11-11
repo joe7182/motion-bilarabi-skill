@@ -347,6 +347,10 @@ async function main(argv: string[]): Promise<number> {
       try {
         const loaded = await loadStoryboardFile(sbPath)
         for (const w of loaded.warnings) process.stderr.write(`تنبيه — Warning: ${w}\n`)
+        // Advice only: a storyboard that strays from its pack is still valid.
+        const { packLint } = await import('./packs/lint')
+        const notes = packLint(loaded.sb)
+        if (notes.length) process.stderr.write(`ملاحظات الستايل (نصيحة بس، اختيارك يمشي) — Style notes (advice only, your pick stands):\n${notes.map((n) => `  ${n.at.toFixed(2)} s · ${n.message}`).join('\n')}\n`)
       } catch (e) {
         process.stdout.write(`${(e as Error).message}\n`)
         return 1
