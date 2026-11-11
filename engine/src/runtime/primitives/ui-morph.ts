@@ -109,7 +109,8 @@ export const uiMorph: Primitive<UiMorphParams> = {
       const st = p.states[i]!
       const m = spring(t - st.at)
       if (i === 0) {
-        const pop = spring(t - st.at, 0.55, 13)
+        // The first state pops in from 40 % (never from nothing, so a scene that opens on it is never blank).
+        const pop = 0.4 + 0.6 * spring(t - st.at, 0.55, 13)
         return { w: cur.w * U * pop, h: cur.h * U * pop, r: cur.r, fill: FILL[cur.fill]!, prev: FILL[cur.fill]!, m: 1, i }
       }
       const prev = boxOf(i - 1)
