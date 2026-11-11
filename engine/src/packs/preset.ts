@@ -2,7 +2,7 @@ import { defaultTransitionDuration, type TransitionId } from '../core/params/tra
 import type { Section } from '../core/recipes/presets'
 import type { Pack } from './schema'
 
-type Scene = { id: string; type: string; track?: number; start: number; duration: number; params: Record<string, unknown> }
+type Scene = { id: string; type: string; track?: number; start: number; duration: number; preroll?: number; params: Record<string, unknown> }
 type Raw = Record<string, unknown>
 
 const r3 = (n: number) => Math.round(n * 1000) / 1000
@@ -28,6 +28,8 @@ export const PACK_PRESET = {
   pulseBeat: 0.012,
   /** Longest line of a laser-cut headline (characters), as `laser-type` takes it. */
   laserLine: 18,
+  /** A laser headline that opens the video is already this far into its cut on frame 0 (never a blank first frame). */
+  laserPreroll: 0.45,
 } as const
 
 /** The words of a `kinetic-text` headline with the pack's key-word mark instead of the classic box. */
@@ -47,7 +49,7 @@ function laserHeadline(sc: Scene, pack: Pack): Scene | undefined {
   const one = texts.join(' ')
   const lines = one.length <= PACK_PRESET.laserLine ? [one] : [texts.slice(0, Math.ceil(texts.length / 2)).join(' '), texts.slice(Math.ceil(texts.length / 2)).join(' ')]
   if (lines.some((l) => l.length === 0 || l.length > PACK_PRESET.laserLine)) return undefined
-  return { id: sc.id, type: 'laser-type', track: sc.track, start: sc.start, duration: sc.duration, params: { ...pack.roles.headline.params, lines, accent: words.filter((w) => w.box).map((w) => w.text), at: 0.1 } }
+  return { id: sc.id, type: 'laser-type', track: sc.track, start: sc.start, duration: sc.duration, ...(sc.start === 0 ? { preroll: PACK_PRESET.laserPreroll } : {}), params: { ...pack.roles.headline.params, lines, accent: words.filter((w) => w.box).map((w) => w.text), at: 0.1 } }
 }
 
 /** The highest track (never the marks track) on which exactly one scene ends and one other starts at `at`. */

@@ -202,6 +202,8 @@ describe('presets with a pack', () => {
   it('the laser pack cuts a headline that stands alone with the laser', () => {
     const h = head(build({ pack: 'cinematic-laser' }), 'hook-h')
     expect(h.type).toBe('laser-type')
+    // It opens the video: already cutting on frame 0, never a blank first frame.
+    expect((h as unknown as { preroll: number }).preroll).toBeGreaterThan(0.3)
     expect(h.params.accent).toEqual(['احترافي'])
   })
   it('section cuts carry the pack transitions, never longer than the room, never overlapping', () => {
