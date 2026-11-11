@@ -4,6 +4,7 @@ import { PACK_IDS, PACK_ROLES, packSchema, paramKeysOf } from '../../src/packs/s
 import { PACK_LOOK } from '../../src/core/pack-ids'
 import { TRANSITION_IDS } from '../../src/core/params/transitions'
 import { kineticTextParams } from '../../src/core/params/kinetic-text'
+import { frameMarksParams } from '../../src/core/params/frame-marks'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
 
 describe('packs', () => {
@@ -65,5 +66,16 @@ describe('kinetic-text for packs', () => {
   it('takes an underline, but not with a box on the same word', () => {
     expect(kineticTextParams.safeParse({ words: [w({ underline: true })] }).success).toBe(true)
     expect(kineticTextParams.safeParse({ words: [w({ underline: true, box: true })] }).success).toBe(false)
+  })
+})
+
+describe('frame-marks', () => {
+  it('has quiet defaults and at most four rules', () => {
+    const d = frameMarksParams.parse({})
+    expect(d.rules).toEqual([]); expect(d.ticks).toBe(false); expect(d.alpha).toBe(0.55)
+    expect(frameMarksParams.safeParse({ rules: Array.from({ length: 5 }, () => ({ y: 0.1 })) }).success).toBe(false)
+  })
+  it('the marks of every pack are valid frame-marks params', () => {
+    for (const p of packList()) if (p.marks) expect(frameMarksParams.safeParse(p.marks).success, p.id).toBe(true)
   })
 })

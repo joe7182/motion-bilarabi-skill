@@ -6,7 +6,7 @@ export const darkTech: Pack = {
   does: 'خلفية فحمية بشبكة خفيفة؛ العنوان على اليمين وتحته خط يرسم نفسه، وسم صغير بخط الكود، وحركة حادة',
   ask: 'خلّ الستايل داكن',
   look: 'dark-tech',
-  layout: { headline: { y: 0.16, align: 'right', maxPx: 130 }, showY: 0.6, objects: 'below', gap: 0.06, keyMark: 'underline' },
+  layout: { headline: { y: 0.24, align: 'right', maxPx: 130 }, showY: 0.6, objects: 'below', gap: 0.06, keyMark: 'underline' },
   motion: { ease: 'snappy', enter: 'mask', blur: 0, camera: 'locked' },
   transitions: { default: 'glitch-cut', section: 'pixel-curtain', more: ['blade-slice', 'zoom-through'] },
   background: [{ type: 'tech-grid', params: { cell: 0.045, glows: 0 } }],

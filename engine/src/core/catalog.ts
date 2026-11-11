@@ -173,6 +173,7 @@ export const CATALOG: CatalogEntry[] = [
   // Basics
   { id: 'backdrop', group: 'basics', ar: 'خلفية', does: 'خلفية ورقية فاتحة أو داكنة', ask: 'خلّ الخلفية داكنة' },
   { id: 'captions', group: 'basics', ar: 'ترجمة', does: 'ترجمة كلامك والكلمة المنطوقة ملوّنة', ask: 'حط ترجمة على كلامي' },
+  { id: 'frame-marks', group: 'basics', ar: 'علامات الإطار', does: 'وسم صغير بالزاوية، خطوط رفيعة، علامات زوايا ورقم القسم — أثاث الستايل على حواف الشاشة', ask: 'حط وسم «…» بالزاوية وخط رفيع فوق' },
   { id: 'chapter-bar', group: 'basics', ar: 'شريط الأقسام', does: 'شرطات أعلى الشاشة لكل بند', ask: 'حط شريط أقسام فوق' },
   { id: 'hud', group: 'basics', ar: 'شريط علوي', does: 'معلومة ثابتة أعلى الشاشة', ask: 'حط «…» ثابت فوق' },
 ]

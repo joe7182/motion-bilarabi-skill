@@ -198,5 +198,6 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 |---|---|---|
 | خلفية | scene `"type": "backdrop"` | خلّ الخلفية داكنة |
 | ترجمة | scene `"type": "captions"` | حط ترجمة على كلامي |
+| علامات الإطار | scene `"type": "frame-marks"` | حط وسم «…» بالزاوية وخط رفيع فوق |
 | شريط الأقسام | scene `"type": "chapter-bar"` | حط شريط أقسام فوق |
 | شريط علوي | scene `"type": "hud"` | حط «…» ثابت فوق |

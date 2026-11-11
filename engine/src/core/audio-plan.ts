@@ -17,6 +17,7 @@ import { cuesOfSpaceField } from './params/space'
 import { cuesOfScreenMockup } from './params/screen-mockup'
 import { cuesOfBeatPulse } from './params/beat'
 import { cuesOfBounceBall } from './params/physics'
+import { cuesOfFrameMarks } from './params/frame-marks'
 import { cuesOfUiMorph } from './params/ui-morph'
 import { cuesOfHalftoneField, cuesOfSpringGraph } from './params/dots'
 import { cuesOfBeforeAfter, cuesOfFanCards, cuesOfFunnel } from './params/concept-fx'
@@ -124,6 +125,7 @@ export const CUES: Record<string, CuesOf> = {
   'screen-mockup': cuesOfScreenMockup as CuesOf,
   'beat-pulse': cuesOfBeatPulse as CuesOf,
   'bounce-ball': cuesOfBounceBall as CuesOf,
+  'frame-marks': cuesOfFrameMarks as CuesOf,
   'ui-morph': cuesOfUiMorph as CuesOf,
   'spring-graph': cuesOfSpringGraph as CuesOf,
   'halftone-field': cuesOfHalftoneField as CuesOf,

@@ -35,6 +35,7 @@ import { spaceField } from './space'
 import { screenMockup } from './screen-mockup'
 import { beatPulse } from './beat'
 import { bounceBall } from './physics'
+import { frameMarks } from './frame-marks'
 import { uiMorph } from './ui-morph'
 import { halftoneField, springGraph } from './dots'
 import { beforeAfter, fanCards, funnel } from './concept-fx'
@@ -145,6 +146,7 @@ registerPrimitive(spaceField)
 registerPrimitive(screenMockup)
 registerPrimitive(beatPulse)
 registerPrimitive(bounceBall)
+registerPrimitive(frameMarks)
 registerPrimitive(uiMorph)
 registerPrimitive(springGraph)
 registerPrimitive(halftoneField)
