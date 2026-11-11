@@ -24,6 +24,9 @@ import { bidiWordUnits, fitText, wordUnits } from '../text/units'
 import type { Primitive } from './registry'
 import { shakeAt, shakeKeys } from './slam'
 
+/** `underline`: the line's thickness and how far below the line box it sits (em). */
+export const UNDERLINE = { thick: 0.07, drop: 0.04 } as const
+
 export const KINETIC = {
   maxPx: 180,
   minPx: 56,
@@ -57,6 +60,8 @@ interface Unit {
   strike?: HTMLElement
   /** `box`: the accent rectangle behind the word. */
   box?: HTMLElement
+  /** `underline`: the accent line under the word. */
+  under?: HTMLElement
   /** The text currently shown (the stretch changes it). */
   shown: string
 }
@@ -128,6 +133,13 @@ export const kineticText: Primitive<KineticTextParams> = {
     camera.append(drift)
     ctx.layer.append(camera)
     const side = ctx.dir === 'rtl' ? 1 : -1
+    // `align`: the block hugs an edge of the safe area (the drift then grows away from that edge).
+    const edge = p.align === 'centre' ? undefined : p.align
+    if (edge) {
+      drift.style.direction = 'ltr'
+      drift.style.justifyContent = edge === 'right' ? 'flex-end' : 'flex-start'
+      drift.style.transformOrigin = edge === 'right' ? '100% 50%' : '0% 50%'
+    }
 
     // The text must still fit the safe area at the end of the drift.
     const grow = driftGrow(ctx.duration)
@@ -141,7 +153,8 @@ export const kineticText: Primitive<KineticTextParams> = {
       fontWeight: String(FONT_WEIGHT.display),
       lineHeight: '1.3',
       color: ctx.look.vars.fg,
-      textAlign: 'center',
+      textAlign: edge ?? 'center',
+      direction: ctx.dir,
     })
     drift.append(block)
     // As in slam: the glyph boxes overhang the line boxes; keep them inside the fit box too.
@@ -162,7 +175,7 @@ export const kineticText: Primitive<KineticTextParams> = {
     const decorate = (span: HTMLSpanElement, i: number): Unit => {
       const w = p.words[i]!
       const unit: Unit = { span, mover: span, echoes: [], shown: widest[i]! }
-      if (w.echo > 0 || w.strike || w.box) {
+      if (w.echo > 0 || w.strike || w.box || w.underline) {
         const host = el('span', 'word-host')
         Object.assign(host.style, { display: 'inline-block', position: 'relative' })
         // Padding keeps the copies and the strike inside the host box, so the fit sees them.
@@ -207,6 +220,24 @@ export const kineticText: Primitive<KineticTextParams> = {
           host.prepend(box)
           unit.box = box
         }
+        if (w.underline) {
+          // Below the descenders and any harakat; the padding keeps it inside the host box, so the fit sees it.
+          host.style.paddingBottom = `${UNDERLINE.drop + UNDERLINE.thick}em`
+          const line = el('div', 'underline')
+          Object.assign(line.style, {
+            position: 'absolute',
+            left: `${padX}em`,
+            right: `${padX}em`,
+            bottom: '0',
+            height: `${UNDERLINE.thick}em`,
+            background: ctx.look.vars.accent,
+            transformOrigin: side > 0 ? 'right center' : 'left center',
+            transform: 'scaleX(0)',
+            pointerEvents: 'none',
+          })
+          host.append(line)
+          unit.under = line
+        }
         unit.mover = host
       }
       if (p.enter === 'mask-line') {
@@ -235,7 +266,7 @@ export const kineticText: Primitive<KineticTextParams> = {
           p.words.map((w) => w.word),
         )
       } else {
-        Object.assign(block.style, { display: 'flex', flexDirection: 'column', alignItems: 'center', width: '', whiteSpace: '' })
+        Object.assign(block.style, { display: 'flex', flexDirection: 'column', alignItems: edge ? (edge === (ctx.dir === 'rtl' ? 'right' : 'left') ? 'flex-start' : 'flex-end') : 'center', width: '', whiteSpace: '' })
         spans = widest.map((text, i) => {
           const row = document.createElement('div')
           block.append(row)
@@ -377,6 +408,7 @@ export const kineticText: Primitive<KineticTextParams> = {
           }
           if (u.strike) u.strike.style.transform = strikeTransform(localT - w.strike!.at)
           // R17 as for the entrance: a box due before its draw is long enough is complete at `at`.
+          if (u.under) u.under.style.transform = `scaleX(${+EO(seg(localT - earlyStart(w.at, BOX.sec), 0, BOX.sec)).toFixed(4)})`
           if (u.box) u.box.style.transform = `scaleX(${+EO(seg(localT - earlyStart(w.at, BOX.sec), 0, BOX.sec)).toFixed(4)})`
         })
         let ox = 0

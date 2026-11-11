@@ -37,6 +37,8 @@ export const kineticWord = z.object({
   strike: z.object({ at: z.number().min(0), color: z.enum(['accent', 'fg']).optional() }).optional(),
   /** A rounded accent box behind the word (the word in the bg colour), drawn in from the reading side over `BOX.sec` at `at`. */
   box: z.boolean().optional(),
+  /** A line in the accent colour drawn under the word from the reading side over `BOX.sec` at `at` (not with `box`). */
+  underline: z.boolean().optional(),
   /** Overrides the stress punch peak scale of this word (Task 9 feeds it from the style DNA). */
   punch: z.number().min(1.1).max(1.5).optional(),
   /**
@@ -74,7 +76,10 @@ export const kineticTextParams = z
     maxPx: z.number().min(56).max(900).optional(),
     /** `out`: entrances ease out (default); `easy`: easy ease, eased in and out (sine). */
     ease: z.enum(['out', 'easy']).default('out'),
+    /** The edge the block hugs: the centre (default) or the right / left edge of the safe area (a style pack's headline). */
+    align: z.enum(['centre', 'right', 'left']).default('centre'),
   })
+  .refine((p) => p.words.every((w) => !(w.box && w.underline)), { message: 'كلمة وحدة ما تاخذ صندوق وخط تحتها سوا — a word takes box or underline, not both', path: ['words'] })
   .refine((p) => p.mode !== 'giant' || p.words.length === 1, { message: 'mode "giant" takes exactly one word', path: ['words'] })
 
 export type KineticTextParams = z.infer<typeof kineticTextParams>

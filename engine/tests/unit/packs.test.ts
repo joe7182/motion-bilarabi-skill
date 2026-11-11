@@ -3,6 +3,7 @@ import { PACKS, getPack, packList } from '../../src/packs/index'
 import { PACK_IDS, PACK_ROLES, packSchema, paramKeysOf } from '../../src/packs/schema'
 import { PACK_LOOK } from '../../src/core/pack-ids'
 import { TRANSITION_IDS } from '../../src/core/params/transitions'
+import { kineticTextParams } from '../../src/core/params/kinetic-text'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
 
 describe('packs', () => {
@@ -52,5 +53,17 @@ describe('packs', () => {
     expect(getPack('swiss-red').n).toBe(4)
     expect(getPack('2').id).toBe('dark-tech')
     expect(() => getPack('nope')).toThrow(/signature-cream/)
+  })
+})
+
+describe('kinetic-text for packs', () => {
+  const w = (over: object = {}) => ({ text: 'كلمة', at: 0, ...over })
+  it('aligns to the centre unless told', () => {
+    expect(kineticTextParams.parse({ words: [w()] }).align).toBe('centre')
+    expect(kineticTextParams.parse({ words: [w()], align: 'right' }).align).toBe('right')
+  })
+  it('takes an underline, but not with a box on the same word', () => {
+    expect(kineticTextParams.safeParse({ words: [w({ underline: true })] }).success).toBe(true)
+    expect(kineticTextParams.safeParse({ words: [w({ underline: true, box: true })] }).success).toBe(false)
   })
 })
