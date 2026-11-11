@@ -35,6 +35,7 @@ import { spaceField } from './space'
 import { screenMockup } from './screen-mockup'
 import { beatPulse } from './beat'
 import { bounceBall } from './physics'
+import { uiMorph } from './ui-morph'
 import { gaugeRing, liveTimer, notifyStack, statBars } from './data-fx'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
@@ -142,6 +143,7 @@ registerPrimitive(spaceField)
 registerPrimitive(screenMockup)
 registerPrimitive(beatPulse)
 registerPrimitive(bounceBall)
+registerPrimitive(uiMorph)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)

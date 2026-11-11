@@ -133,6 +133,7 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'code-file', group: 'screens', ar: 'ملف كود', does: 'محرّر أسطره تنكتب، والسر يتوهّج أحمر', ask: 'وريني ملف «…» والسطر الخطر', img: 'code-file' },
   { id: 'screen-mockup', group: 'screens', ar: 'شاشة موقع', does: 'لقطة موقع حقيقية بمتصفح: الصفحة تنزل، إضاءة على جزء وزوم عليه، والماوس يضغط', ask: 'حط موقع «…» بمتصفح، انزل للـ «…» وسلّط عليه', img: 'screen-mockup' },
   { id: 'screen-mockup:phone', group: 'screens', ar: 'شاشة جوال', does: 'لقطة تطبيق أو موقع بجوال: إصبع يضغط، الصفحة تنزل، وإضاءة على جزء', ask: 'حط «…» على جوال واضغط على «…»', img: 'phone-mockup', use: 'screen-mockup with `"device": "phone"`' },
+  { id: 'ui-morph', group: 'screens', ar: 'واجهة تتحوّل', does: 'شكل واحد يصير زر، تحميل، صح، مفتاح، شريط، تبويبات، رسم بياني، إشعار، وجزيرة الجوال؛ والماوس يضغط كل مرة', ask: 'خلّ زر «…» يتحوّل لتحميل وبعدين صح وإشعار', img: 'ui-morph' },
   { id: 'app-window', group: 'screens', ar: 'نافذة تطبيق', does: 'نافذة تطبيق أو طرفية فيها أسطر', ask: 'حط نافذة طرفية تكتب «…»' },
   { id: 'screen-clip', group: 'screens', ar: 'تسجيل شاشة', does: 'تسجيل شاشتك داخل نافذة متصفح', ask: 'حط تسجيل الشاشة بنافذة' },
   { id: 'search-typing', group: 'screens', ar: 'بحث يتكتب', does: 'شريط بحث يكتب', ask: 'خلّ البحث يكتب «…»' },

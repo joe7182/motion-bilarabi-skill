@@ -146,6 +146,7 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | ملف كود | scene `"type": "code-file"` | وريني ملف «…» والسطر الخطر |
 | شاشة موقع | scene `"type": "screen-mockup"` | حط موقع «…» بمتصفح، انزل للـ «…» وسلّط عليه |
 | شاشة جوال | screen-mockup with `"device": "phone"` | حط «…» على جوال واضغط على «…» |
+| واجهة تتحوّل | scene `"type": "ui-morph"` | خلّ زر «…» يتحوّل لتحميل وبعدين صح وإشعار |
 | نافذة تطبيق | scene `"type": "app-window"` | حط نافذة طرفية تكتب «…» |
 | تسجيل شاشة | scene `"type": "screen-clip"` | حط تسجيل الشاشة بنافذة |
 | بحث يتكتب | scene `"type": "search-typing"` | خلّ البحث يكتب «…» |
