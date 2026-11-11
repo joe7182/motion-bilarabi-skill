@@ -103,7 +103,9 @@ export const editorialType: Primitive<EditorialTypeParams> = {
       if (sel.label) {
         chip = document.createElement('div')
         chip.textContent = sel.label
-        Object.assign(chip.style, { position: 'absolute', top: `${f3(-50 * k)}px`, right: `${f3(-bw)}px`, background: selColour, color: '#ffffff', font: `400 ${f3(28 * k)}px ${FONT_MONO}`, padding: `${f3(4 * k)}px ${f3(12 * k)}px`, borderRadius: `${f3(4 * k)}px`, whiteSpace: 'nowrap', direction: 'ltr' })
+        // Above the box, unless a line sits above the word and none below: then under it, clear of that line.
+        const under = sel.line > 0 && sel.line === p.lines.length - 1
+        Object.assign(chip.style, { position: 'absolute', [under ? 'bottom' : 'top']: `${f3(-50 * k)}px`, right: `${f3(-bw)}px`, background: selColour, color: '#ffffff', font: `400 ${f3(28 * k)}px ${FONT_MONO}`, padding: `${f3(4 * k)}px ${f3(12 * k)}px`, borderRadius: `${f3(4 * k)}px`, whiteSpace: 'nowrap', direction: 'ltr' })
         frame.append(chip)
       }
     }
