@@ -6,7 +6,7 @@ export const swissRed: Pack = {
   does: 'أبيض مطفي وأسود وكلمة حمرة وحدة بكل سطر؛ عنوان كبير على اليمين، خطوط رفيعة وأرقام أقسام، وحركة مستقيمة دقيقة',
   ask: 'خلّ الستايل سويسري أحمر',
   look: 'swiss-red',
-  layout: { headline: { y: 0.28, align: 'right', maxPx: 200 }, showY: 0.62, objects: 'side', gap: 0.05, keyMark: 'colour' },
+  layout: { headline: { y: 0.3, align: 'right', maxPx: 250 }, showY: 0.62, objects: 'side', gap: 0.05, keyMark: 'colour' },
   motion: { ease: 'snappy', enter: 'mask-line', blur: 0, camera: 'locked' },
   transitions: { default: 'color-wipe', section: 'ink-slab', more: ['blinds', 'reveal'] },
   background: [{ type: 'backdrop', params: { world: 'paper' } }],

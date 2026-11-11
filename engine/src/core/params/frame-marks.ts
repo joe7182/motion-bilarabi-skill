@@ -29,7 +29,7 @@ export const FRAME_MARKS = {
   /** px at 1080 wide: rule thickness, tick length, tag and number font sizes. */
   rule: 2,
   tick: 30,
-  tagPx: 26,
+  tagPx: 30,
   numberPx: 72,
   /** The tag and the number sit this far inside the safe area's top / bottom edge (fraction of the safe height). */
   inset: 0.008,

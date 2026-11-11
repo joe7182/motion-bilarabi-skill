@@ -16,6 +16,8 @@ export const PACK_PRESET = {
   overShowMaxY: 0.3,
   /** A pack whose headline is this low is a "centred headline" pack: a headline alone uses the pack's own y. */
   centredFrom: 0.35,
+  /** Over a show, a centred-headline pack keeps the classic height and at most this font px (the show needs the room). */
+  overShowMaxPx: 190,
   /** Frame marks live on this (fixed) track; transitions are never put on it. */
   marksTrack: 1,
   /** A transition takes at most this share of the shorter scene it joins, and is dropped when shorter than `minTransition`. */
@@ -79,8 +81,10 @@ export function dressPreset(sb: Raw, secs: Section[], pack: Pack, opts: { beat?:
       const laser = laserHeadline(sc, pack)
       if (laser) return laser
     }
-    const y = alone ? (L.headline.y >= PACK_PRESET.centredFrom ? L.headline.y : PACK_PRESET.classicCentredY) : Math.min(L.headline.y, PACK_PRESET.overShowMaxY)
-    return { ...sc, params: { ...sc.params, y, align: L.headline.align, enter: pack.motion.enter, maxPx: L.headline.maxPx, words: markWords(sc.params.words as Raw[], L.keyMark) } }
+    const centredPack = L.headline.y >= PACK_PRESET.centredFrom
+    const y = alone ? (centredPack ? L.headline.y : PACK_PRESET.classicCentredY) : centredPack ? PACK_PRESET.classicY : Math.min(L.headline.y, PACK_PRESET.overShowMaxY)
+    const maxPx = !alone && centredPack ? Math.min(L.headline.maxPx, PACK_PRESET.overShowMaxPx) : L.headline.maxPx
+    return { ...sc, params: { ...sc.params, y, align: L.headline.align, enter: pack.motion.enter, maxPx, words: markWords(sc.params.words as Raw[], L.keyMark) } }
   })
 
   // Background: a pack with a backdrop keeps every section in that colour world (the look stays itself:
