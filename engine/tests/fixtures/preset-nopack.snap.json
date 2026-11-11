@@ -1,0 +1,736 @@
+{
+ "list": {
+  "version": 1,
+  "format": "9:16",
+  "fps": 60,
+  "look": "swiss-red",
+  "dir": "rtl",
+  "seed": 1,
+  "autoSfx": false,
+  "camera": {
+   "fixedTracks": [
+    5
+   ],
+   "keys": [
+    {
+     "at": 0,
+     "x": 0.5,
+     "y": 0.5,
+     "zoom": 1
+    }
+   ]
+  },
+  "audio": [
+   {
+    "kind": "voice",
+    "media": "m1"
+   }
+  ],
+  "scenes": [
+   {
+    "id": "hook-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 0,
+    "duration": 3.6,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "hook-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 0,
+    "duration": 3.6,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.45,
+     "words": [
+      {
+       "text": "العربي",
+       "at": 0
+      },
+      {
+       "text": "احترافي",
+       "at": 2.58,
+       "box": true
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item1-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 3.6,
+    "duration": 2.88,
+    "params": {
+     "world": "paper"
+    }
+   },
+   {
+    "id": "item1-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 3.6,
+    "duration": 2.88,
+    "params": {
+     "count": 3,
+     "index": 1,
+     "label": "حركة · ٠١",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item1-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 3.6,
+    "duration": 1,
+    "params": {
+     "number": 1,
+     "title": "الحروف",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item1-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 4.6,
+    "duration": 1.88,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "خلها",
+       "at": 0
+      },
+      {
+       "text": "متصلة",
+       "at": 0.86,
+       "box": true
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item1-show",
+    "type": "letters-join",
+    "track": 3,
+    "start": 4.6,
+    "duration": 1.88,
+    "params": {
+     "word": "العربي",
+     "at": 0.564,
+     "duration": 0.752,
+     "reverse": false,
+     "place": {
+      "x": 0.5,
+      "y": 0.55
+     },
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item2-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 6.48,
+    "duration": 2.88,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "item2-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 6.48,
+    "duration": 2.88,
+    "params": {
+     "count": 3,
+     "index": 2,
+     "label": "حركة · ٠٢",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item2-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 6.48,
+    "duration": 1,
+    "params": {
+     "number": 2,
+     "title": "التطويل",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item2-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 7.48,
+    "duration": 1.88,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "التطويل",
+       "at": 0,
+       "box": true
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item2-show",
+    "type": "type-stretch",
+    "track": 3,
+    "start": 7.48,
+    "duration": 1.88,
+    "params": {
+     "word": "تتمدد",
+     "at": 0.47,
+     "duration": 0.94,
+     "place": {
+      "x": 0.5,
+      "y": 0.55
+     },
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item3-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 9.36,
+    "duration": 3.5,
+    "params": {
+     "world": "paper"
+    }
+   },
+   {
+    "id": "item3-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 9.36,
+    "duration": 3.5,
+    "params": {
+     "count": 3,
+     "index": 3,
+     "label": "حركة · ٠٣",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item3-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 9.36,
+    "duration": 1,
+    "params": {
+     "number": 3,
+     "title": "الكثرة",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item3-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 10.36,
+    "duration": 2.5,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "الكثرة",
+       "at": 0,
+       "box": true
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "item3-show",
+    "type": "kinetic-text",
+    "track": 3,
+    "start": 10.36,
+    "duration": 2.5,
+    "params": {
+     "mode": "stack",
+     "enter": "mask",
+     "y": 0.55,
+     "words": [
+      {
+       "text": "الجملة",
+       "at": 0.15,
+       "strike": {
+        "at": 0.85
+       }
+      },
+      {
+       "text": "الكلمة",
+       "at": 1.25,
+       "color": "accent"
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "cta-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "cta-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "علّق:",
+       "at": 0
+      },
+      {
+       "text": "عربي",
+       "at": 1.86,
+       "box": true
+      }
+     ],
+     "ease": "easy"
+    }
+   },
+   {
+    "id": "cta-cta",
+    "type": "comment-cta",
+    "track": 3,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "keyword": "عربي",
+     "at": {
+      "x": 0.5,
+      "y": 0.6
+     }
+    }
+   }
+  ]
+ },
+ "listBeatSnappy": {
+  "version": 1,
+  "format": "9:16",
+  "fps": 60,
+  "look": "swiss-red",
+  "dir": "rtl",
+  "seed": 1,
+  "autoSfx": false,
+  "camera": {
+   "fixedTracks": [
+    5
+   ],
+   "keys": [
+    {
+     "at": 0,
+     "x": 0.5,
+     "y": 0.5,
+     "zoom": 1
+    }
+   ]
+  },
+  "audio": [
+   {
+    "kind": "voice",
+    "media": "m1"
+   }
+  ],
+  "scenes": [
+   {
+    "id": "hook-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 0,
+    "duration": 3.6,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "hook-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 0,
+    "duration": 3.6,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.45,
+     "words": [
+      {
+       "text": "العربي",
+       "at": 0
+      },
+      {
+       "text": "احترافي",
+       "at": 2.58,
+       "box": true
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item1-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 3.6,
+    "duration": 2.88,
+    "params": {
+     "world": "paper"
+    }
+   },
+   {
+    "id": "item1-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 3.6,
+    "duration": 2.88,
+    "params": {
+     "count": 3,
+     "index": 1,
+     "label": "حركة · ٠١",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item1-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 3.6,
+    "duration": 1,
+    "params": {
+     "number": 1,
+     "title": "الحروف",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item1-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 4.6,
+    "duration": 1.88,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "خلها",
+       "at": 0
+      },
+      {
+       "text": "متصلة",
+       "at": 0.86,
+       "box": true
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item1-show",
+    "type": "letters-join",
+    "track": 3,
+    "start": 4.6,
+    "duration": 1.88,
+    "params": {
+     "word": "العربي",
+     "at": 0.9,
+     "duration": 1,
+     "reverse": false,
+     "place": {
+      "x": 0.5,
+      "y": 0.55
+     },
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item2-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 6.48,
+    "duration": 2.88,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "item2-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 6.48,
+    "duration": 2.88,
+    "params": {
+     "count": 3,
+     "index": 2,
+     "label": "حركة · ٠٢",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item2-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 6.48,
+    "duration": 1,
+    "params": {
+     "number": 2,
+     "title": "التطويل",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item2-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 7.48,
+    "duration": 1.88,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "التطويل",
+       "at": 0,
+       "box": true
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item2-show",
+    "type": "type-stretch",
+    "track": 3,
+    "start": 7.48,
+    "duration": 1.88,
+    "params": {
+     "word": "تتمدد",
+     "at": 0.52,
+     "duration": 1,
+     "place": {
+      "x": 0.5,
+      "y": 0.55
+     },
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item3-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 9.36,
+    "duration": 3.5,
+    "params": {
+     "world": "paper"
+    }
+   },
+   {
+    "id": "item3-bar",
+    "type": "chapter-bar",
+    "track": 5,
+    "start": 9.36,
+    "duration": 3.5,
+    "params": {
+     "count": 3,
+     "index": 3,
+     "label": "حركة · ٠٣",
+     "at": 0.05,
+     "fill": 1,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item3-num",
+    "type": "section-number",
+    "track": 3,
+    "start": 9.36,
+    "duration": 1,
+    "params": {
+     "number": 3,
+     "title": "الكثرة",
+     "digits": "arabic",
+     "at": {
+      "x": 0.5,
+      "y": 0.42
+     },
+     "size": 0.55,
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item3-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 10.36,
+    "duration": 2.5,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "الكثرة",
+       "at": 0,
+       "box": true
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "item3-show",
+    "type": "kinetic-text",
+    "track": 3,
+    "start": 10.36,
+    "duration": 2.5,
+    "params": {
+     "mode": "stack",
+     "enter": "mask",
+     "y": 0.55,
+     "words": [
+      {
+       "text": "الجملة",
+       "at": 0.64,
+       "strike": {
+        "at": 1.55
+       }
+      },
+      {
+       "text": "الكلمة",
+       "at": 1.75,
+       "color": "accent"
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "cta-bg",
+    "type": "backdrop",
+    "track": 0,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "world": "ink"
+    }
+   },
+   {
+    "id": "cta-h",
+    "type": "kinetic-text",
+    "track": 5,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "mode": "line",
+     "enter": "mask",
+     "y": 0.25,
+     "words": [
+      {
+       "text": "علّق:",
+       "at": 0
+      },
+      {
+       "text": "عربي",
+       "at": 1.86,
+       "box": true
+      }
+     ],
+     "ease": "out"
+    }
+   },
+   {
+    "id": "cta-cta",
+    "type": "comment-cta",
+    "track": 3,
+    "start": 12.86,
+    "duration": 3,
+    "params": {
+     "keyword": "عربي",
+     "at": {
+      "x": 0.5,
+      "y": 0.6
+     }
+    }
+   }
+  ]
+ }
+}

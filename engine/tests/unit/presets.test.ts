@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { findPhrase, parsePreset, presetStoryboard } from '../../src/core/recipes/presets'
 import { parseStoryboard } from '../../src/core/storyboard'
 import { PRIMITIVE_IDS } from '../../src/core/primitive-ids'
@@ -160,5 +161,17 @@ describe('captions', () => {
     expect(c.length).toBe(1)
     expect(c[0]!.params.skin).toBe('karaoke')
     expect(c[0]!.start).toBe(0)
+  })
+})
+
+describe('presets without a pack', () => {
+  it('build exactly what they built before packs (snapshot)', () => {
+    const file = new URL('../fixtures/preset-nopack.snap.json', import.meta.url)
+    const now = {
+      list: presetStoryboard({ preset: parsePreset(preset), transcript: tr as never, fps: 60, seed: 1 }),
+      listBeatSnappy: presetStoryboard({ preset: parsePreset({ ...preset, beat: { bpm: 120 }, motion: 'snappy' }), transcript: tr as never, fps: 60, seed: 1 }),
+    }
+    if (!existsSync(file)) writeFileSync(file, JSON.stringify(now, null, 1))
+    expect(JSON.parse(JSON.stringify(now))).toEqual(JSON.parse(readFileSync(file, 'utf8')))
   })
 })
