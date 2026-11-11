@@ -28,6 +28,7 @@ import { screenMockupParams } from './screen-mockup'
 import { beatPulseParams } from './beat'
 import { bounceBallParams } from './physics'
 import { uiMorphParams } from './ui-morph'
+import { halftoneFieldParams, springGraphParams } from './dots'
 import { gaugeRingParams, liveTimerParams, notifyStackParams, statBarsParams } from './data-fx'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
@@ -110,6 +111,8 @@ export const PARAMS = {
   'beat-pulse': beatPulseParams,
   'bounce-ball': bounceBallParams,
   'ui-morph': uiMorphParams,
+  'spring-graph': springGraphParams,
+  'halftone-field': halftoneFieldParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

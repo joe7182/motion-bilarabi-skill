@@ -113,6 +113,8 @@ export const CATALOG: CatalogEntry[] = [
   { id: 'stat-bars', group: 'objects', ar: 'أشرطة أرقام', does: 'أشرطة تكبر وحدة وحدة والأرقام تعدّ، وشريط بطل باللون', ask: 'سوّ أشرطة: «…» ٤٥٪، «…» ٢٠٪، والأول بطل', img: 'stat-bars' },
   { id: 'gauge-ring', group: 'objects', ar: 'عدّاد دائري', does: 'حلقة تمتلي لحد النسبة والرقم يعدّ بالنص', ask: 'سوّ عدّاد دائري يوصل ٨٧٪ «…»', img: 'gauge-ring' },
   { id: 'live-timer', group: 'objects', ar: 'مؤقّت حي', does: 'ساعة إيقاف أو عدّ تنازلي بنقطة تنبض وحلقة تقدّم', ask: 'سوّ عدّ تنازلي من ١٠ ثواني «…»', img: 'live-timer' },
+  { id: 'spring-graph', group: 'objects', ar: 'رسم بياني بالنقطة', does: 'نقطة برتقالية تنط من نقطة لنقطة وترسم الخط وراها، وبالنهاية تطلع «+٢٢٪»', ask: 'خلّ نقطة ترسم نمو «…» من «…» لـ «…»', img: 'spring-graph' },
+  { id: 'halftone-field', group: 'objects', ar: 'حقل النقاط', does: 'شبكة نقاط تكبر حوالين نقطة تتحرك، ومسحة نقاط تغطي الشاشة وتفتح على المشهد الجاي', ask: 'سوّ خلفية نقاط تتفاعل ويا النقطة، وانتقل بمسحة نقاط', img: 'halftone-field' },
   { id: 'counter', group: 'objects', ar: 'عدّاد', does: 'رقم يعدّ لحد قيمة', ask: 'خلّ الرقم يعدّ لـ «…»', img: 'counter' },
   { id: 'build-number', group: 'objects', ar: 'رقم يتبني', does: 'أشياء تنزل وتبني رقم', ask: 'ابني الرقم «…» من قطع' },
   { id: 'numbered-slots', group: 'objects', ar: 'خانات مرقّمة', does: 'كروت مرقّمة من اليمين', ask: 'سوّ ٣ خانات مرقّمة' },
