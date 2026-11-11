@@ -19,6 +19,7 @@ import { cuesOfBeatPulse } from './params/beat'
 import { cuesOfBounceBall } from './params/physics'
 import { cuesOfUiMorph } from './params/ui-morph'
 import { cuesOfHalftoneField, cuesOfSpringGraph } from './params/dots'
+import { cuesOfBeforeAfter, cuesOfFanCards, cuesOfFunnel } from './params/concept-fx'
 import { cuesOfGaugeRing, cuesOfLiveTimer, cuesOfNotifyStack, cuesOfStatBars } from './params/data-fx'
 import { cuesOfBeatSlam, cuesOfGlowWords, cuesOfLaserBeam, cuesOfLaserType, cuesOfTechGrid } from './params/laser'
 import { cuesOfSkillDeck, cuesOfTwinSync } from './params/skills-fx'
@@ -126,6 +127,9 @@ export const CUES: Record<string, CuesOf> = {
   'ui-morph': cuesOfUiMorph as CuesOf,
   'spring-graph': cuesOfSpringGraph as CuesOf,
   'halftone-field': cuesOfHalftoneField as CuesOf,
+  'before-after': cuesOfBeforeAfter as CuesOf,
+  'fan-cards': cuesOfFanCards as CuesOf,
+  funnel: cuesOfFunnel as CuesOf,
   'laser-beam': cuesOfLaserBeam as CuesOf,
   'glow-words': cuesOfGlowWords as CuesOf,
   'beat-slam': cuesOfBeatSlam as CuesOf,

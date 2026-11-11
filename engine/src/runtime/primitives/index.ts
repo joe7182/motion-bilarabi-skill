@@ -37,6 +37,7 @@ import { beatPulse } from './beat'
 import { bounceBall } from './physics'
 import { uiMorph } from './ui-morph'
 import { halftoneField, springGraph } from './dots'
+import { beforeAfter, fanCards, funnel } from './concept-fx'
 import { gaugeRing, liveTimer, notifyStack, statBars } from './data-fx'
 import { beatSlam, glowWords, laserBeam, laserType, techGrid } from './laser'
 import { skillDeck, twinSync } from './skills-fx'
@@ -147,6 +148,9 @@ registerPrimitive(bounceBall)
 registerPrimitive(uiMorph)
 registerPrimitive(springGraph)
 registerPrimitive(halftoneField)
+registerPrimitive(beforeAfter)
+registerPrimitive(fanCards)
+registerPrimitive(funnel)
 registerPrimitive(laserBeam)
 registerPrimitive(glowWords)
 registerPrimitive(beatSlam)

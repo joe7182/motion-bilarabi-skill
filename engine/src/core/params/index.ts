@@ -29,6 +29,7 @@ import { beatPulseParams } from './beat'
 import { bounceBallParams } from './physics'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
+import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
 import { gaugeRingParams, liveTimerParams, notifyStackParams, statBarsParams } from './data-fx'
 import { beatSlamParams, glowWordsParams, laserBeamParams, laserTypeParams, techGridParams } from './laser'
 import { skillDeckParams, twinSyncParams } from './skills-fx'
@@ -113,6 +114,9 @@ export const PARAMS = {
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,
+  'before-after': beforeAfterParams,
+  'fan-cards': fanCardsParams,
+  funnel: funnelParams,
   'laser-beam': laserBeamParams,
   'glow-words': glowWordsParams,
   'beat-slam': beatSlamParams,

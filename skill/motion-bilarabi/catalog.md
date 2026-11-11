@@ -124,6 +124,9 @@ between two scenes. For style ٣ also put `tech-grid` on track 0 for the whole v
 | مؤقّت حي | scene `"type": "live-timer"` | سوّ عدّ تنازلي من ١٠ ثواني «…» |
 | رسم بياني بالنقطة | scene `"type": "spring-graph"` | خلّ نقطة ترسم نمو «…» من «…» لـ «…» |
 | حقل النقاط | scene `"type": "halftone-field"` | سوّ خلفية نقاط تتفاعل ويا النقطة، وانتقل بمسحة نقاط |
+| قبل وبعد | scene `"type": "before-after"` | وريني «…» قبل و«…» بعد بفاصل يتسحب |
+| وحدة تصير كثير | scene `"type": "fan-cards"` | خلّ «…» يطلع منه «…» و«…» و«…» |
+| القمع | scene `"type": "funnel"` | سوّ قمع يفلتر «…» ويطلع «…» |
 | عدّاد | scene `"type": "counter"` | خلّ الرقم يعدّ لـ «…» |
 | رقم يتبني | scene `"type": "build-number"` | ابني الرقم «…» من قطع |
 | خانات مرقّمة | scene `"type": "numbered-slots"` | سوّ ٣ خانات مرقّمة |

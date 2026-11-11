@@ -376,6 +376,7 @@ const SCENE_IMAGE_FIELDS: Record<string, readonly (readonly string[])[]> = {
   phone: [['screen', 'image']],
   'app-window': [['image']],
   'screen-mockup': [['image']],
+  'before-after': [['before', 'image'], ['after', 'image']],
   'profile-card': [['avatar']],
   'book-flip': [['image']],
   'photo-look': [['image']],
