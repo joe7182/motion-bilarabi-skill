@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { Cue } from '../audio-plan'
 import { OBJECT_IDS, type ObjectId } from '../objects'
+import { EVERYDAY_BEAT } from '../objects-everyday'
 import { seg } from '../ease'
 import { rng } from '../rng'
 import { morphKey, oneLine } from './common'
@@ -595,6 +596,19 @@ export function beatCuesOf(p: Pick<MorphObjectParams, 'states'>, k: number, end:
       break
     case 'receipt':
       out = [{ t: s.at + beatsOf(s.beats, RECEIPT.beats)[0]! + RECEIPT.stampAfter + RECEIPT.stampSec, kind: 'hit' }]
+      break
+    // Everyday objects: each one's own moment (the shutter, the pulse, the sparkle, the press, the drop, the page, the shout, the ignition).
+    case 'camera':
+    case 'play':
+    case 'book':
+      out = [{ t: s.at + beatsOf(s.beats, [EVERYDAY_BEAT])[0]!, kind: 'tick' }]
+      break
+    case 'heart':
+    case 'star':
+    case 'cart':
+    case 'megaphone':
+    case 'rocket':
+      out = [{ t: s.at + beatsOf(s.beats, [EVERYDAY_BEAT])[0]!, kind: 'pop' }]
       break
   }
   return out.filter((c) => c.t < until && c.t < end)

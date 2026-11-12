@@ -740,7 +740,7 @@ describe('Plan 3 Task 3 params: morph-object', () => {
     expect(pathOf(() => validateSceneParams(sb(scene({ states: [{ ...dot, at: 1 }, { ...coin, at: 0.5 }] }))))).toBe('scenes[0].params.states[1].at')
     let msg = ''
     try {
-      validateSceneParams(sb(scene({ states: [{ ...dot, object: 'star' }] })))
+      validateSceneParams(sb(scene({ states: [{ ...dot, object: 'spaceship' }] })))
     } catch (e) {
       expect(e).toBeInstanceOf(StoryboardError)
       expect((e as StoryboardError).path).toBe('scenes[0].params.states[0].object')

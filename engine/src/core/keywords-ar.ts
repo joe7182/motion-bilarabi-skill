@@ -201,6 +201,16 @@ export const OBJECT_STEMS: readonly ObjectStem[] = [
   { stems: ['صوت', 'سجل', 'تسجيل'], object: 'microphone' },
   { stems: ['مونتاج', 'مهاره', 'تحرك', 'حرك', 'فيديو', 'قص'], object: 'timeline' },
   { stems: ['تطبيق', 'جوال'], object: 'phone-app' },
+  // Everyday topics.
+  // Only words that name the thing itself: a broad word («صور», «أفضل», «ابدأ») would pull these into scripts about something else.
+  { stems: ['كاميرا', 'تصوير', 'عدسه'], object: 'camera' },
+  { stems: ['لايك', 'لايكات', 'اعجاب'], object: 'heart' },
+  { stems: ['نجمه', 'تقييم'], object: 'star' },
+  { stems: ['مشاهدات', 'يوتيوب'], object: 'play' },
+  { stems: ['متجر', 'تسوق', 'مبيعات'], object: 'cart' },
+  { stems: ['كتاب', 'قراءه'], object: 'book' },
+  { stems: ['اعلان', 'تسويق', 'ترويج'], object: 'megaphone' },
+  { stems: ['صاروخ', 'انطلاق'], object: 'rocket' },
 ]
 
 /** Stems of the director's scene visuals: the customer chase, the word wall (repetition), the repeat loop (every day). */

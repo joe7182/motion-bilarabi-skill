@@ -38,7 +38,9 @@ const BOX: Record<(typeof NEW)[number], [number, number]> = {
 
 describe('Video 2 outlines: hard-hat, bulb, ai-chip, tool, magnifier, follow, compass, receipt', () => {
   it('the new ids are appended to OBJECT_IDS in the brief order', () => {
-    expect(OBJECT_IDS.slice(-8)).toEqual([...NEW])
+    // (the everyday objects were added after them)
+    const at = OBJECT_IDS.indexOf(NEW[0])
+    expect(OBJECT_IDS.slice(at, at + 8)).toEqual([...NEW])
   })
 
   it('each has 240 points, fits its geometry box (±2 %) and is centred', () => {

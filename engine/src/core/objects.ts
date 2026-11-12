@@ -15,9 +15,10 @@
  * disc and the purchase-order slip 0.75 × 1.1 of it.
  */
 import { circle, resample, roundRect, type Pt } from './morph'
+import { EVERYDAY_GEOMETRY, EVERYDAY_IDS, everydayOutline, type EverydayId } from './objects-everyday'
 
 /** Object ids known to the morph engine. */
-export const OBJECT_IDS = ['dot', 'ring', 'bar', 'clock', 'coin', 'document', 'microphone', 'timeline', 'calendar', 'envelope', 'bell', 'voice-note', 'phone-app', 'brick', 'house', 'blueprint', 'eye', 'photo', 'chat', 'banknote', 'scale', 'materials', 'sun', 'room', 'pin', 'window', 'sun-path', 'file', 'hard-hat', 'bulb', 'ai-chip', 'tool', 'magnifier', 'follow', 'compass', 'receipt'] as const
+export const OBJECT_IDS = ['dot', 'ring', 'bar', 'clock', 'coin', 'document', 'microphone', 'timeline', 'calendar', 'envelope', 'bell', 'voice-note', 'phone-app', 'brick', 'house', 'blueprint', 'eye', 'photo', 'chat', 'banknote', 'scale', 'materials', 'sun', 'room', 'pin', 'window', 'sun-path', 'file', 'hard-hat', 'bulb', 'ai-chip', 'tool', 'magnifier', 'follow', 'compass', 'receipt', ...EVERYDAY_IDS] as const
 export type ObjectId = (typeof OBJECT_IDS)[number]
 
 /**
@@ -113,6 +114,8 @@ export const OBJECT_GEOMETRY = {
   compass: { w: 1, h: 1 },
   /** A purchase-order slip: straight top with small corners, a zig-zag torn bottom of `teeth` teeth `tooth` deep. */
   receipt: { w: 0.75, h: 1.1, r: 0.02, teeth: 9, tooth: 0.04 },
+  // Everyday objects (objects-everyday.ts).
+  ...EVERYDAY_GEOMETRY,
 } as const
 
 /**
@@ -533,6 +536,7 @@ export function objectOutline(id: ObjectId, size: number): Pt[] {
       return bubbleOutline(g.w * size, g.h * size, g.r * size, g.tail * size)
     }
     default:
+      if ((EVERYDAY_IDS as readonly string[]).includes(id)) return everydayOutline(id as EverydayId, size)
       throw new Error(`شكل غير معروف "${String(id)}" — unknown object "${String(id)}" (expected ${OBJECT_IDS.join(', ')})`)
   }
 }

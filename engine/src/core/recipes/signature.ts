@@ -188,6 +188,14 @@ const OBJECT_SIZE: Record<ObjectId, number> = {
   follow: 0.62,
   compass: 0.46,
   receipt: 0.4,
+  camera: 0.5,
+  heart: 0.42,
+  star: 0.44,
+  play: 0.62,
+  cart: 0.5,
+  book: 0.6,
+  megaphone: 0.54,
+  rocket: 0.5,
 }
 /** The envelope sits lower: its invoices fan out above it. */
 const OBJECT_Y: Partial<Record<ObjectId, number>> = { envelope: 0.7 }
@@ -249,6 +257,14 @@ const OBJECT_AR: Record<ObjectId, string> = {
   follow: 'تابعني',
   compass: 'بوصلة',
   receipt: 'طلبية شراء',
+  camera: 'كاميرا',
+  heart: 'قلب',
+  star: 'نجمة',
+  play: 'فيديو',
+  cart: 'سلة التسوّق',
+  book: 'كتاب',
+  megaphone: 'إعلان',
+  rocket: 'انطلاق',
 }
 
 const T_BG = 0

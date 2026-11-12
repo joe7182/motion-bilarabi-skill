@@ -80,6 +80,14 @@ for a verdict, `said` for said-vs-written, `heavy` for a burden) — **never a n
 | `scale` | a balance scale | comparing, a trade-off |
 | `compass` / `pin` | a compass / a map pin | direction / a place |
 | `hard-hat` | engineers in hard hats | a team, builders |
+| `camera` | a camera whose shutter clicks and flash fires | filming, photography, a shot |
+| `play` | a video player: the button is pressed, the bar fills | a video, a reel, views, watching |
+| `heart` / `star` | a heart that beats / a gold star that sparkles | likes, love, loyalty / quality, a rating, the best |
+| `cart` | a shopping cart, a parcel drops in | a shop, buying, sales, orders |
+| `book` | an open book, a page turns | learning, reading, a lesson, a guide |
+| `megaphone` | a megaphone sending sound waves | an ad, marketing, an announcement |
+| `rocket` | a rocket whose engine lights | a launch, growth, a fast start |
+| `sun` | a sun disc with rays | light, daytime, good lighting |
 | `house`, `brick`, `blueprint`, `room`, `window`, `materials`, `sun`, `sun-path` | the home-building set | architecture and building videos only |
 | `dot`, `ring`, `bar` | plain shapes | transitions only — never the idea of a sentence |
 

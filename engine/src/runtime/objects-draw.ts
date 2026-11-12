@@ -22,6 +22,8 @@ import { rgba } from './materials'
 import { drawBanknote, drawBlueprint, drawBrick, drawChat, drawEye, drawHouse, drawPhoto } from './objects-draw-home'
 import { drawFile, drawMaterials, drawScale } from './objects-draw-cost'
 import { drawPin, drawRoom, drawSun, drawSunPath, drawWindow } from './objects-draw-sun'
+import { drawEveryday } from './objects-draw-everyday'
+import { EVERYDAY_IDS, type EverydayId } from '../core/objects-everyday'
 import { drawAiChip, drawBulb, drawCompass, drawFollow, drawHardHat, drawMagnifier, drawReceipt, drawTool } from './objects-draw-mission'
 
 const TAU = Math.PI * 2
@@ -252,6 +254,8 @@ export function drawObject(g: CanvasRenderingContext2D, id: ObjectId, d: ObjectD
     case 'receipt':
       drawReceipt(g, d)
       break
+    default:
+      if ((EVERYDAY_IDS as readonly string[]).includes(id)) drawEveryday(g, id as EverydayId, d)
   }
   g.restore()
 }

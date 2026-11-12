@@ -86,7 +86,7 @@ describe('circle / roundRect / lerpPts', () => {
 describe('objectOutline', () => {
   it('has 240 points and a box ≈ size for every round object and the bar', () => {
     // Task 6b / 6c: the document, microphone, timeline and the script objects have their own boxes (tested below; Stage 2's in stage2-objects.test.ts).
-    for (const id of OBJECT_IDS.filter((i) => !['document', 'microphone', 'timeline', 'calendar', 'envelope', 'bell', 'voice-note', 'phone-app', 'brick', 'house', 'blueprint', 'eye', 'photo', 'chat', 'scale', 'materials', 'room', 'window', 'sun-path', 'file', 'hard-hat', 'bulb', 'ai-chip', 'magnifier', 'follow', 'receipt'].includes(i))) {
+    for (const id of OBJECT_IDS.filter((i) => !['document', 'microphone', 'timeline', 'calendar', 'envelope', 'bell', 'voice-note', 'phone-app', 'brick', 'house', 'blueprint', 'eye', 'photo', 'chat', 'scale', 'materials', 'room', 'window', 'sun-path', 'file', 'hard-hat', 'bulb', 'ai-chip', 'magnifier', 'follow', 'receipt', 'camera', 'heart', 'star', 'play', 'cart', 'book', 'megaphone', 'rocket'].includes(i))) {
       const o = objectOutline(id, 200)
       expect(o).toHaveLength(240)
       const b = bbox(o)
