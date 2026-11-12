@@ -1,6 +1,6 @@
 ---
 name: motion-bilarabi
-description: Use when someone wants an Arabic motion-graphics video, reel, short, story or teaser (Instagram, TikTok, YouTube Shorts) from a script, an idea or a voice-over; when they say «موشن بالعربي», «سوّ لي ريل», «فيديو موشن», name a preset (قائمة، مشكلة وحل، خطوات، سألتوني، أداة، دليل حلقي، شرح نظام، تشويقة), or ask for storyboard images, a render, a beat, easy ease or a 60 fps vertical video; or want creator effects on a talking-head clip (cut-out, back focus, clones, blow away, orbit ring).
+description: Use when someone wants an Arabic motion-graphics video, reel, short, story or teaser (Instagram, TikTok, YouTube Shorts) from a script, an idea or a voice-over; when they say «موشن بالعربي», «سوّ لي ريل», «فيديو موشن», name a preset (قائمة، مشكلة وحل، خطوات، سألتوني، أداة، دليل حلقي، شرح نظام، تشويقة), or ask for storyboard images, a render, a beat, easy ease or a 60 fps vertical video; or give a clip of themself talking and want it edited into a reel (captions, key words, a name strip), or want creator effects on a talking-head clip (cut-out, back focus, clones, blow away, orbit ring).
 ---
 
 # موشن بالعربي · Creator Studio — Arabic motion graphics
@@ -17,30 +17,36 @@ there, ask where they put it. Its `README.md` is the install guide.
 ## Workflow (follow in order)
 1. **Setup once:** `mba doctor`. Fix anything marked ✗, giving the user both ways: the terminal
    command, and the sentence to paste in the Claude app's Code tab (doctor prints both).
-2. **Pick the preset** from the user's script — see `presets.md` (table + every field).
-3. **Style and motion (one message, before any plan):** unless their words already chose them, ask:
-   «أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر — والحركة ناعمة ولا حادة؟
-   وإذا تبي مؤثر معيّن لجملة، اكتب الجملة واسمه (القائمة كاملة بصفحة EFFECTS.md).»
-   The style is a **pack**: write its id from `catalog.md` as `"pack"` in `preset.json` (see «Style packs» below). Motion: smooth / ناعم /
-   سلس / easy ease → `"motion": "easy"`; sharp / حاد / قوي / snappy / بدون ease → `"snappy"`; nothing
-   said → leave `motion` out (the pack's own feel applies). If «سريع» could mean a short video rather than snappy motion, ask one question.
-   No answer, or «إنت اختار» → pick the style that fits the script and say which in one line.
-   **Per-sentence picks:** when the user names an effect for a sentence («الجملة ٢: شطب الكلمة»,
-   «بين القسم ١ و٢: تمزيق ورق»), look the name up in `catalog.md` and use exactly that; design
+2. **Guided start — one message, before any plan.** Ask only what their words have not already answered, and show the picture with it: `media/style-packs.jpg`, next to the `engine/` folder (`<engine>/../media/style-packs.jpg`). Send the file when the app can; else give its path as a link; if neither works, add one line per style from the «Style packs» table instead.
+   «قبل ما أبدأ، ثلاث أسئلة سريعة:
+   ١. الفيديو **بوجهك** (كليب إلك وإنت تتكلم) ولا **بدون وجه** (سكربت أو تعليق صوتي)؟
+   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر — الصورة توضّح الفرق، أو قل «إنت اختار».
+   ٣. الحركة **هادئة** ولا **حماسية**؟»
+   Then stop and wait. Never ask about effects, transitions, fonts or colours: the pack decides them.
+   Skip a question only when they said it outright («سوّ لي ريل داكن من هالكليب» answers ١ and ٢); a topic alone («ريل عن ثلاث نصايح») answers none.
+   - **١ → the preset.** With their face: the `talking` preset (see «Talking videos»). Without: pick the preset from the script's shape — `presets.md` (table + every field).
+   - **٢ → the pack.** The number or name is a **pack**: write its id from `catalog.md` as `"pack"` in `preset.json` (see «Style packs»). «إنت اختار» or no answer → pick the pack that fits the topic (the list is under «Style packs») and say which in one line.
+   - **٣ → the motion.** هادئة / ناعمة / سلسة / smooth / easy ease → `"motion": "easy"`; حماسية / حادة / قوية / snappy / بدون ease → `"snappy"`; no answer → leave `motion` out (the pack's own feel applies). If «سريع» could mean a short video rather than snappy motion, ask one question.
+3. **Their own picks win.** They may name an effect for a sentence at any time («الجملة ٢: شطب الكلمة»,
+   «بين القسم ١ و٢: تمزيق ورق»; the full list is the page EFFECTS.md): look the name up in `catalog.md` and use exactly that; design
    every other sentence yourself. If a pick breaks a rule below (text over the face, a headline
    on an object), keep the effect and move it, and say so.
 4. **Project:** `mba project init <dir> [media...] --format 9:16` (60 fps by default; no media is
-   fine for a video on a beat). It copies the user's files in — never edit their originals. Write
-   `<dir>/preset.json`.
+   fine for a video on a beat). `<dir>` must be new or empty: create nothing in it before `init`. It copies the user's
+   files in — never edit their originals. Write `<dir>/preset.json`.
 5. **Timing:**
    - Voice-over (needs whisper — `mba doctor` must show it ✓; install it first if not):
      `mba project add <dir> voice.mp3 --kind voice`, `mba ingest <dir>`, `mba transcribe <dir>`, then `mba preset <dir>`.
    - Voice-over without whisper: write `<dir>/transcript.json` by hand — `{"words":[{"text":"…","start":0.12,"end":0.48}, …]}`,
      times read from the waveform (or from silences: `ffmpeg -i voice.wav -af silencedetect=n=-35dB:d=0.25 -f null -`) — then `mba preset <dir>`.
-   - No voice: `mba preset <dir> --script script.txt --bpm 120` (words on the beat).
+   - No voice: write the script to `<dir>/script.txt` (plain Arabic, one sentence per line, each ending with a full stop), then
+     `mba preset <dir> --script <dir>/script.txt --bpm 120`. Each word lands on a beat and a sentence end rests one beat, so the
+     tempo sets the length: 120 is the normal pace, 100 is calmer, 140 is fast. Every `say` in `preset.json` must be words
+     of the script, in the script's order (`text` is what is shown and may differ).
    - Long pauses: list the silences over 0.5 s to the user and ask which to shorten; never cut them all.
      Keep the original voice untouched in `source/`; a tightened copy is a new file.
-6. **Check the plan:** `mba validate <dir>` must say OK before any image.
+6. **Check the plan:** `mba validate <dir>` must say OK before any image. `mba preset` rewrites `edit.json` every time it runs: change
+   `preset.json` and run it again; put hand edits (a person's effect picks) into `edit.json` last.
 7. **Storyboard images:** `mba preset` prints the exact `mba still …` command (one moment per
    section). Run it, look at every image yourself first (does each part show its idea? can a phone
    viewer read it?), show them, and **wait for approval.** Notes → edit, run again, new images.

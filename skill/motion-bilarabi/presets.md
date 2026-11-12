@@ -8,7 +8,7 @@ Every preset also takes `"pack"` (the style: `signature-cream`, `dark-tech`, `ci
 ## Which preset
 | # | `preset` | Script shape | Default look |
 |---|---|---|---|
-| 1 | `list` | «٤ أشياء…» then أولاً / ثانياً… then a comment CTA | swiss-red |
+| 1 | `list` | Tips, mistakes or things, any count from 2 to 8 («٣ نصايح…», «٤ أشياء…») then أولاً / ثانياً… then a comment CTA | swiss-red |
 | 2 | `tool` | A real tool / site: what it is, the recorded moments, the result | signature |
 | 3 | `loop` | A tip video whose last sentence runs into the first (the search bar opens and closes) | signature |
 | 4 | `system` | How a system works: layers, flow, tools | signature |
@@ -22,7 +22,7 @@ Looks: `swiss-red` (paper / ink / red), `signature` (cream / ink / orange), `pap
 `light-editorial`, `dark-tech`.
 
 ## Fields per preset
-- `list`: `label` (bar word, «حركة»), `hook`, `items[2..8]` (+ `title`), `cta` (+ `keyword`).
+- `list`: `label` (the word beside the item number, «حركة» / «نصيحة»; shown by the chapter bar and by the dark-tech tag — the Swiss pack shows the number alone), `hook`, `items[2..8]` (+ `title`), `cta` (+ `keyword`).
 - `tool`: `hook`, `intro?`, `demos[1..5]` (show `clip`), `result?`, `cta`.
 - `loop`: `topic` (search text ≤ 26), `open`, `tips[2..6]` (+ `title`), `close`, `label`.
 - `system`: `hook`, `parts[2..6]`, `cta`.
@@ -75,7 +75,7 @@ for a verdict, `said` for said-vs-written, `heavy` for a burden) — **never a n
 | `microphone` / `voice-note` | a mic / a voice-message bubble | voice, recording, a voice-over |
 | `envelope` / `bell` | a letter / a bell with notes | email, messages / notifications, reminders |
 | `phone-app` / `follow` | a phone with an app / a follow button | an app / follow, subscribe |
-| `photo` / `eye` | a photo / an eye | an image / seeing, attention |
+| `photo` / `eye` | a printed photo **of a house plan** (home-building videos only) / an eye | a design image / seeing, attention |
 | `coin` / `banknote` / `receipt` | money / an order slip | price, cost / a purchase |
 | `scale` | a balance scale | comparing, a trade-off |
 | `compass` / `pin` | a compass / a map pin | direction / a place |
