@@ -22,6 +22,7 @@ export const ICON_NAMES = [
   'chart-line',
   'shield-check',
   'zap',
+  'bookmark',
 ] as const
 
 export type IconName = (typeof ICON_NAMES)[number]

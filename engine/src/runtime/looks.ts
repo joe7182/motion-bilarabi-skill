@@ -61,6 +61,8 @@ const LOOKS: Record<LookId, LookTokens> = {
   // Arabic heritage: deep teal, warm parchment ink, gold; headlines in the classic serif.
   heritage: { bg: '#0e3a48', fg: '#f3ead2', accent: '#d7ae55', vars: VARS, fontDisplay: FONT_SERIF, fontBody: BODY },
   // Cut paper: off-white paper, soft black, coral (the other paper colours come from the pack's shapes).
+  // Nebula: deep navy and a lilac glow (its ink world is near-white with a navy ink).
+  nebula: { bg: '#0b0a1f', fg: '#f4f2fb', accent: '#8f7bff', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
   'cut-paper': { bg: '#f2ead9', fg: '#1d1b18', accent: '#bf3a12', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
 }
 

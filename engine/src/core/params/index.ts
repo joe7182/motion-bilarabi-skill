@@ -33,6 +33,7 @@ import { nameStripParams } from './name-strip'
 import { geoPatternParams, paperShapesParams } from './pack-fx'
 import { glassCardParams, orderStepsParams, pageFlyoverParams, phoneReplyParams } from './showcase-fx'
 import { gooMergeParams, photoGridParams } from './merge-fx'
+import { orbCardParams } from './orb-card'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -128,6 +129,7 @@ export const PARAMS = {
   'glass-card': glassCardParams,
   'goo-merge': gooMergeParams,
   'photo-grid': photoGridParams,
+  'orb-card': orbCardParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,
