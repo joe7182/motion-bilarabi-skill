@@ -378,6 +378,7 @@ const SCENE_IMAGE_FIELDS: Record<string, readonly (readonly string[])[]> = {
   'screen-mockup': [['image']],
   'page-flyover': [['image']],
   'photo-grid': [['images', '*']],
+  'html-motion': [['assets', '*']],
   'orb-card': [['from', 'image'], ['to', 'image'], ['centre', 'image'], ['satellites', '*', 'image']],
   'before-after': [['before', 'image'], ['after', 'image']],
   'profile-card': [['avatar']],

@@ -56,7 +56,10 @@ describe('determinism lint', () => {
     }
   })
   it('runtime .ts/.css/.html files avoid CSS transitions and animations', () => {
-    for (const f of files.filter((f) => /\.(ts|css|html)$/.test(f))) {
+    // html-motion is the one exception: a hand-designed scene's CSS animations, every one paused
+    // and seeked by its delay on each update (never self-running), so a frame is a function of t.
+    const CLOCKED_CSS = 'primitives/html-motion.ts'
+    for (const f of files.filter((f) => /\.(ts|css|html)$/.test(f) && rel(f).replace(/\\/g, '/') !== CLOCKED_CSS)) {
       expect(matching(SELF_RUNNING_MOTION, readFileSync(f, 'utf8')), rel(f)).toEqual([])
     }
   })

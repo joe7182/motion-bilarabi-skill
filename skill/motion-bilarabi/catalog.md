@@ -173,6 +173,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | رد بالجوال | scene `"type": "phone-reply"` | خلّ رسالة توصل وأرد عليها بالجوال |
 | مراحل الطلب | scene `"type": "order-steps"` | ورّي مراحل الطلب وحدة وحدة |
 | بطاقة زجاج | scene `"type": "glass-card"` | حط الكلام على بطاقة زجاج فوق الفيديو |
+| مشهد مصمّم بالكود | scene `"type": "html-motion"` | صمّم لي مشهد خاص: «…» |
 | شبكة صور تترتّب | scene `"type": "photo-grid"` | رتّب صوري بشبكة وكبّر الأولى |
 
 ## شرح الذكاء الاصطناعي — AI explainers
