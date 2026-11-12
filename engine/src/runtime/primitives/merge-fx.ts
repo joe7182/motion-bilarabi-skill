@@ -59,11 +59,12 @@ export const gooMerge: Primitive<GooMergeParams> = {
         // drops pop in one after another, wobble a little, then flow to the centre
         const m = easeInOutCubic(seg(t, p.at, p.at + p.dur * 0.7))
         drops.forEach((d, i) => {
-          const inn = spring((t - 0.08 - i * 0.09) * 2.2, 0.55, 9)
+          // The first drop is already there on the scene's first frame (never a blank frame); the others follow.
+          const inn = spring((t + 0.4 - i * 0.09) * 2.2, 0.55, 9)
           const bob = Math.sin(t * 2.2 + i * 1.3) * 6 * k * (1 - m)
           const x = lerp(order[i]!, cx, m)
           d.style.transform = `translate(${f2(x)}px, ${f2(bob)}px) scale(${f4(Math.max(0, inn) * (1 - 0.25 * m))})`
-          labels[i]!.style.opacity = f4(seg(t, 0.25 + i * 0.09, 0.55 + i * 0.09) * (1 - seg(t, p.at, p.at + p.dur * 0.35)))
+          labels[i]!.style.opacity = f4(seg(t, 0.05 + i * 0.09, 0.35 + i * 0.09) * (1 - seg(t, p.at, p.at + p.dur * 0.35)))
         })
         // the fused drop spreads into the pill
         const g = spring(seg(t, p.at + p.dur * 0.55, p.at + p.dur) * 1.4, 0.62, 9) * (t >= p.at + p.dur * 0.55 ? 1 : 0)
@@ -105,14 +106,15 @@ export const photoGrid: Primitive<PhotoGridParams> = {
       update(localT) {
         const t = Math.max(0, localT)
         tiles.forEach((tile, i) => {
-          const inn = spring((t - i * 0.07) * 2, 0.6, 9)
+          // The first photos are already there on the scene's first frame; the rest pop in after them.
+          const inn = spring((t + 0.45 - i * 0.07) * 2, 0.6, 9)
           const u = spring(((t - p.at - i * M.stagger) / M.flow) * 1.25, 0.72, 8)
           const g = t >= p.at + i * M.stagger ? u : 0
           const x = lerp(tile.from[0], tile.to[0], g) * W + gap / 2
           const y = lerp(tile.from[1], tile.to[1], g) * H + gap / 2
           const w = Math.max(1, lerp(tile.from[2], tile.to[2], g) * W - gap)
           const h = Math.max(1, lerp(tile.from[3], tile.to[3], g) * H - gap)
-          Object.assign(tile.el.style, { width: `${f2(w)}px`, height: `${f2(h)}px`, transform: `translate(${f2(x)}px, ${f2(y)}px) scale(${f4(0.6 + 0.4 * Math.max(0, inn))})`, opacity: f4(seg(t, i * 0.07, i * 0.07 + 0.15)) })
+          Object.assign(tile.el.style, { width: `${f2(w)}px`, height: `${f2(h)}px`, transform: `translate(${f2(x)}px, ${f2(y)}px) scale(${f4(0.6 + 0.4 * Math.max(0, inn))})`, opacity: f4(seg(t + 0.45, i * 0.07, i * 0.07 + 0.15)) })
         })
       },
     }
