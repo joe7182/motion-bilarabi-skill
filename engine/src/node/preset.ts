@@ -9,6 +9,7 @@ import { appendLog, openProject, PROJECT_EDIT } from './project'
 import { writeFileAtomic } from './fsx'
 import { loadBrand } from './brand-fs'
 import { TRANSCRIPT_FILE } from './whisper'
+import { usualFace } from './face-place'
 
 export const PRESET_FILE = 'preset.json'
 
@@ -45,7 +46,11 @@ export async function presetProject(dir: string, opts: { presetPath?: string; sc
     opts.script !== undefined
       ? beatTranscript(strip(await readFile(opts.script, 'utf8')), preset.beat?.bpm ?? opts.bpm ?? 120)
       : parseTranscript(await read(join(project.dir, TRANSCRIPT_FILE), 'التفريغ (شغّل mba transcribe)'))
-  const json = presetStoryboard({ preset, transcript, fps: project.manifest.fps, seed: seedOf(project.manifest.id) })
+  // A talking video pushes in toward the speaker: their usual face place, when `mba matte` has found it (9:16 frame).
+  const clip = preset.preset === 'talking' ? project.manifest.media.find((m) => m.id === preset.media) : undefined
+  if (preset.preset === 'talking' && !clip) throw new Error(`الوسيط «${preset.media}» غير موجود بالمشروع — media "${preset.media}" is not in the project`)
+  const face = clip?.work ? usualFace(project.dir, clip.work, 9 / 16) : undefined
+  const json = presetStoryboard({ preset, transcript, fps: project.manifest.fps, seed: seedOf(project.manifest.id), ...(face ? { face } : {}) })
   // A scene error names the preset section the scene came from (scene ids start with the section id).
   const named = (e: unknown) => {
     const scenes = (json as { scenes?: { id?: string }[] }).scenes ?? []

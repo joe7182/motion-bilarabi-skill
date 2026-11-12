@@ -89,6 +89,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | حلقة مدار | scene `"type": "orbit-ring"` | خلّ كلمات «…» تدور حول راسي |
 | عدسة تكبير | scene `"type": "zoom-callout"` | كبّر «…» بعدسة واكتب «…» |
 | مقطع فيديو | scene `"type": "video"` | حط مقطعي هنا، وكتّم صوته |
+| شريط الاسم | scene `"type": "name-strip"` (no clip needed) | حط اسمي وحسابي أول الفيديو |
 
 ## الانتقالات — Transitions
 

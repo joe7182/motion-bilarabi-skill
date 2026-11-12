@@ -11,6 +11,7 @@ export const cinematicLaser: Pack = {
   transitions: { default: 'flood', section: 'iris', more: ['whip-pan', 'layer-explode'], params: { flood: { color: 'accent' } } },
   background: [{ type: 'tech-grid', params: { floor: true, glows: 2 } }],
   stage: { kind: 'spot' },
+  talking: { captions: { skin: 'karaoke', presentation: 'minimal', emph: 'accent' }, punch: { zoom: 1.14, ease: 'smooth' }, popup: 'colour', strip: 'spot' },
   roles: {
     headline: { type: 'laser-type', params: { size: 220 } },
     keySentence: { type: 'glow-words', params: { size: 96 } },

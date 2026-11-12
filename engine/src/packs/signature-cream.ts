@@ -11,6 +11,7 @@ export const signatureCream: Pack = {
   transitions: { default: 'morph', section: 'paper-tear', more: ['pen-dot-curtain', 'page-turn'], params: { 'pen-dot-curtain': { color: 'accent', edge: 'fg' }, 'page-turn': { color: 'accent' } } },
   background: [{ type: 'backdrop', params: { world: 'paper' } }],
   stage: { kind: 'card', width: 1.06 },
+  talking: { captions: { skin: 'paper-tag', presentation: 'pill', emph: 'pop' }, punch: { zoom: 1.1, ease: 'smooth' }, popup: 'box', strip: 'card' },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'line', enter: 'rise' } },
     keySentence: { type: 'heavy-word', params: { size: 0.78 } },

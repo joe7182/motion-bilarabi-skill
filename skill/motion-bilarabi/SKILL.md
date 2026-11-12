@@ -165,6 +165,17 @@ Before designing a sentence by hand, ask the library: `mba recommend <dir> --fro
 - Person effects on a talking clip at a desk: give `cutout` a desk line (`"below": 0.6`, `"feather": 0.1`, frame fraction) — the desk and laptop stay real and sharp in front, and clones stand behind the desk instead of carrying cut-out pieces of it.
 - Screen recordings: `screen-mockup` with `"media": "m1", "in": <s>, "speed": 1` plays a recording inside the phone or browser (focus boxes and taps are fractions of the video frame).
 
+## Talking videos (the person's own clip)
+When someone gives a clip of themself talking and wants it edited into a reel, use the `talking` preset — one take, nothing cut, dressed by the pack.
+1. `mba project init <dir> clip.mp4 --format 9:16`, `mba ingest <dir>`, `mba transcribe <dir>` (the voice is in the clip), then **`mba matte <dir> m1`** — it finds the face, so text is placed around it and the punch-in pushes toward it. Without the matte, text can land on the face: always run it.
+2. `preset.json`: `{"preset": "talking", "pack": "<id>", "media": "m1", "name": "<their name>", "handle": "@…"}`. Optional: `"in"` (start second), `"keywords": [{"say": "<phrase as said>", "text": "<word to show>"}]` (else the engine picks a strong word every few seconds), and `"captions"`, `"punch"`, `"popups"`: `false` to switch a part off.
+3. `mba preset <dir>`, storyboard stills, approval, render at 60 fps.
+
+What the pack decides: the caption look and how the key word is marked in it; how hard and how fast the punch-in is (cream: soft; dark tech: a hard cut; laser: a smooth push; Swiss: a small straight one); the pop-up word's mark (box / underline / colour); the name strip's material (paper tag / interface panel / glowing line / flat block).
+- Text never covers the face: the pop-up goes above the head and the name strip between the chin and the captions. **A tight close-up has no room, so it gets captions and punch-ins only** — say so, and suggest a wider framing if they want pop-ups.
+- Ask for the key words when the topic is specific (names, numbers, product words); the automatic pick is a fallback.
+- `name-strip` (`name`, `handle`, `kind: card | panel | spot | column`, `side`, `y`, `at`, `out`) also works alone in any storyboard.
+
 ## Style packs
 A pack is one complete art direction. One choice sets the look, where the headline sits and which edge it hugs, how the key word is marked, the background, the frame marks, the transitions and the motion feel — so the video is coherent without picking effects one by one.
 - **Preset videos:** `"pack": "<id>"` in `preset.json`, then `mba preset`. Do not also add backgrounds, transitions or marks by hand.

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { PARAMS } from '../core/params/index'
+import { CAPTION_SKINS } from '../core/params/captions'
 import { OBJECT_FRAME_KINDS } from '../core/params/object-frame'
 import { TRANSITION_IDS, type TransitionId } from '../core/params/transitions'
 import { PACK_IDS, type PackId } from '../core/pack-ids'
@@ -67,6 +68,13 @@ export const packSchema = z.object({
   marks: z.record(z.string(), z.unknown()).optional(),
   /** The stage under the object of a sentence (`object-frame`): its kind and, when not the default, its place (absent: none). */
   stage: z.object({ kind: z.enum(OBJECT_FRAME_KINDS), y: z.number().optional(), height: z.number().optional(), width: z.number().optional() }).optional(),
+  /** What the pack gives a talking video (the `talking` preset): captions, the punch-in, the key-word pop-up, the name strip. */
+  talking: z.object({
+    captions: z.object({ skin: z.enum(CAPTION_SKINS), presentation: z.enum(['pill', 'minimal', 'strip']), emph: z.enum(['accent', 'underline', 'pop']) }),
+    punch: z.object({ zoom: z.number().min(1.02).max(1.4), ease: z.enum(['smooth', 'linear', 'cut']) }),
+    popup: z.enum(['box', 'underline', 'colour']),
+    strip: z.enum(OBJECT_FRAME_KINDS),
+  }),
   roles: z.object({ headline: sceneRef, keySentence: sceneRef, number: sceneRef, list: sceneRef, quote: sceneRef, compare: sceneRef, cta: sceneRef, signOff: sceneRef }),
   /** What clashes with the look: `mba validate` advises against these, it never refuses them. */
   avoid: z.object({ scenes: z.array(z.string()), transitions: z.array(transition) }),

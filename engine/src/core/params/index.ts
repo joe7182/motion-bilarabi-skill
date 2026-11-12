@@ -29,6 +29,7 @@ import { beatPulseParams } from './beat'
 import { bounceBallParams } from './physics'
 import { frameMarksParams } from './frame-marks'
 import { objectFrameParams } from './object-frame'
+import { nameStripParams } from './name-strip'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -115,6 +116,7 @@ export const PARAMS = {
   'bounce-ball': bounceBallParams,
   'frame-marks': frameMarksParams,
   'object-frame': objectFrameParams,
+  'name-strip': nameStripParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,

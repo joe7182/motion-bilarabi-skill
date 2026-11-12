@@ -19,6 +19,7 @@ import { cuesOfBeatPulse } from './params/beat'
 import { cuesOfBounceBall } from './params/physics'
 import { cuesOfFrameMarks } from './params/frame-marks'
 import { cuesOfObjectFrame } from './params/object-frame'
+import { cuesOfNameStrip } from './params/name-strip'
 import { cuesOfUiMorph } from './params/ui-morph'
 import { cuesOfHalftoneField, cuesOfSpringGraph } from './params/dots'
 import { cuesOfBeforeAfter, cuesOfFanCards, cuesOfFunnel } from './params/concept-fx'
@@ -128,6 +129,7 @@ export const CUES: Record<string, CuesOf> = {
   'bounce-ball': cuesOfBounceBall as CuesOf,
   'frame-marks': cuesOfFrameMarks as CuesOf,
   'object-frame': cuesOfObjectFrame as CuesOf,
+  'name-strip': cuesOfNameStrip as CuesOf,
   'ui-morph': cuesOfUiMorph as CuesOf,
   'spring-graph': cuesOfSpringGraph as CuesOf,
   'halftone-field': cuesOfHalftoneField as CuesOf,

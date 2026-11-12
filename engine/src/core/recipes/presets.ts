@@ -4,6 +4,7 @@ import { LOOK_IDS } from '../storyboard'
 import { PACK_IDS } from '../pack-ids'
 import { PACKS } from '../../packs/index'
 import { dressPreset } from '../../packs/preset'
+import { DEFAULT_TALKING, talkingStoryboard } from './talking'
 import { isStretchable, splitWords } from '../text'
 import { normalizeAr, type Transcript } from '../transcript'
 import { lettersOf } from '../params/letters-join'
@@ -142,6 +143,25 @@ const slot = z.object({
 const item = slot.extend({ title: txt(40) })
 
 export const presetSchema = z.discriminatedUnion('preset', [
+  z.object({
+    // A clip of a person talking, dressed by a style pack: captions, punch-ins, key-word pop-ups, a name strip.
+    preset: z.literal('talking'),
+    look: z.enum(LOOK_IDS).default('signature'),
+    pack: z.enum(PACK_IDS).optional(),
+    /** The clip (a project video that carries the voice) and the second it starts from. */
+    media: z.string().min(1),
+    in: z.number().min(0).default(0),
+    /** The speaker's name and handle for the strip at the start (absent: no strip). */
+    name: txt(28).optional(),
+    handle: z.string().max(32).optional(),
+    /** Words to mark, each as said in the voice (a phrase; its last word is the moment); absent: picked from the transcript. */
+    keywords: z.array(z.object({ say: txt(80), text: txt(20).optional() })).max(24).optional(),
+    captions: z.boolean().default(true),
+    punch: z.boolean().default(true),
+    popups: z.boolean().default(true),
+    motion: z.enum(['easy', 'snappy']).optional(),
+    beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),
+  }),
   z.object({
     preset: z.literal('list'),
     look: z.enum(LOOK_IDS).default('swiss-red'),
@@ -683,6 +703,8 @@ const itemParts = (items: Item[], id: string, label: string, world: (i: number) 
 /** The parts of each preset. */
 function partsOf(p: Preset): Part[] {
   switch (p.preset) {
+    case 'talking':
+      return [] // one take, no sections (recipes/talking.ts)
     case 'list':
       // 1: hook → numbered items (worlds alternate) → CTA.
       return [{ id: 'hook', name: 'hook', slot: p.hook, world: 'ink' }, ...itemParts(p.items, 'item', p.label, (i) => (i % 2 === 0 ? 'paper' : 'ink')), ctaPart(p.cta)]
@@ -794,7 +816,7 @@ export function beatTranscript(script: string, bpm: number): Transcript {
 
 /** One captions scene over the whole video, cues grouped from the transcript (none without `captions`). */
 function captionScenes(p: Preset, tr: Transcript, secs: Section[]): Record<string, unknown>[] {
-  if (!p.captions) return []
+  if (!p.captions || p.captions === true) return []
   const end = secs.at(-1)!.end
   const cues = groupCaptions(tr.words.map((w) => ({ text: w.text, at: w.start, end: w.end })))
   if (cues.length === 0) return []
@@ -809,6 +831,8 @@ export interface PresetInput {
   transcript: Transcript
   fps: number
   seed: number
+  /** Talking videos: the speaker's usual face box in the frame (0..1), from `mba matte`, when known. */
+  face?: [number, number, number, number]
 }
 
 /** `preset.json` + transcript → storyboard JSON (`edit.json`). */
@@ -816,6 +840,10 @@ export function presetStoryboard(i: PresetInput): Record<string, unknown> {
   const p = i.preset
   const tr = i.transcript
   if (tr.words.length === 0) throw new Error('التفريغ فارغ — the transcript has no words')
+  if (p.preset === 'talking') {
+    const tp = p.pack ? PACKS[p.pack] : undefined
+    return talkingStoryboard({ preset: p, pack: tp, style: tp?.talking ?? DEFAULT_TALKING, transcript: tr, fps: i.fps, seed: i.seed, face: i.face, find: (say, from) => findPhrase(tr, say, from, 'keywords') })
+  }
   const secs = sectionsOf(tr, partsOf(p))
   const pack = p.pack ? PACKS[p.pack] : undefined
   // The person's choice first, then the pack's feel, then easy ease.

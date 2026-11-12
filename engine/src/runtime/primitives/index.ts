@@ -37,6 +37,7 @@ import { beatPulse } from './beat'
 import { bounceBall } from './physics'
 import { frameMarks } from './frame-marks'
 import { objectFrame } from './object-frame'
+import { nameStrip } from './name-strip'
 import { uiMorph } from './ui-morph'
 import { halftoneField, springGraph } from './dots'
 import { beforeAfter, fanCards, funnel } from './concept-fx'
@@ -149,6 +150,7 @@ registerPrimitive(beatPulse)
 registerPrimitive(bounceBall)
 registerPrimitive(frameMarks)
 registerPrimitive(objectFrame)
+registerPrimitive(nameStrip)
 registerPrimitive(uiMorph)
 registerPrimitive(springGraph)
 registerPrimitive(halftoneField)

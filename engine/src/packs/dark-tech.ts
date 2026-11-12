@@ -12,6 +12,7 @@ export const darkTech: Pack = {
   background: [{ type: 'tech-grid', params: { cell: 0.045, glows: 0 } }],
   marks: { tag: { text: '01', corner: 'top-right', mono: true }, ticks: true },
   stage: { kind: 'panel', width: 1 },
+  talking: { captions: { skin: 'spoken-box', presentation: 'minimal', emph: 'underline' }, punch: { zoom: 1.16, ease: 'cut' }, popup: 'underline', strip: 'panel' },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'line', enter: 'mask' } },
     keySentence: { type: 'glitch-text', params: { scan: true } },

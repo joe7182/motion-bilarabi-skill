@@ -16,6 +16,7 @@ Every preset also takes `"pack"` (the style: `signature-cream`, `dark-tech`, `ci
 | 6 | `problem` | Pains → the cost («والنتيجة؟») → the solution in steps → CTA | signature |
 | 7 | `steps` | A hook question → who it's for → steps 1-2-3 → the promise → CTA | swiss-red |
 | 9 | `asked` | Followers' questions (pop as comment stickers) → the answer in steps → CTA | swiss-red |
+| 10 | `talking` | **The person's own clip of themself talking** (no script to structure): captions, punch-ins, key-word pop-ups, name strip | the pack's |
 
 Looks: `swiss-red` (paper / ink / red), `signature` (cream / ink / orange), `paper-editorial`,
 `light-editorial`, `dark-tech`.

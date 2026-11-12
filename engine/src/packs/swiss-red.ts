@@ -12,6 +12,7 @@ export const swissRed: Pack = {
   background: [{ type: 'backdrop', params: { world: 'paper' } }],
   marks: { rules: [{ y: 0.06 }, { y: 0.97 }], number: { value: 1, corner: 'top-left' } },
   stage: { kind: 'column', width: 1.06 },
+  talking: { captions: { skin: 'bold-outline', presentation: 'strip', emph: 'accent' }, punch: { zoom: 1.08, ease: 'linear' }, popup: 'colour', strip: 'column' },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'stack', enter: 'mask-line' } },
     keySentence: { type: 'editorial-type', params: { size: 170 } },
