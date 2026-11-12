@@ -34,7 +34,7 @@ export interface TalkingStyle {
   captions: { skin: string; presentation: string; emph: 'accent' | 'underline' | 'pop' }
   punch: { zoom: number; ease: 'smooth' | 'linear' | 'cut' }
   popup: 'box' | 'underline' | 'colour'
-  strip: 'card' | 'panel' | 'spot' | 'column'
+  strip: 'card' | 'panel' | 'spot' | 'column' | 'arch' | 'blob'
 }
 export const DEFAULT_TALKING: TalkingStyle = {
   captions: { skin: 'spoken-box', presentation: 'pill', emph: 'pop' },

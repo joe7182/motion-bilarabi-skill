@@ -65,6 +65,43 @@ export const objectFrame: Primitive<ObjectFrameParams> = {
         line.style.transform = `scaleX(${easeOutCubic(seg(u, 0.1, 0.9)).toFixed(4)})`
         line.style.opacity = seg(u, 0.1, 0.3).toFixed(4)
       }
+    } else if (p.kind === 'arch') {
+      // A pointed arch: two arcs meeting at the crown, drawn from the feet upward; a small eight-point star above it.
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      svg.setAttribute('viewBox', '0 0 100 100')
+      svg.setAttribute('preserveAspectRatio', 'none')
+      Object.assign(svg.style, { position: 'absolute', inset: '0', width: '100%', height: '100%', overflow: 'visible' })
+      const mk = (dPath: string, wd: number) => {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+        el.setAttribute('d', dPath)
+        el.setAttribute('fill', 'none')
+        el.setAttribute('pathLength', '1')
+        el.setAttribute('vector-effect', 'non-scaling-stroke')
+        Object.assign(el.style, { stroke: accent, strokeWidth: px(wd), strokeLinecap: 'round' })
+        svg.append(el)
+        return el
+      }
+      const outer = mk('M2 100 V42 C2 20 30 8 50 0 C70 8 98 20 98 42 V100', 3)
+      const inner = mk('M9 100 V44 C9 26 32 15 50 8 C68 15 91 26 91 44 V100', 1.5)
+      root.append(svg)
+      const star = add({ left: '50%', top: px(-34), width: px(26), height: px(26), marginLeft: px(-13), background: accent, clipPath: 'polygon(50% 0, 62% 21%, 85% 15%, 79% 38%, 100% 50%, 79% 62%, 85% 85%, 62% 79%, 50% 100%, 38% 79%, 15% 85%, 21% 62%, 0 50%, 21% 38%, 15% 15%, 38% 21%)' })
+      const wash = add({ inset: '0', background: `linear-gradient(${mix(accent, 10)}, transparent 70%)`, clipPath: 'polygon(2% 100%, 2% 42%, 14% 22%, 32% 9%, 50% 0, 68% 9%, 86% 22%, 98% 42%, 98% 100%)' })
+      root.prepend(wash)
+      update = (u) => {
+        outer.style.strokeDasharray = `${easeOutCubic(u).toFixed(4)} 1`
+        inner.style.strokeDasharray = `${easeOutCubic(seg(u, 0.25, 1)).toFixed(4)} 1`
+        inner.style.opacity = '0.6'
+        wash.style.opacity = seg(u, 0.4, 1).toFixed(4)
+        star.style.transform = `scale(${easeOutCubic(seg(u, 0.6, 1)).toFixed(4)}) rotate(${(22.5 * (1 - seg(u, 0.6, 1))).toFixed(2)}deg)`
+      }
+    } else if (p.kind === 'blob') {
+      // A cut-paper blob: it drops in a little turned and settles with a small bounce.
+      const blob = add({ inset: '-3% -2%', borderRadius: '46% 54% 58% 42% / 52% 46% 54% 48%', background: p.colour ?? '#e0a526', boxShadow: `0 ${px(14)} ${px(38)} rgba(40,30,15,0.22)`, transformOrigin: '50% 60%' })
+      update = (u) => {
+        const s = spring(u * 1.6, 0.55, 11)
+        blob.style.opacity = easeOutCubic(seg(u, 0, 0.4)).toFixed(4)
+        blob.style.transform = `scale(${(0.7 + 0.3 * s).toFixed(4)}) rotate(${(-3 + 9 * (1 - s)).toFixed(3)}deg)`
+      }
     } else {
       // column: the rule on the far side from the headline's edge (the left in RTL), caption at its top, a square at its foot.
       const side = ctx.dir === 'rtl' ? 'left' : 'right'

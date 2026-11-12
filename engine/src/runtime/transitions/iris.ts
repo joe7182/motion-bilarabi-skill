@@ -1,7 +1,7 @@
 import { irisParams, type IrisParams } from '../../core/params/transitions'
 import { easeOutExpo, seg } from '../../core/ease'
 import type { Transition } from './registry'
-import { coverRadius, shapeOverlay } from './shape-path'
+import { coverRadius, shapeOverlay, STAR_NOTCH } from './shape-path'
 
 /** The cover fades in over this part of an `open` iris; the hole then grows over the rest. */
 export const IRIS_FADE = 0.2
@@ -21,7 +21,8 @@ export const iris: Transition<IrisParams> = {
   build(ctx, p) {
     const cx = p.origin.x * ctx.size.w
     const cy = p.origin.y * ctx.size.h
-    const full = coverRadius(ctx.size, cx, cy, 'circle')
+    // A star must reach the corners with its notches, so its tips go further out.
+    const full = coverRadius(ctx.size, cx, cy, 'circle') / (p.shape === 'star' ? STAR_NOTCH : 1)
     const ov = shapeOverlay(ctx.overlay, ctx.size, ctx.look.vars[p.color])
     const open = p.direction === 'open'
     return {
@@ -37,7 +38,7 @@ export const iris: Transition<IrisParams> = {
         ctx.in.style.opacity = showOut ? '0' : '1'
         ov.draw({
           cover: true,
-          shape: 'circle',
+          shape: p.shape,
           cx,
           cy,
           r: full * easeOutExpo(seg(m, IRIS_FADE, 1)),

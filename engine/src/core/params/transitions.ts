@@ -120,6 +120,8 @@ export const irisParams = z.object({
   origin,
   color: z.enum(['accent', 'fg', 'bg']).default('bg'),
   direction: z.enum(['open', 'close']).default('open'),
+  /** The hole: a circle, or an eight-point star (the heritage pack's iris). */
+  shape: z.enum(['circle', 'star']).default('circle'),
 })
 export type IrisParams = z.infer<typeof irisParams>
 

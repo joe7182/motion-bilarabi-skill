@@ -9,8 +9,10 @@ import type { Cue } from '../audio-plan'
  * - `panel`: an outlined interface panel with a title bar (three dots, a code-style label).
  * - `spot`: a pool of light under the object and a thin glowing line.
  * - `column`: a flat editorial column — a vertical rule, a small caption, one accent square.
+ * - `arch`: a pointed arch in thin accent lines that draws itself, a small star at its crown.
+ * - `blob`: a cut-paper blob in a paper colour (`colour`), with a soft shadow.
  */
-export const OBJECT_FRAME_KINDS = ['card', 'panel', 'spot', 'column'] as const
+export const OBJECT_FRAME_KINDS = ['card', 'panel', 'spot', 'column', 'arch', 'blob'] as const
 
 export const objectFrameParams = z.object({
   kind: z.enum(OBJECT_FRAME_KINDS),
@@ -20,6 +22,8 @@ export const objectFrameParams = z.object({
   y: z.number().min(0.2).max(0.9).default(0.56),
   height: z.number().min(0.15).max(0.7).default(0.36),
   width: z.number().min(0.4).max(1.12).default(0.9),
+  /** `blob`: the paper colour (default: a warm mustard). */
+  colour: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   /** Local s it starts to build. */
   at: z.number().min(0).default(0),
 })

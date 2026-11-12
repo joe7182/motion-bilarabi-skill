@@ -30,6 +30,7 @@ import { bounceBallParams } from './physics'
 import { frameMarksParams } from './frame-marks'
 import { objectFrameParams } from './object-frame'
 import { nameStripParams } from './name-strip'
+import { geoPatternParams, paperShapesParams } from './pack-fx'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -117,6 +118,8 @@ export const PARAMS = {
   'frame-marks': frameMarksParams,
   'object-frame': objectFrameParams,
   'name-strip': nameStripParams,
+  'geo-pattern': geoPatternParams,
+  'paper-shapes': paperShapesParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,

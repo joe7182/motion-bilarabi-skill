@@ -20,7 +20,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 2. **Guided start — one message, before any plan.** Ask only what their words have not already answered, and show the picture with it: `media/style-packs.jpg`, next to the `engine/` folder (`<engine>/../media/style-packs.jpg`). Send the file when the app can; else give its path as a link; if neither works, add one line per style from the «Style packs» table instead.
    «قبل ما أبدأ، ثلاث أسئلة سريعة:
    ١. الفيديو **بوجهك** (كليب إلك وإنت تتكلم) ولا **بدون وجه** (سكربت أو تعليق صوتي)؟
-   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر — الصورة توضّح الفرق، أو قل «إنت اختار».
+   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر · ٥ تراث عربي · ٦ ورق مقصوص — الصورة توضّح الفرق، أو قل «إنت اختار».
    ٣. الحركة **هادئة** ولا **حماسية**؟»
    Then stop and wait. Never ask about effects, transitions, fonts or colours: the pack decides them.
    Skip a question only when they said it outright («سوّ لي ريل داكن من هالكليب» answers ١ and ٢); a topic alone («ريل عن ثلاث نصايح») answers none.
@@ -190,7 +190,7 @@ A pack is one complete art direction. One choice sets the look, where the headli
 - **Preset videos:** `"pack": "<id>"` in `preset.json`, then `mba preset`. Do not also add backgrounds, transitions or marks by hand.
 - **A storyboard you wrote yourself** (explainers, beat stories, concepts from `mba recommend`): `mba dress <dir or storyboard.json> --pack <id or number>`. It fills only what the storyboard left open (look, a headline's edge and entrance, background where track 0 is empty, a transition on cuts that have none, frame marks, motion blur) and never moves or retypes a scene; running it twice changes nothing. `mba recommend … --pack <id>` gives concept scenes already in the pack.
 - **The person's pick always wins.** An effect or transition they name stays, even when it is from another look; `mba validate` prints style notes as advice only. `"motion"` set by the person overrides the pack's feel.
-- **Which pack when nobody chose:** `signature-cream` for stories, tips and personal topics; `dark-tech` for tools, code and tutorials; `cinematic-laser` for hype, launches and beat videos; `swiss-red` for lists, numbers and business advice. Say which you picked in one line.
+- **Which pack when nobody chose:** `signature-cream` for stories, tips and personal topics; `dark-tech` for tools, code and tutorials; `cinematic-laser` for hype, launches and beat videos; `swiss-red` for lists, numbers and business advice; `arabic-heritage` for culture, history, language, faith, Ramadan and Eid, poetry and calm reflective topics; `cut-paper` for food, family, kids, lifestyle, crafts and light friendly topics. Say which you picked in one line.
 
 | `pack` | Headline | Key word | Marks | Under the object | Transitions |
 |---|---|---|---|---|---|
@@ -198,8 +198,12 @@ A pack is one complete art direction. One choice sets the look, where the headli
 | `dark-tech` | flush right, under a code tag | drawn underline | tag + corner ticks | an interface panel | glitch cut, pixel curtain, blade slice |
 | `cinematic-laser` | centred; a headline alone is laser-cut | accent colour | chapter bar | a pool of light and a glowing line | flood, iris, whip pan |
 | `swiss-red` | large, flush right | one red word | rules + section number | a rule, a caption, a red square | colour wipe, ink slab, blinds |
+| `arabic-heritage` | centred, classic serif (Amiri) | gold | short gold rules | a gold pointed arch that draws itself | star-shaped iris, tile curtain, reveal |
+| `cut-paper` | centred | coral box | chapter bar | a mustard paper blob | page turn, paper tear, colour wipe |
 
-`object-frame` (`kind: card | panel | spot | column`, `label`, `y`, `height`, `width`, `at`) is the pack's stage under the object of a sentence. A preset adds it by itself under small objects and words (never under a screen, a chat or the comment card). In a storyboard you write yourself, put it on the track just below the object, sized to the object's area, with the kind of the pack in use.
+The heritage pack lays `geo-pattern` (a star tiling that draws itself and stays calm behind the text) and the cut-paper pack lays `paper-shapes` (coloured shapes around the text that trade places at each section) under the whole video.
+
+`object-frame` (`kind: card | panel | spot | column | arch | blob`, `label`, `colour` (blob), `y`, `height`, `width`, `at`) is the pack's stage under the object of a sentence. A preset adds it by itself under small objects and words (never under a screen, a chat or the comment card). In a storyboard you write yourself, put it on the track just below the object, sized to the object's area, with the kind of the pack in use.
 
 `frame-marks` (`tag{text, corner, mono}`, `rules[{y, from, to, at}]`, `ticks`, `number{value, corner}`, `alpha`) is the pack furniture on the edges of the safe area; put it on a fixed track. `kinetic-text` takes `"align": "right" | "left"` and a word takes `"underline": true`.
 
@@ -226,3 +230,8 @@ blocks (`knowledge-timeline`, `code-chat`, `web-crawl`, `misquote`, `context-win
 - `stretch` on a word with no kashida slot (ورد، دار) → pick another word or use `heavy`.
 - A `clip` whose `in` + section length runs past the recording → `validate` says so; lower `in`.
 - Rendering before the images are approved.
+
+## Pack backgrounds
+- `geo-pattern` (`cell`, `colour: accent|fg`, `alpha`, `draw`, `origin{x,y}`, `calm{y,h} | false`) — an eight-point star tiling drawn line by line from `origin`; `calm` is the band kept clear for text. Track 0, over a `backdrop`.
+- `paper-shapes` (`colours[]`, `at`, `shifts[]`, `steps: 0|8|12|15`, `scale`) — six cut-paper shapes in the top and bottom bands of the frame; each `shifts` time they trade places; `steps: 12` moves them on twos. Track 0, over a `backdrop`.
+- The iris transition takes `"shape": "star"` (an eight-point star opening).

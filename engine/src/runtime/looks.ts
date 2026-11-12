@@ -58,6 +58,10 @@ const LOOKS: Record<LookId, LookTokens> = {
   signature: { bg: '#f3efe7', fg: '#16130f', accent: '#ff5a1f', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
   // Swiss editorial: off-white paper, near-black ink, signal red. Flat (no paper grain needed); one red word per line.
   'swiss-red': { bg: '#efede8', fg: '#111111', accent: '#cf1f17', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
+  // Arabic heritage: deep teal, warm parchment ink, gold; headlines in the classic serif.
+  heritage: { bg: '#0e3a48', fg: '#f3ead2', accent: '#d7ae55', vars: VARS, fontDisplay: FONT_SERIF, fontBody: BODY },
+  // Cut paper: off-white paper, soft black, coral (the other paper colours come from the pack's shapes).
+  'cut-paper': { bg: '#f2ead9', fg: '#1d1b18', accent: '#bf3a12', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
 }
 
 /** Sets the three colour custom properties (`--mba-bg/fg/accent`) on `el`: what `look.vars.*` read. */

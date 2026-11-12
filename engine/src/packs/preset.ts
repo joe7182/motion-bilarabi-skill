@@ -99,6 +99,11 @@ export function dressPreset(sb: Raw, secs: Section[], pack: Pack, opts: { beat?:
   const backdrop = pack.background.find((b) => b.type === 'backdrop')
   if (backdrop) {
     scenes = scenes.map((sc) => (sc.type === 'backdrop' && sc.id.endsWith('-bg') ? { ...sc, params: { ...sc.params, ...backdrop.params } } : sc))
+    // Its other background layers lie over the backdrops for the whole video; a layer that re-arranges does so at each section.
+    pack.background.filter((b) => b.type !== 'backdrop').forEach((b, i) => {
+      const shifts = b.type === 'paper-shapes' ? { shifts: secs.slice(1).map((s) => r3(s.start)) } : {}
+      scenes.push({ id: `pack-bg${i + 1}`, type: b.type, track: 0, start: 0, duration: r3(end), params: { ...b.params, ...shifts } })
+    })
   } else {
     scenes = scenes.filter((sc) => !(sc.type === 'backdrop' && sc.id.endsWith('-bg')))
     scenes.unshift(...pack.background.map((b, i) => ({ id: `pack-bg${i + 1}`, type: b.type, track: 0, start: 0, duration: r3(end), params: { ...b.params } })))

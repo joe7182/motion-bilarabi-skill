@@ -317,7 +317,7 @@ describe('audio clips (Task 4)', () => {
 describe('looks and colour worlds', () => {
   const bd = (id: string, world: string, start = 0) => ({ id, type: 'backdrop', start, duration: 1, params: { world } })
   it('accepts look paper-editorial and keeps the other two', () => {
-    expect([...LOOK_IDS]).toEqual(['dark-tech', 'light-editorial', 'paper-editorial', 'signature', 'swiss-red'])
+    expect([...LOOK_IDS]).toEqual(['dark-tech', 'light-editorial', 'paper-editorial', 'signature', 'swiss-red', 'heritage', 'cut-paper'])
     const sb = parseStoryboard({ version: 1, look: 'paper-editorial', scenes: [s('a')] }, known)
     expect(sb.look).toBe('paper-editorial')
     expect(getLook('paper-editorial')).toMatchObject({ bg: '#f3eadb', fg: '#141210', accent: '#c8201a' })

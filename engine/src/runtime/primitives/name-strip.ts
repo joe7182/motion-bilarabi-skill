@@ -41,18 +41,20 @@ export const nameStrip: Primitive<NameStripParams> = {
     strip.append(rule)
     let rest = 'rotate(0deg)'
 
-    if (p.kind === 'card') {
+    // The heritage arch is a dark band with an accent rule; the cut-paper blob is a paper tag in the accent colour.
+    const kind = p.kind === 'arch' ? 'column' : p.kind === 'blob' ? 'card' : p.kind
+    if (kind === 'card') {
       // A paper tag: light paper, ink text, a soft shadow, a touch tilted.
       Object.assign(strip.style, { background: mix(bg, 30, '#ffffff'), color: '#16130f', borderRadius: px(18), boxShadow: `0 ${px(14)} ${px(40)} rgba(0,0,0,0.28)` })
       if (handle) handle.style.color = accent
       rule.remove()
       rest = `rotate(${p.side === 'right' ? -2 : 2}deg)`
-    } else if (p.kind === 'panel') {
+    } else if (kind === 'panel') {
       // An interface panel: dark glass, a hairline border, an accent bar on its edge.
       Object.assign(strip.style, { background: 'rgba(14,13,12,0.82)', color: '#f2ece2', borderRadius: px(10), border: `${px(2)} solid rgba(242,236,226,0.28)` })
       if (handle) handle.style.opacity = '0.7'
       Object.assign(rule.style, { position: 'absolute', top: '0', bottom: '0', [p.side]: '0', width: px(6), background: accent, borderRadius: px(3) })
-    } else if (p.kind === 'spot') {
+    } else if (kind === 'spot') {
       // Light only: glowing text over the picture and a hot line under it.
       Object.assign(strip.style, { color: '#ffffff', textShadow: `0 0 ${px(18)} ${mix(accent, 80)}, 0 ${px(2)} ${px(8)} rgba(0,0,0,0.6)` })
       if (handle) handle.style.color = accent
@@ -73,7 +75,7 @@ export const nameStrip: Primitive<NameStripParams> = {
         const dir = p.side === 'right' ? 1 : -1
         strip.style.opacity = on.toFixed(4)
         strip.style.transform = `translateX(${((1 - on) * dir * 0.18 * ctx.size.w).toFixed(2)}px) translateY(-50%) ${rest}`
-        if (p.kind !== 'card') rule.style.transform = p.kind === 'panel' ? '' : `scaleX(${easeOutCubic(seg(t, p.at + 0.2, p.at + 0.2 + N.move)).toFixed(4)})`
+        if (kind !== 'card') rule.style.transform = kind === 'panel' ? '' : `scaleX(${easeOutCubic(seg(t, p.at + 0.2, p.at + 0.2 + N.move)).toFixed(4)})`
       },
     }
   },

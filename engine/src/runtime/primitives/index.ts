@@ -38,6 +38,7 @@ import { bounceBall } from './physics'
 import { frameMarks } from './frame-marks'
 import { objectFrame } from './object-frame'
 import { nameStrip } from './name-strip'
+import { geoPattern, paperShapes } from './pack-fx'
 import { uiMorph } from './ui-morph'
 import { halftoneField, springGraph } from './dots'
 import { beforeAfter, fanCards, funnel } from './concept-fx'
@@ -151,6 +152,8 @@ registerPrimitive(bounceBall)
 registerPrimitive(frameMarks)
 registerPrimitive(objectFrame)
 registerPrimitive(nameStrip)
+registerPrimitive(geoPattern)
+registerPrimitive(paperShapes)
 registerPrimitive(uiMorph)
 registerPrimitive(springGraph)
 registerPrimitive(halftoneField)

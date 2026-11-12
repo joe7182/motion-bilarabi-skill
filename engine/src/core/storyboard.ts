@@ -8,7 +8,7 @@ import { CAMERA, tourKeys, type CameraSpec, type ScenePlace } from './camera'
 export type { TransitionId }
 
 /** Every look, in schema order (the storyboard `look` enum and the explain brief use it). */
-export const LOOK_IDS = ['dark-tech', 'light-editorial', 'paper-editorial', 'signature', 'swiss-red'] as const
+export const LOOK_IDS = ['dark-tech', 'light-editorial', 'paper-editorial', 'signature', 'swiss-red', 'heritage', 'cut-paper'] as const
 export type LookId = (typeof LOOK_IDS)[number]
 
 /**

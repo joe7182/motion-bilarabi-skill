@@ -67,7 +67,7 @@ export const packSchema = z.object({
   /** `frame-marks` params: the small furniture of the frame (absent: none). */
   marks: z.record(z.string(), z.unknown()).optional(),
   /** The stage under the object of a sentence (`object-frame`): its kind and, when not the default, its place (absent: none). */
-  stage: z.object({ kind: z.enum(OBJECT_FRAME_KINDS), y: z.number().optional(), height: z.number().optional(), width: z.number().optional() }).optional(),
+  stage: z.object({ kind: z.enum(OBJECT_FRAME_KINDS), y: z.number().optional(), height: z.number().optional(), width: z.number().optional(), colour: z.string().optional() }).optional(),
   /** What the pack gives a talking video (the `talking` preset): captions, the punch-in, the key-word pop-up, the name strip. */
   talking: z.object({
     captions: z.object({ skin: z.enum(CAPTION_SKINS), presentation: z.enum(['pill', 'minimal', 'strip']), emph: z.enum(['accent', 'underline', 'pop']) }),
