@@ -50,7 +50,7 @@ export async function presetProject(dir: string, opts: { presetPath?: string; sc
   const clip = preset.preset === 'talking' ? project.manifest.media.find((m) => m.id === preset.media) : undefined
   if (preset.preset === 'talking' && !clip) throw new Error(`الوسيط «${preset.media}» غير موجود بالمشروع — media "${preset.media}" is not in the project`)
   const face = clip?.work ? usualFace(project.dir, clip.work, 9 / 16) : undefined
-  const json = presetStoryboard({ preset, transcript, fps: project.manifest.fps, seed: seedOf(project.manifest.id), ...(face ? { face } : {}) })
+  const json = presetStoryboard({ preset, transcript, fps: project.manifest.fps, seed: seedOf(project.manifest.id), ...(face ? { face } : {}), ...(clip ? { clipSec: clip.durationSec } : {}) })
   // A scene error names the preset section the scene came from (scene ids start with the section id).
   const named = (e: unknown) => {
     const scenes = (json as { scenes?: { id?: string }[] }).scenes ?? []

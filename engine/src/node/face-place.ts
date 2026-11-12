@@ -160,13 +160,14 @@ export function attachPlates(obj: Record<string, unknown>, projectDir: string, m
 }
 
 /**
- * The speaker's usual face box in the video frame (the median over the clip, 0..1), or undefined
+ * The room the speaker's face takes in the video frame over the whole clip (0..1; the 5th–95th
+ * percentile of each edge, so a walk-in or a slow push-in is covered), or undefined
  * when `mba matte` has not run for that media. `frameAspect` = width / height of the video frame.
  */
 export function usualFace(projectDir: string, work: string, frameAspect: number): Box | undefined {
   const faces = loadFaces(projectDir, work)
   const boxes = faces?.boxes.filter((b): b is Box => b !== null) ?? []
   if (!faces || boxes.length === 0) return undefined
-  const median = (k: 0 | 1 | 2 | 3) => boxes.map((b) => b[k]).sort((a, b) => a - b)[Math.floor(boxes.length / 2)]!
-  return cover([median(0), median(1), median(2), median(3)], faces.w / faces.h, frameAspect)
+  const at = (k: 0 | 1 | 2 | 3, q: number) => boxes.map((b) => b[k]).sort((a, b) => a - b)[Math.min(boxes.length - 1, Math.floor(boxes.length * q))]!
+  return cover([at(0, 0.05), at(1, 0.05), at(2, 0.95), at(3, 0.95)], faces.w / faces.h, frameAspect)
 }

@@ -833,6 +833,8 @@ export interface PresetInput {
   seed: number
   /** Talking videos: the speaker's usual face box in the frame (0..1), from `mba matte`, when known. */
   face?: [number, number, number, number]
+  /** Talking videos: the clip's length (s), so the video never runs past it. */
+  clipSec?: number
 }
 
 /** `preset.json` + transcript → storyboard JSON (`edit.json`). */
@@ -842,7 +844,7 @@ export function presetStoryboard(i: PresetInput): Record<string, unknown> {
   if (tr.words.length === 0) throw new Error('التفريغ فارغ — the transcript has no words')
   if (p.preset === 'talking') {
     const tp = p.pack ? PACKS[p.pack] : undefined
-    return talkingStoryboard({ preset: p, pack: tp, style: tp?.talking ?? DEFAULT_TALKING, transcript: tr, fps: i.fps, seed: i.seed, face: i.face, find: (say, from) => findPhrase(tr, say, from, 'keywords') })
+    return talkingStoryboard({ preset: p, pack: tp, style: tp?.talking ?? DEFAULT_TALKING, transcript: tr, fps: i.fps, seed: i.seed, face: i.face, clipSec: i.clipSec, find: (say, from) => findPhrase(tr, say, from, 'keywords') })
   }
   const secs = sectionsOf(tr, partsOf(p))
   const pack = p.pack ? PACKS[p.pack] : undefined

@@ -89,6 +89,13 @@ describe('talking layout around the face', () => {
     expect(pop!.params.y as number).toBeLessThan(0.3 - 0.04)
     expect(strip).toBeDefined()
   })
+  it('a head near the top of the frame puts the pop-up under the chin, after the name strip has left', () => {
+    const sb = build({ pack: 'signature-cream', name: 'يوسف' }, [0.3, 0.08, 0.68, 0.4])
+    const pops = sb.scenes.filter((s) => s.id.startsWith('pop'))
+    expect(pops.length).toBeGreaterThanOrEqual(1)
+    for (const p of pops) { expect(p.params.y as number).toBeGreaterThan(0.45); expect(p.start).toBeGreaterThanOrEqual(TALKING.strip.out + 0.6) }
+    expect(sb.scenes.some((s) => s.type === 'name-strip')).toBe(true)
+  })
   it('a tight close-up gets no pop-up and no strip on the face', () => {
     const { pop, strip } = tops(build({ pack: 'signature-cream', name: 'يوسف' }, [0.3, 0.16, 0.7, 0.62]))
     expect(pop).toBeUndefined()
