@@ -77,6 +77,8 @@ export const glassCardParams = z.object({
   width: z.number().min(0.4).max(1).default(0.86),
   /** The glass tint: light glass (dark text) or dark glass (light text). */
   tint: z.enum(['light', 'dark']).default('dark'),
+  /** Liquid glass: the backdrop also bends through the panel, like thick glass (strongest near its edges). */
+  liquid: z.boolean().default(false),
 })
 export type GlassCardParams = z.infer<typeof glassCardParams>
 

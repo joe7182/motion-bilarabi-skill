@@ -377,6 +377,7 @@ const SCENE_IMAGE_FIELDS: Record<string, readonly (readonly string[])[]> = {
   'app-window': [['image']],
   'screen-mockup': [['image']],
   'page-flyover': [['image']],
+  'photo-grid': [['images', '*']],
   'before-after': [['before', 'image'], ['after', 'image']],
   'profile-card': [['avatar']],
   'book-flip': [['image']],

@@ -146,6 +146,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | إطار كاميرا | scene `"type": "viewfinder"` | حط إطار كاميرا يسجّل |
 | العنصر البطل | scene `"type": "hero"` | خلّ نقطة وحدة تمشي ويا الفيديو كله |
 | صف شعارات | scene `"type": "logo-row"` | حط شعارات «…» |
+| اندماج سائل | scene `"type": "goo-merge"` | خلّ «…» و«…» يندمجون ويصيرون «…» |
 
 ## شاشات وواجهات — Screens & apps
 
@@ -171,6 +172,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | رد بالجوال | scene `"type": "phone-reply"` | خلّ رسالة توصل وأرد عليها بالجوال |
 | مراحل الطلب | scene `"type": "order-steps"` | ورّي مراحل الطلب وحدة وحدة |
 | بطاقة زجاج | scene `"type": "glass-card"` | حط الكلام على بطاقة زجاج فوق الفيديو |
+| شبكة صور تترتّب | scene `"type": "photo-grid"` | رتّب صوري بشبكة وكبّر الأولى |
 
 ## شرح الذكاء الاصطناعي — AI explainers
 

@@ -277,11 +277,21 @@ export const glassCard: Primitive<GlassCardParams> = {
     const ink = dark ? '#ffffff' : '#16130f'
     const card = div(ctx.layer, {
       position: 'absolute', left: `${f2(s.x + (s.w - W) / 2)}px`, top: `${f2(s.y + p.y * s.h)}px`, width: `${f2(W)}px`, boxSizing: 'border-box', padding: `${f2(40 * k)}px ${f2(44 * k)}px`,
-      borderRadius: `${f2(40 * k)}px`, background: dark ? 'rgba(18,18,22,0.34)' : 'rgba(255,255,255,0.36)', border: `${f2(2 * k)}px solid rgba(255,255,255,${dark ? 0.26 : 0.6})`,
+      borderRadius: `${f2(40 * k)}px`, background: dark ? 'rgba(18,18,22,0.46)' : 'rgba(255,255,255,0.4)', border: `${f2(2 * k)}px solid rgba(255,255,255,${dark ? 0.26 : 0.6})`,
       boxShadow: `0 ${f2(30 * k)}px ${f2(80 * k)}px rgba(0,0,0,0.28), inset 0 ${f2(2 * k)}px 0 rgba(255,255,255,${dark ? 0.22 : 0.7})`, color: ink, overflow: 'hidden', direction: ctx.dir, transformOrigin: '50% 60%',
     })
-    card.style.setProperty('backdrop-filter', `blur(${f2(26 * k)}px) saturate(1.5)`)
-    card.style.setProperty('-webkit-backdrop-filter', `blur(${f2(26 * k)}px) saturate(1.5)`)
+    let back = `blur(${f2(26 * k)}px) saturate(1.5)`
+    if (p.liquid) {
+      // A smooth, fixed displacement map bends what is behind the panel; less blur, so the bend shows.
+      const id = `mba-glass-${Math.round(ctx.rng() * 1e9)}`
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      Object.assign(svg.style, { position: 'absolute', width: '0', height: '0' })
+      svg.innerHTML = `<filter id="${id}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="${f4(0.006 / k)}" numOctaves="1" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${f2(90 * k)}" xChannelSelector="R" yChannelSelector="G"/></filter>`
+      ctx.layer.append(svg)
+      back = `url(#${id}) blur(${f2(7 * k)}px) saturate(1.6)`
+    }
+    card.style.setProperty('backdrop-filter', back)
+    card.style.setProperty('-webkit-backdrop-filter', back)
     const sweep = div(card, { position: 'absolute', top: '-20%', bottom: '-20%', width: '34%', left: '0', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.34), transparent)', transform: 'skewX(-18deg)', pointerEvents: 'none' })
     const rows: HTMLElement[] = []
     const title = div(card, { position: 'relative', fontFamily: ctx.look.fontDisplay, fontWeight: String(FONT_WEIGHT.display), fontSize: `${f2(56 * k)}px`, lineHeight: '1.35' })

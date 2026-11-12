@@ -40,6 +40,7 @@ import { objectFrame } from './object-frame'
 import { nameStrip } from './name-strip'
 import { geoPattern, paperShapes } from './pack-fx'
 import { glassCard, orderSteps, pageFlyover, phoneReply } from './showcase-fx'
+import { gooMerge, photoGrid } from './merge-fx'
 import { uiMorph } from './ui-morph'
 import { halftoneField, springGraph } from './dots'
 import { beforeAfter, fanCards, funnel } from './concept-fx'
@@ -159,6 +160,8 @@ registerPrimitive(pageFlyover)
 registerPrimitive(phoneReply)
 registerPrimitive(orderSteps)
 registerPrimitive(glassCard)
+registerPrimitive(gooMerge)
+registerPrimitive(photoGrid)
 registerPrimitive(uiMorph)
 registerPrimitive(springGraph)
 registerPrimitive(halftoneField)

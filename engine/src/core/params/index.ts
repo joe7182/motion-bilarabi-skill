@@ -32,6 +32,7 @@ import { objectFrameParams } from './object-frame'
 import { nameStripParams } from './name-strip'
 import { geoPatternParams, paperShapesParams } from './pack-fx'
 import { glassCardParams, orderStepsParams, pageFlyoverParams, phoneReplyParams } from './showcase-fx'
+import { gooMergeParams, photoGridParams } from './merge-fx'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -125,6 +126,8 @@ export const PARAMS = {
   'phone-reply': phoneReplyParams,
   'order-steps': orderStepsParams,
   'glass-card': glassCardParams,
+  'goo-merge': gooMergeParams,
+  'photo-grid': photoGridParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,
