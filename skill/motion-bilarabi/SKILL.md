@@ -168,11 +168,14 @@ Before designing a sentence by hand, ask the library: `mba recommend <dir> --fro
 ## Talking videos (the person's own clip)
 When someone gives a clip of themself talking and wants it edited into a reel, use the `talking` preset — one take, nothing cut, dressed by the pack.
 1. `mba project init <dir> clip.mp4 --format 9:16`, `mba ingest <dir>`, `mba transcribe <dir>` (the voice is in the clip), then **`mba matte <dir> m1`** — it finds the face, so text is placed around it and the punch-in pushes toward it. Without the matte, text can land on the face: always run it.
-2. `preset.json`: `{"preset": "talking", "pack": "<id>", "media": "m1", "name": "<their name>", "handle": "@…"}`. Optional: `"in"` (start second), `"keywords": [{"say": "<phrase as said>", "text": "<word to show>"}]` (else the engine picks a strong word every few seconds), and `"captions"`, `"punch"`, `"popups"`: `false` to switch a part off.
+2. `preset.json`: `{"preset": "talking", "pack": "<id>", "media": "m1"}`. That gives captions with the key words marked, and key-word pop-ups. Optional, **only when the person asks**:
+   - `"name": "<their name>", "handle": "@…"` — a name strip at the start. Never add it by yourself.
+   - `"punch": true` — a zoom toward the speaker on each key word. Off by default: the clip keeps its own framing (many clips already move).
+   - `"keywords": [{"say": "<phrase as said>", "text": "<word to show>"}]` (else the engine picks a strong word every few seconds); `"in"` (start second); `"captions": false` or `"popups": false` to switch a part off.
 3. `mba preset <dir>`, storyboard stills, approval, render at 60 fps.
 
-What the pack decides: the caption look and how the key word is marked in it; how hard and how fast the punch-in is (cream: soft; dark tech: a hard cut; laser: a smooth push; Swiss: a small straight one); the pop-up word's mark (box / underline / colour); the name strip's material (paper tag / interface panel / glowing line / flat block).
-- Text never covers the face: the pop-up goes above the head and the name strip between the chin and the captions. **A tight close-up has no room, so it gets captions and punch-ins only** — say so, and suggest a wider framing if they want pop-ups.
+What the pack decides: the caption look and how the key word is marked in it; the pop-up word's mark (box / underline / colour); and, when asked for, the name strip's material (paper tag / interface panel / glowing line / flat block) and the zoom's feel (cream: soft; dark tech: a hard cut; laser: a smooth push; Swiss: a small straight one).
+- Text never covers the face: the pop-up goes above the head and the name strip between the chin and the captions. **A tight close-up has no room, so it gets captions only** — say so, and suggest a wider framing if they want pop-ups.
 - Ask for the key words when the topic is specific (names, numbers, product words); the automatic pick is a fallback.
 - `name-strip` (`name`, `handle`, `kind: card | panel | spot | column`, `side`, `y`, `at`, `out`) also works alone in any storyboard.
 

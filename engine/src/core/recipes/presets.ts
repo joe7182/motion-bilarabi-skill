@@ -151,13 +151,14 @@ export const presetSchema = z.discriminatedUnion('preset', [
     /** The clip (a project video that carries the voice) and the second it starts from. */
     media: z.string().min(1),
     in: z.number().min(0).default(0),
-    /** The speaker's name and handle for the strip at the start (absent: no strip). */
+    /** Optional: the speaker's name and handle for a strip at the start. Only when the person asks for it; absent: no strip. */
     name: txt(28).optional(),
     handle: z.string().max(32).optional(),
     /** Words to mark, each as said in the voice (a phrase; its last word is the moment); absent: picked from the transcript. */
     keywords: z.array(z.object({ say: txt(80), text: txt(20).optional() })).max(24).optional(),
     captions: z.boolean().default(true),
-    punch: z.boolean().default(true),
+    /** A push toward the speaker on each key word. Off unless the person asks: the clip keeps its own framing. */
+    punch: z.boolean().default(false),
     popups: z.boolean().default(true),
     motion: z.enum(['easy', 'snappy']).optional(),
     beat: z.object({ bpm: z.number().min(40).max(220), offset: z.number().min(0).default(0) }).optional(),

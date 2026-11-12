@@ -38,7 +38,7 @@ describe('talking preset', () => {
     expect(new Set(sig).size).toBe(PACK_IDS.length)
   })
   it('marks the key words in the captions and punches in on them, toward the face', () => {
-    const sb = build({ pack: 'dark-tech' }, [0.4, 0.2, 0.6, 0.4])
+    const sb = build({ pack: 'dark-tech', punch: true }, [0.4, 0.2, 0.6, 0.4])
     const cues = sb.scenes.find((s) => s.type === 'captions')!.params.cues as { words: { emph?: string }[] }[]
     const marked = cues.flatMap((c) => c.words).filter((w) => w.emph)
     expect(marked.length).toBeGreaterThanOrEqual(3)
@@ -68,7 +68,11 @@ describe('talking preset', () => {
     const find = (say: string) => tr.words.findIndex((w) => w.text === say.split(' ')[0])
     const keys = keyMoments(tr, [{ say: 'الفيديو احترافي' }, { say: 'بإضاءة واضحة', text: 'الإضاءة' }], find)
     expect(keys.map((k) => k.text)).toEqual(['احترافي', 'الإضاءة'])
-    const bare = build({ captions: false, punch: false, popups: false })
+    // By default the clip keeps its own framing (no zoom) and there is no name strip.
+    const plain = build({ pack: 'dark-tech' })
+    expect(plain.camera.keys).toEqual([{ at: 0, x: 0.5, y: 0.5, zoom: 1 }])
+    expect(plain.scenes.some((s) => s.type === 'name-strip')).toBe(false)
+    const bare = build({ captions: false, popups: false })
     expect(bare.scenes.map((s) => s.type)).toEqual(['video'])
     expect(bare.camera.keys.length).toBe(1)
   })
