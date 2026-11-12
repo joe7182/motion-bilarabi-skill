@@ -31,6 +31,7 @@ import { frameMarksParams } from './frame-marks'
 import { objectFrameParams } from './object-frame'
 import { nameStripParams } from './name-strip'
 import { geoPatternParams, paperShapesParams } from './pack-fx'
+import { glassCardParams, orderStepsParams, pageFlyoverParams, phoneReplyParams } from './showcase-fx'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -120,6 +121,10 @@ export const PARAMS = {
   'name-strip': nameStripParams,
   'geo-pattern': geoPatternParams,
   'paper-shapes': paperShapesParams,
+  'page-flyover': pageFlyoverParams,
+  'phone-reply': phoneReplyParams,
+  'order-steps': orderStepsParams,
+  'glass-card': glassCardParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,

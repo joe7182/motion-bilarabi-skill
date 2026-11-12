@@ -21,6 +21,7 @@ import { cuesOfFrameMarks } from './params/frame-marks'
 import { cuesOfObjectFrame } from './params/object-frame'
 import { cuesOfNameStrip } from './params/name-strip'
 import { cuesOfGeoPattern, cuesOfPaperShapes } from './params/pack-fx'
+import { cuesOfGlassCard, cuesOfOrderSteps, cuesOfPageFlyover, cuesOfPhoneReply } from './params/showcase-fx'
 import { cuesOfUiMorph } from './params/ui-morph'
 import { cuesOfHalftoneField, cuesOfSpringGraph } from './params/dots'
 import { cuesOfBeforeAfter, cuesOfFanCards, cuesOfFunnel } from './params/concept-fx'
@@ -133,6 +134,10 @@ export const CUES: Record<string, CuesOf> = {
   'name-strip': cuesOfNameStrip as CuesOf,
   'geo-pattern': cuesOfGeoPattern as CuesOf,
   'paper-shapes': cuesOfPaperShapes as CuesOf,
+  'page-flyover': cuesOfPageFlyover as CuesOf,
+  'phone-reply': cuesOfPhoneReply as CuesOf,
+  'order-steps': cuesOfOrderSteps as CuesOf,
+  'glass-card': cuesOfGlassCard as CuesOf,
   'ui-morph': cuesOfUiMorph as CuesOf,
   'spring-graph': cuesOfSpringGraph as CuesOf,
   'halftone-field': cuesOfHalftoneField as CuesOf,

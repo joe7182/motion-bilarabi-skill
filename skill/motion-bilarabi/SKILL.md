@@ -235,3 +235,13 @@ blocks (`knowledge-timeline`, `code-chat`, `web-crawl`, `misquote`, `context-win
 - `geo-pattern` (`cell`, `colour: accent|fg`, `alpha`, `draw`, `origin{x,y}`, `calm{y,h} | false`) — an eight-point star tiling drawn line by line from `origin`; `calm` is the band kept clear for text. Track 0, over a `backdrop`.
 - `paper-shapes` (`colours[]`, `at`, `shifts[]`, `steps: 0|8|12|15`, `scale`) — six cut-paper shapes in the top and bottom bands of the frame; each `shifts` time they trade places; `steps: 12` moves them on twos. Track 0, over a `backdrop`.
 - The iris transition takes `"shape": "star"` (an eight-point star opening).
+
+## Product showcase moments
+For an app, a site, a shop or a service. Each is one scene; put a short headline above it on a fixed track.
+- `page-flyover` (`image`, `layers[{x, y, w, h, lift, at}]` ≤ 8, `tilt`, `land`, `size`, `y`, `aspect`) — a page or app screenshot lies tilted in space, the camera glides down it while the pieces you name lift off with soft shadows, then it turns flat and lands as a card. One continuous move: give it 5–8 s and no transition inside. Take the picture with `mba shot <url> page.jpg --full` (or the person's own screenshot); `layers` are the pieces worth noticing (a hero, a card, a button), in image fractions.
+- `phone-reply` (`messages[{text, at}]` ≤ 3, `reply`, `typeAt`, `sendAt`, `name`, `theme`, `size`, `y`) — a phone chat: messages arrive, the keyboard rises, the reply is typed word by word while its keys light, and it is sent. Time `typeAt` to the voice's «رد» moment; allow 0.28 s per word before `sendAt`.
+- `order-steps` (`steps[{label, at}]` 2–5, `title`, `y`, `width`, `card`) — an order-status line (تم الطلب ← تجهيز ← توصيل ← وصل): each step fills at its `at`, the next one pulses. Also good for any process with stages.
+- `glass-card` (`title`, `lines[]` ≤ 3, `chips[]` ≤ 4, `at`, `y`, `width`, `tint: light|dark`) — a frosted-glass panel over what is beneath it. It needs a picture behind it to read as glass: put it over a `video` clip, a photo or a colourful background, never over a plain backdrop.
+
+## A video that loops
+For a reel meant to replay without a seam: end on the first scene's own first frame. Give the last scene the same type and params as the first, timed so its last frame equals frame 0 (same words already on screen, same object state), and put no transition at the very end. Check it: take stills at `0` and at the last frame and compare them before rendering.

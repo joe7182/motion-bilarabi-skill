@@ -167,6 +167,10 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | كرت بروفايل | scene `"type": "profile-card"` | حط كرت بروفايلي |
 | كروت السكلز | scene `"type": "skill-deck"` | وزّع السكلز على الأدوات |
 | جهازين متطابقين | scene `"type": "twin-sync"` | وريني جهازي وجهاز صديقي متطابقين |
+| تحليق فوق الصفحة | scene `"type": "page-flyover"` | سوّ تحليق فوق صفحة موقعي |
+| رد بالجوال | scene `"type": "phone-reply"` | خلّ رسالة توصل وأرد عليها بالجوال |
+| مراحل الطلب | scene `"type": "order-steps"` | ورّي مراحل الطلب وحدة وحدة |
+| بطاقة زجاج | scene `"type": "glass-card"` | حط الكلام على بطاقة زجاج فوق الفيديو |
 
 ## شرح الذكاء الاصطناعي — AI explainers
 
