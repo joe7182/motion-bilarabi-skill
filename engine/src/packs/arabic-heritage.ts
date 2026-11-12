@@ -11,7 +11,7 @@ export const arabicHeritage: Pack = {
   transitions: { default: 'iris', section: 'pixel-curtain', more: ['reveal'], params: { iris: { shape: 'star', color: 'accent' }, 'pixel-curtain': { color: 'accent' } } },
   background: [{ type: 'backdrop', params: { world: 'paper' } }, { type: 'geo-pattern', params: {} }],
   marks: { rules: [{ y: 0.03, from: 0.3, to: 0.7 }, { y: 0.985, from: 0.3, to: 0.7 }], alpha: 0.7 },
-  stage: { kind: 'arch' },
+  stage: { kind: 'arch', width: 1.08 },
   talking: { captions: { skin: 'soft-shadow', presentation: 'minimal', emph: 'accent' }, punch: { zoom: 1.08, ease: 'smooth' }, popup: 'colour', strip: 'arch' },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'line', enter: 'rise' } },

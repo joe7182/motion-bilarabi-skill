@@ -10,7 +10,7 @@ export const cutPaper: Pack = {
   motion: { ease: 'snappy', enter: 'pop', blur: 0, camera: 'locked' },
   transitions: { default: 'page-turn', section: 'paper-tear', more: ['color-wipe'], params: { 'page-turn': { color: 'accent' }, 'color-wipe': { color: 'accent' } } },
   background: [{ type: 'backdrop', params: { world: 'paper' } }, { type: 'paper-shapes', params: {} }],
-  stage: { kind: 'blob', colour: '#e0a526' },
+  stage: { kind: 'blob', colour: '#e0a526', width: 1.08 },
   talking: { captions: { skin: 'paper-tag', presentation: 'strip', emph: 'pop' }, punch: { zoom: 1.1, ease: 'smooth' }, popup: 'box', strip: 'blob' },
   roles: {
     headline: { type: 'kinetic-text', params: { mode: 'line', enter: 'pop' } },
