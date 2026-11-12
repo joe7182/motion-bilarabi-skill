@@ -65,7 +65,7 @@ export const pageFlyover: Primitive<PageFlyoverParams> = {
         const focus = lerp(lerp(lerp(cardH * 0.42, Math.max(cardH * 0.5, pageH - cardH * 0.55), a), pageH / 2, b), landY + cardH / 2, c)
         page.style.transformOrigin = `50% ${f2(focus)}px`
         page.style.transform = `translateY(${f2(cardH / 2 - focus)}px) rotateX(${f2(tilt)}deg) scale(${f4(scale)})`
-        stage.style.opacity = f4(seg(t, 0, 0.3))
+        // The page is there from the first frame (a video that opens on it never starts blank).
         fog.style.opacity = f4(0.75 * (tilt / p.tilt))
         // the landing crops the page to its card (only once every piece is flat again)
         const flat = t >= settleAt + 0.35
