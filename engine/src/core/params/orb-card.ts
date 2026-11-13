@@ -5,7 +5,7 @@ import type { Cue } from '../audio-plan'
  * Params of `orb-card`: a glowing orb with app tiles — the chapter card of a list of tools, or a hub.
  * - `chapter`: a small label and a big number («كونكتور» ٠١ / ٠٥) over the orb; a `from` tile and a
  *   `to` tile slide in on either side and a light line joins them through the orb; the tool's name
- *   writes in below in the serif.
+ *   writes in below, heavy, in an accent-to-pink gradient.
  * - `hub`: one tile at the orb's centre and up to twelve satellite tiles on a ring around it; each
  *   joins the centre with a line as it arrives; an optional `count` («+١٠٠٠») under the ring.
  * A tile shows a logo (`image`, a project image) or, without one, a monogram (`mark`) on `colour`.

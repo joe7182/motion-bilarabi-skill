@@ -35,6 +35,7 @@ import { glassCardParams, orderStepsParams, pageFlyoverParams, phoneReplyParams 
 import { gooMergeParams, photoGridParams } from './merge-fx'
 import { orbCardParams } from './orb-card'
 import { htmlMotionParams } from './html-motion'
+import { hueFieldParams } from './hue-field'
 import { uiMorphParams } from './ui-morph'
 import { halftoneFieldParams, springGraphParams } from './dots'
 import { beforeAfterParams, fanCardsParams, funnelParams } from './concept-fx'
@@ -132,6 +133,7 @@ export const PARAMS = {
   'photo-grid': photoGridParams,
   'orb-card': orbCardParams,
   'html-motion': htmlMotionParams,
+  'hue-field': hueFieldParams,
   'ui-morph': uiMorphParams,
   'spring-graph': springGraphParams,
   'halftone-field': halftoneFieldParams,

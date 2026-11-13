@@ -1,14 +1,14 @@
 import { easeInOutCubic, easeOutBack, easeOutCubic, seg } from '../../core/ease'
 import { ORB, orbCardParams, type OrbCardParams, type OrbTile } from '../../core/params/orb-card'
 import { spring } from '../../core/params/ui-morph'
-import { FONT_SERIF, FONT_WEIGHT } from '../looks'
+import { FONT_WEIGHT, worldIsLight } from '../looks'
 import { lineUnit } from '../text/units'
 import type { Primitive } from './registry'
 
 const f2 = (n: number) => n.toFixed(2)
 const f4 = (n: number) => n.toFixed(4)
-const AR = '٠١٢٣٤٥٦٧٨٩'
-const ar2 = (n: number) => String(n).padStart(2, '0').replace(/\d/g, (d) => AR[+d]!)
+/** Two digits, Latin: «01 /05» (an Arabic zero is a dot, so «٠١» reads like «-١» at this size). */
+const two = (n: number) => String(n).padStart(2, '0')
 const mix = (v: string, pct: number, other = 'transparent') => `color-mix(in srgb, ${v} ${pct}%, ${other})`
 function div(parent: HTMLElement, style: Partial<CSSStyleDeclaration> = {}, text?: string): HTMLElement {
   const el = document.createElement('div')
@@ -35,6 +35,8 @@ export const orbCard: Primitive<OrbCardParams> = {
     const cx = s.x + s.w / 2
     const cy = s.y + p.y * s.h
     const root = div(ctx.layer, { position: 'absolute', inset: '0', pointerEvents: 'none' })
+    // The tool's name: the display face (Cairo), heavy, filled with a gradient from the accent to pink.
+    const gradientText = (): Partial<CSSStyleDeclaration> => ({ fontFamily: ctx.look.fontDisplay, fontWeight: String(FONT_WEIGHT.display), backgroundImage: `linear-gradient(100deg, ${mix(accent, 55, '#ffffff')} 5%, ${mix(accent, 30, '#ff8fd0')} 95%)`, backgroundClip: 'text', webkitBackgroundClip: 'text', color: 'transparent', padding: `0 ${f2(10 * k)}px` })
     // halo, orb, rim light
     const halo = div(root, { position: 'absolute', left: f2(cx - D * 1.4) + 'px', top: f2(cy - D * 1.4) + 'px', width: f2(D * 2.8) + 'px', height: f2(D * 2.8) + 'px', borderRadius: '50%', background: `radial-gradient(circle, ${mix(accent, 46)} 0%, ${mix(accent, 16)} 34%, transparent 66%)` })
     const orb = div(root, {
@@ -86,20 +88,20 @@ export const orbCard: Primitive<OrbCardParams> = {
       items.push({ ...a, at: 0.05, dx: 1, ln }, { ...b, at: 0.15, dx: -1 })
       if (p.label) header.push(div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy - D * 1.36) + 'px', textAlign: 'center', fontFamily: ctx.look.fontBody, fontWeight: String(FONT_WEIGHT.bodyBold), fontSize: f2(42 * k) + 'px', lineHeight: '1.4', color: fg, opacity: '0.8' }, p.label))
       if (p.number !== undefined) {
-        const num = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy - D * 1.02) + 'px', textAlign: 'center', fontFamily: ctx.look.fontDisplay, fontWeight: String(FONT_WEIGHT.display), fontSize: f2(150 * k) + 'px', lineHeight: '1', color: fg, direction: 'rtl' })
+        const num = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy - D * 1.02) + 'px', textAlign: 'center', fontFamily: ctx.look.fontDisplay, fontWeight: String(FONT_WEIGHT.display), fontSize: f2(150 * k) + 'px', lineHeight: '1', color: fg, direction: 'ltr', letterSpacing: '-0.02em' })
         const big = document.createElement('span')
-        big.textContent = ar2(p.number)
+        big.textContent = two(p.number)
         num.append(big)
         if (p.total !== undefined) {
           const small = document.createElement('span')
-          small.textContent = ` /${ar2(p.total)}`
+          small.textContent = ` /${two(p.total)}`
           Object.assign(small.style, { fontSize: f2(54 * k) + 'px', opacity: '0.55', fontWeight: String(FONT_WEIGHT.body) })
           num.append(small)
         }
         header.push(num)
       }
       if (p.name) {
-        nameEl = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy + D * 0.66) + 'px', textAlign: 'center', fontFamily: FONT_SERIF, fontStyle: 'italic', fontWeight: '700', fontSize: f2(118 * k) + 'px', lineHeight: '1.25', color: mix(accent, 70, '#ffffff'), direction: 'ltr', textShadow: `0 0 ${f2(30 * k)}px ${mix(accent, 60)}` })
+        nameEl = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy + D * 0.66) + 'px', textAlign: 'center', fontSize: f2(118 * k) + 'px', lineHeight: '1.25', direction: 'ltr', ...gradientText() })
         lineUnit(nameEl, p.name)
       }
     } else {
@@ -118,14 +120,20 @@ export const orbCard: Primitive<OrbCardParams> = {
         items.push({ ...tt, at: t.at ?? p.at + i * p.stagger, dx: 0, ln })
       })
       if (p.count) {
-        nameEl = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy + R + S / 2 + 46 * k) + 'px', textAlign: 'center', fontFamily: FONT_SERIF, fontStyle: 'italic', fontWeight: '700', fontSize: f2(104 * k) + 'px', lineHeight: '1.2', color: mix(accent, 70, '#ffffff'), textShadow: `0 0 ${f2(30 * k)}px ${mix(accent, 60)}` })
+        nameEl = div(root, { position: 'absolute', left: '0', right: '0', top: f2(cy + R + S / 2 + 46 * k) + 'px', textAlign: 'center', fontSize: f2(104 * k) + 'px', lineHeight: '1.2', ...gradientText() })
         lineUnit(nameEl, p.count)
       }
     }
     const nameAt = p.mode === 'chapter' ? p.nameAt : p.countAt ?? p.at + p.satellites.length * p.stagger + 0.2
+    let light: boolean | undefined
     return {
       update(localT) {
         const t = Math.max(0, localT)
+        const l = worldIsLight(ctx.layer)
+        if (nameEl && l !== light) {
+          light = l
+          nameEl.style.backgroundImage = l ? `linear-gradient(100deg, ${mix(accent, 80, '#3a1fd0')} 5%, #e0469d 95%)` : `linear-gradient(100deg, ${mix(accent, 55, '#ffffff')} 5%, ${mix(accent, 30, '#ff8fd0')} 95%)`
+        }
         const o = spring(t * 2.2 + 0.35, 0.6, 9)
         const breathe = 1 + 0.025 * Math.sin(t * 2.4)
         orb.style.transform = `scale(${f4(Math.max(0, o) * breathe)})`

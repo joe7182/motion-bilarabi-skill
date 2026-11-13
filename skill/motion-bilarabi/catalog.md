@@ -23,6 +23,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | 4 | سويسري أحمر · Swiss red | `swiss-red` | `swiss-red` | `frame-marks`, `object-frame`, `editorial-type` |
 | 5 | تراث عربي · Arabic heritage | `arabic-heritage` | `heritage` | `geo-pattern`, `frame-marks`, `object-frame`, `editorial-type` |
 | 6 | ورق مقصوص · Cut paper | `cut-paper` | `cut-paper` | `paper-shapes`, `object-frame`, `heavy-word` |
+| 7 | نيبولا · Nebula | `nebula` | `nebula` | `hue-field`, `object-frame`, `glow-words` |
 
 ## حركات النص — Text animation
 
@@ -212,6 +213,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | خلفية | scene `"type": "backdrop"` | خلّ الخلفية داكنة |
 | ترجمة | scene `"type": "captions"` | حط ترجمة على كلامي |
 | منصّة الرسمة | scene `"type": "object-frame"` | حط الرسمة على بطاقة ورق |
+| خلفية ألوان متدرّجة | scene `"type": "hue-field"` | خلّ الخلفية ألوان متدرّجة ناعمة |
 | زخرفة هندسية | scene `"type": "geo-pattern"` | حط زخرفة هندسية بالخلفية |
 | أشكال ورق مقصوص | scene `"type": "paper-shapes"` | حط أشكال ورق ملوّنة حول الكلام |
 | علامات الإطار | scene `"type": "frame-marks"` | حط وسم «…» بالزاوية وخط رفيع فوق |

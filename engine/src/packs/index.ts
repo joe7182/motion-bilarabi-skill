@@ -2,6 +2,7 @@ import { arabicHeritage } from './arabic-heritage'
 import { cinematicLaser } from './cinematic-laser'
 import { cutPaper } from './cut-paper'
 import { darkTech } from './dark-tech'
+import { nebula } from './nebula'
 import { PACK_IDS, type Pack, type PackId } from './schema'
 import { signatureCream } from './signature-cream'
 import { swissRed } from './swiss-red'
@@ -13,6 +14,7 @@ export const PACKS: Record<PackId, Pack> = {
   'swiss-red': swissRed,
   'arabic-heritage': arabicHeritage,
   'cut-paper': cutPaper,
+  nebula,
 }
 
 /** The packs in menu order. */

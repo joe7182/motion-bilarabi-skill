@@ -62,11 +62,30 @@ const LOOKS: Record<LookId, LookTokens> = {
   heritage: { bg: '#0e3a48', fg: '#f3ead2', accent: '#d7ae55', vars: VARS, fontDisplay: FONT_SERIF, fontBody: BODY },
   // Cut paper: off-white paper, soft black, coral (the other paper colours come from the pack's shapes).
   // Nebula: deep navy and a lilac glow (its ink world is near-white with a navy ink).
-  nebula: { bg: '#0b0a1f', fg: '#f4f2fb', accent: '#8f7bff', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
+  nebula: { bg: '#0b0a1f', fg: '#f4f2fb', accent: '#8f7bff', vars: VARS, fontDisplay: DISPLAY, fontBody: DISPLAY },
   'cut-paper': { bg: '#f2ead9', fg: '#1d1b18', accent: '#bf3a12', vars: VARS, fontDisplay: DISPLAY, fontBody: BODY },
 }
 
 /** Sets the three colour custom properties (`--mba-bg/fg/accent`) on `el`: what `look.vars.*` read. */
+/** Relative luminance of a #rrggbb or rgb(...) colour (0 dark … 1 light); NaN when unreadable. */
+export function luminance(c: string): number {
+  const s = c.trim()
+  let rgb: number[] | undefined
+  const h = /^#([0-9a-f]{6})$/i.exec(s)
+  if (h) rgb = [0, 2, 4].map((i) => parseInt(h[1]!.slice(i, i + 2), 16))
+  const m = /rgba?\(([^)]+)\)/i.exec(s)
+  if (!rgb && m) rgb = m[1]!.split(/[ ,/]+/).slice(0, 3).map(Number)
+  if (!rgb || rgb.some((v) => Number.isNaN(v))) return NaN
+  const [r, g, b] = rgb.map((v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4 })
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!
+}
+
+/** Whether the colour world `el` sits in right now (its live `--mba-bg`) is a light one. */
+export function worldIsLight(el: HTMLElement): boolean {
+  const L = luminance(getComputedStyle(el).getPropertyValue('--mba-bg'))
+  return !Number.isNaN(L) && L >= 0.35
+}
+
 export function applyLookVars(el: HTMLElement, c: { bg: string; fg: string; accent: string }): void {
   el.style.setProperty('--mba-bg', c.bg)
   el.style.setProperty('--mba-fg', c.fg)

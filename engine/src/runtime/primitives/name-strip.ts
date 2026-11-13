@@ -42,7 +42,7 @@ export const nameStrip: Primitive<NameStripParams> = {
     let rest = 'rotate(0deg)'
 
     // The heritage arch is a dark band with an accent rule; the cut-paper blob is a paper tag in the accent colour.
-    const kind = p.kind === 'arch' ? 'column' : p.kind === 'blob' ? 'card' : p.kind
+    const kind = p.kind === 'arch' ? 'column' : p.kind === 'blob' ? 'card' : p.kind === 'glass' ? 'panel' : p.kind
     if (kind === 'card') {
       // A paper tag: light paper, ink text, a soft shadow, a touch tilted.
       Object.assign(strip.style, { background: mix(bg, 30, '#ffffff'), color: '#16130f', borderRadius: px(18), boxShadow: `0 ${px(14)} ${px(40)} rgba(0,0,0,0.28)` })

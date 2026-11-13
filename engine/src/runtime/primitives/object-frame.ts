@@ -1,7 +1,7 @@
 import { easeOutCubic, seg } from '../../core/ease'
 import { OBJECT_FRAME as F, objectFrameParams, type ObjectFrameParams } from '../../core/params/object-frame'
 import { spring } from '../../core/params/ui-morph'
-import { FONT_MONO, FONT_WEIGHT } from '../looks'
+import { FONT_MONO, FONT_WEIGHT, worldIsLight } from '../looks'
 import type { Primitive } from './registry'
 
 const mix = (v: string, pct: number, other = 'transparent') => `color-mix(in srgb, ${v} ${pct}%, ${other})`
@@ -93,6 +93,22 @@ export const objectFrame: Primitive<ObjectFrameParams> = {
         inner.style.opacity = '0.6'
         wash.style.opacity = seg(u, 0.4, 1).toFixed(4)
         star.style.transform = `scale(${easeOutCubic(seg(u, 0.6, 1)).toFixed(4)}) rotate(${(22.5 * (1 - seg(u, 0.6, 1))).toFixed(2)}deg)`
+      }
+    } else if (p.kind === 'glass') {
+      // Frosted glass: a faint tint of the ink, a hairline edge and a top sheen; it rises into place.
+      const glass = add({ inset: '0', borderRadius: px(40), backdropFilter: `blur(${px(22)})`, boxSizing: 'border-box' })
+      let light: boolean | undefined
+      update = (u) => {
+        const l = worldIsLight(ctx.layer)
+        if (l !== light) {
+          light = l
+          Object.assign(glass.style, l
+            ? { background: 'rgba(255,255,255,0.78)', border: `${px(1.5)} solid rgba(21,18,43,0.06)`, boxShadow: `0 ${px(40)} ${px(90)} rgba(80,55,160,0.16), 0 ${px(6)} ${px(18)} rgba(80,55,160,0.06)` }
+            : { background: `linear-gradient(180deg, ${mix(fg, 11)}, ${mix(fg, 4)})`, border: `${px(1.5)} solid ${mix(fg, 15)}`, boxShadow: `0 ${px(40)} ${px(90)} rgba(0,0,0,0.30), inset 0 ${px(1)} 0 ${mix(fg, 14)}` })
+        }
+        const e = easeOutCubic(u)
+        glass.style.opacity = e.toFixed(4)
+        glass.style.transform = `translateY(${((1 - e) * 0.08 * h).toFixed(2)}px) scale(${(0.97 + 0.03 * e).toFixed(4)})`
       }
     } else if (p.kind === 'blob') {
       // A cut-paper blob: it drops in a little turned and settles with a small bounce.

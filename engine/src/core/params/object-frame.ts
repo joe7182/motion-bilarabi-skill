@@ -11,8 +11,9 @@ import type { Cue } from '../audio-plan'
  * - `column`: a flat editorial column — a vertical rule, a small caption, one accent square.
  * - `arch`: a pointed arch in thin accent lines that draws itself, a small star at its crown.
  * - `blob`: a cut-paper blob in a paper colour (`colour`), with a soft shadow.
+ * - `glass`: a frosted glass card (a faint tint of the frame's ink, a hairline edge, a top sheen).
  */
-export const OBJECT_FRAME_KINDS = ['card', 'panel', 'spot', 'column', 'arch', 'blob'] as const
+export const OBJECT_FRAME_KINDS = ['card', 'panel', 'spot', 'column', 'arch', 'blob', 'glass'] as const
 
 export const objectFrameParams = z.object({
   kind: z.enum(OBJECT_FRAME_KINDS),
