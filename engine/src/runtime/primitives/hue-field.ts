@@ -37,6 +37,7 @@ export const hueField: Primitive<HueFieldParams> = {
         const a = Math.min(1, (m === 'dark' ? H.glows[i]!.alpha : H.lightAlpha[i]!) * p.strength)
         el.style.background = `radial-gradient(circle, color-mix(in srgb, ${hues[i]} ${(a * 100).toFixed(0)}%, transparent) 0%, transparent 62%)`
       })
+      root.style.background = (m === 'dark' ? p.base : p.lightBase) ?? 'var(--mba-bg)'
       vig.style.background = `radial-gradient(ellipse at 50% 45%, transparent 55%, ${m === 'dark' ? 'rgba(0,0,0,.45)' : 'rgba(120,90,200,.10)'} 100%)`
       mode = m
     }

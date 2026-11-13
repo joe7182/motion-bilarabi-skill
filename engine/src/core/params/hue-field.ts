@@ -15,6 +15,9 @@ export const hueFieldParams = z.object({
   dark: z.array(hex).length(4).optional(),
   /** Four glow colours on a light background (default: peach, pink, lilac, cream). */
   light: z.array(hex).length(4).optional(),
+  /** The ground under the glows in a dark world / a light world (default: the frame's background colour). */
+  base: hex.optional(),
+  lightBase: hex.optional(),
   /** How strong the glows are (1 = as designed). */
   strength: z.number().min(0.2).max(1.5).default(1),
   /** Drift speed (1 ≈ one slow sway every 11–13 s; 0 holds still). */
