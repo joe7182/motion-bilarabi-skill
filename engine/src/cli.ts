@@ -1,5 +1,5 @@
 import { parseArgs } from 'node:util'
-import { existsSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import { mkdir, readFile } from 'node:fs/promises'
 import { basename, dirname, extname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -68,9 +68,10 @@ const USAGE = `الاستخدام — Usage:
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
   mba board <projectDir | storyboard.json> [--port 4319]   (the review board: a still per moment with its words; the person writes notes or approves; saves notes.json)
-  mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--port 4317]   (the style picker: style, font, colours, motion, drag the title on a frame of the clip; saves pick.json)
+  mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--faceless] [--port 4317]   (the style picker: style, font, colours, motion, drag the title on a frame of the clip, or on backgrounds when there is no clip; saves pick.json)
   mba dress <storyboard.json | projectDir> --pack <id|number> [--out file]   (put a style pack on a storyboard; fills only what it left open)
   mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3] [--pack id]   (the best concepts for a sentence, with ready scenes)
+  mba record <recipe.json> [--out dir] [--only a,b]   (clean footage of a web tool, shot by shot: drags, slider sweeps, scrolls, typing)
   mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]   (a web page screenshot for a screen-mockup: desktop browser or phone)
   mba plate <projectDir> <mediaId> <photo-or-clip>   (optional: the empty scene from the same camera spot, for professional blow-away, clones, dolly, back focus)
   mba transcribe <projectDir> [--media m1]
@@ -134,6 +135,8 @@ async function main(argv: string[]): Promise<number> {
         port: { type: 'string' },
         title: { type: 'string' },
         key: { type: 'string' },
+        only: { type: 'string' },
+        faceless: { type: 'boolean' },
         // Hidden, test only: an ES module whose default export is the source of a browser function
         // returning test primitives (see tests/fixtures/test-primitives.js).
         'test-primitives': { type: 'string' },
@@ -177,10 +180,10 @@ async function main(argv: string[]): Promise<number> {
   }
   if (command === 'pick') {
     const dir = positionals[1]
-    if (!dir) usage('الاستخدام: mba pick <projectDir> [--media mN] [--t ثواني] [--title "العنوان"] [--key "الكلمة"] [--port 4317] — Usage: mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--port 4317]')
+    if (!dir) usage('الاستخدام: mba pick <projectDir> [--media mN] [--t ثواني] [--title "العنوان"] [--key "الكلمة"] [--faceless] [--port 4317] — Usage: mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--faceless] [--port 4317]')
     const { preparePick, servePick } = await import('./node/pick')
     const log = (l: string) => process.stderr.write(l + '\n')
-    const data = await preparePick(dir!, { media: values.media as string | undefined, ...(values.t ? { t: Number(values.t) } : {}), title: values.title as string | undefined, key: values.key as string | undefined, log })
+    const data = await preparePick(dir!, { faceless: values.faceless === true, media: values.media as string | undefined, ...(values.t ? { t: Number(values.t) } : {}), title: values.title as string | undefined, key: values.key as string | undefined, log })
     // the picker closes once a choice is saved: the process ending is the signal to use it
     return new Promise<number>((done) => {
       servePick(data, values.port ? Number(values.port) : 4317, (file) => {
@@ -204,6 +207,14 @@ async function main(argv: string[]): Promise<number> {
     const r = dressCommand(target!, { pack: values.pack as string, out: values.out as string | undefined })
     const body = r.changes.length ? `${r.changes.map((c) => `  + ${c}`).join('\n')}\nكُتب — written: ${r.file}` : 'ما في شي يتغيّر — nothing to change'
     process.stdout.write(`الستايل — pack: ${r.pack}\n${body}\n`)
+    return 0
+  }
+  if (command === 'record') {
+    const recipe = positionals[1]
+    if (!recipe) usage('الاستخدام: mba record <recipe.json> [--out مجلد] [--only لقطة،لقطة] — Usage: mba record <recipe.json> [--out dir] [--only a,b]')
+    const { record } = await import('./node/record')
+    const r = await record(recipe!, { ...(values.out ? { out: values.out as string } : {}), ...(values.only ? { only: String(values.only).split(',').map((x) => x.trim()).filter(Boolean) } : {}), log: (l) => process.stderr.write(l + '\n') })
+    process.stdout.write(`التسجيل جاهز — Recording written: ${r.video}\n${r.spans.map((x) => `  ${x.name}: ${x.from}–${x.to}s`).join('\n')}\n`)
     return 0
   }
   if (command === 'shot') {
@@ -435,6 +446,17 @@ async function main(argv: string[]): Promise<number> {
         if (onProgressLine) process.stderr.write('\n')
       })
       process.stdout.write(`${res.outPath}\n`)
+      // a seamless loop: measure the seam (the first frame against the last one)
+      if ((JSON.parse(readFileSync(storyboard, 'utf8')) as { loop?: boolean }).loop === true) {
+        const { loopSeam } = await import('./node/loop-seam')
+        const seam = loopSeam(res.outPath)
+        const db = Number.isFinite(seam.db) ? `${seam.db.toFixed(1)} dB` : 'identical'
+        process.stdout.write(
+          seam.ok
+            ? `نقطة اللف نظيفة — loop seam OK: the first and last frames match (${db})\n`
+            : `تنبيه — Warning: نقطة اللف تبين — the loop seam shows: the first and last frames differ (${db}); end on the same picture the video starts with\n`,
+        )
+      }
       return 0
     }
     case 'still': {

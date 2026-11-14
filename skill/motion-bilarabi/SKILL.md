@@ -20,7 +20,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 2. **Guided start — one message, before any plan.** Ask only what their words have not already answered, and show the picture with it: `media/style-packs.jpg`, next to the `engine/` folder (`<engine>/../media/style-packs.jpg`). Send the file when the app can; else give its path as a link; if neither works, add one line per style from the «Style packs» table instead.
    «قبل ما أبدأ، ثلاث أسئلة سريعة:
    ١. الفيديو **بوجهك** (كليب إلك وإنت تتكلم) ولا **بدون وجه** (سكربت أو تعليق صوتي)؟
-   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر · ٥ تراث عربي · ٦ ورق مقصوص · ٧ نيبولا — الصورة توضّح الفرق، أو قل «إنت اختار». (وإذا الفيديو بوجهك: تقدر تختار الشكل ومكان العنوان بنفسك على لقطة من الكليب.)
+   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر · ٥ تراث عربي · ٦ ورق مقصوص · ٧ نيبولا — الصورة توضّح الفرق، أو قل «إنت اختار». (وتقدر تختار الشكل ومكان العنوان بنفسك: على لقطة من الكليب إذا الفيديو بوجهك، أو على الخلفيات إذا بدون وجه.)
    ٣. الحركة **هادئة** ولا **حماسية**؟»
    Then stop and wait. Never ask about effects, transitions, fonts or colours in words: the pack decides them, and a person who wants to choose them on their own clip gets the style picker («Style picker» below).
    Skip a question only when they said it outright («سوّ لي ريل داكن من هالكليب» answers ١ and ٢); a topic alone («ريل عن ثلاث نصايح») answers none.
@@ -85,6 +85,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 | Is everything installed? | `mba doctor` |
 | An effect by its Arabic name | `catalog.md` (the user sees EFFECTS.md with previews) |
 | Ideas for a sentence | `mba recommend <dir> --from s --to s` (ready scenes timed to the words) |
+| Footage of a web tool (orbit, slider, scroll) | `mba record <recipe.json>` → `rec/recording.mp4`, then `screen-clip` per shot |
 | A web page or app screen | the user's screenshot, or `mba shot <url> img/x.jpg --full [--mobile]`, in a `screen-mockup` |
 | Build the storyboard | `mba preset <dir>` (`--script s.txt --bpm 120` without voice) |
 | Check a frame | `mba still <dir> --t 2.5,6 --out stills` |
@@ -165,6 +166,15 @@ Every idea lives in one world; the camera flies from one to the next and each on
 - **Reference images first.** When a sentence talks about a website, an app, a tool or a page, the visual is the real screen. Ask the user for screenshots or screen recordings (their own site, app, dashboard): «عندك لقطة شاشة للصفحة؟ أرسلها، أو أعطني الرابط وأصوّرها». Put them in the project folder (e.g. `img/`) and use the path.
 - No screenshot but a public link: capture it — `mba shot <url> img/site.jpg --full` (desktop page, scrolled so everything loads; `--mobile` for a phone-sized page; `--wait 1500` for slow pages). Only public pages: never sign in, never capture private or paid content. Prefer the user's own sites; for someone else's site, say which page you captured and ask before publishing. Look at the screenshot yourself before using it (blank sections, banners, anything personal).
 
+- **Clean footage of a web tool** (the person's own app, a demo page they name): write a recipe and run `mba record <recipe.json>` (see `engine/src/core/record-recipe.ts`). Each shot runs its `setup` off camera (`click` a tab by its text or a selector, `check` a box by its label, `set` a slider or field, `scrollTo`, `scrollTop`, `wait`) and then records `seconds` while one `move` plays out smoothly: `drag` (orbit a 3D view), `sweep` (a slider from one value to another), `scroll`, `type` (letter by letter) or `hover`; no move holds still. It writes `rec/<shot>.mp4` and `rec/recording.mp4` (all shots, with a silent track) plus `recording.json` with each shot's span; `mba project add` the recording and point each `screen-clip` `in` at a shot's `from`. Frames are captured one by one (slow: about a second each for a 3D page), so record only what the storyboard uses. It never signs in or types a password; for anything behind a login, ask the person for a screen recording instead.
+- **Real footage inside the motion** (`screen-clip`: a screen recording in a floating window, with `focus` zoom keys, `callouts`, `marks`, `clicks`):
+  - Keep the window inside the safe area (9:16: top 14%, bottom 22%, left 6%, right 12% are off limits): `width` about 0.94–0.96 with `at.x` near 0.52, and leave the headline its own band above it (headlines never touch the window).
+  - Zoom lightly. A focus `scale` of 1.1–1.6 is plenty; above 2 the footage turns soft and the viewer loses where they are. Prefer a wider `aspect` (about 1.4) to deep zooms, and give each zoom key at least a second before the next.
+  - Read every focus point off a still of the footage (`mba still` at that moment), never guess; a clip that changes layout mid-way needs a new `in` rather than a long focus path.
+  - Crop out what must not show: placeholder or wrong prices, personal data, other people's names or faces. Aim the focus or the `aspect` so it is outside the window, and check the stills by eye.
+  - On a talking clip, the window never covers the face: place it in the half away from the face box.
+  - One shot per sentence, cut on the words: the footage proves what the voice says at that moment.
+
 ## Concepts: let the engine suggest (`mba recommend`)
 Before designing a sentence by hand, ask the library: `mba recommend <dir> --from <s> --to <s>` (the sentence's span in `transcript.json`) or `mba recommend "<sentence>" --seconds 3`. It prints the best concepts (karaoke ball, growth graph, before/after slider, one-to-many, shortlist funnel, strike-and-replace, UI chain, object chain, question pulse) with a reason and **ready scenes timed to the words** — paste them into `edit.json`, then adjust the words and labels. Use it as a first draft, never as the final word: two sentences in a row never use the same concept, and every sentence still needs a meaningful visual (rules above).
 
@@ -198,13 +208,13 @@ What the pack decides: the caption look and how the key word is marked in it; th
 - Ask for the key words when the topic is specific (names, numbers, product words); the automatic pick is a fallback.
 - `name-strip` (`name`, `handle`, `kind: card | panel | spot | column`, `side`, `y`, `at`, `out`) also works alone in any storyboard.
 
-## Style picker (`mba pick`) — the person chooses on their own clip
+## Style picker (`mba pick`) — the person chooses by looking
 When a talking clip's title matters and the person wants to choose by looking — «خلّني أختار», «وريني خيارات», «أبي أحط العنوان بنفسي», «العنوان ورا راسي» — or answers «إنت اختار» but is unsure, offer the picker instead of describing options in words.
 1. The project has the clip ingested. Start **`mba pick <dir> [--media mN] [--t s] --title "<title>" --key "<key word>"`** as a **background** command. It cuts the person out once if `mba matte` has not run (about a minute), renders a card per title style from one frame of the clip (about a minute), then prints `http://localhost:4317`.
 2. Open that link for the person (the app's browser panel when there is one; else give the link) and say in one line what to do: pick a style card, then on the frame: edit the title and key word, one or two lines, font (Cairo, Alexandria, Lalezar, Reem Kufi, Aref Ruqaa, Marhey), own colours (text, key-word gradient, box and its opacity, or a quick palette), entrance and exit (▶ plays it; 🎬 renders a real 3-second clip), in front or **behind the head**, and drag the title (a red outline warns when it covers the face; behind the head it warns when the head hides too much). «استخدم هذا» saves the pick, renders that exact frame and closes the picker — that exit is your signal to go on.
 3. Read `<dir>/pick.json`: `title` is a ready `styled-title` scene — place it over the video for the moment it belongs to (its own `start`/`duration`). When `cutout` is not null, add that scene on the track just above the title with the same `start` and `duration` and the `in` of the video under it, so the person stands in front of the letters.
 - `styled-title` (`text`, `key`, `lines: 1|2`, `style: nebula|electric|coral|cream|tech|swiss`, `font: cairo|alexandria|lalezar|reem-kufi|aref-ruqaa|marhey`, `layer: front|behind`, `cx`, `cy`, `w`, `size`, `in: blur|words|pop|type|rise`, `out: blur|drop|wipe|pop|none`, `at`, `outAt`, `colors{text, k1, k2, box, boxAlpha}`) can also be written by hand. Behind the head: one bold line crossing the top of the head reads best; keep the key word clear of the head.
-- It needs a clip with a person in it; for a faceless video, the style packs and the style picture are the choice.
+- **Faceless videos** (no clip in the project, or `--faceless`): the same page over backgrounds instead of a frame. Each style card shows the title on its own background (nebula, Electric Blue, Claude Coral, cream, dark tech, Swiss), and a «الخلفية» row mixes them; there is no face box and no behind-the-head. `pick.json` then also holds `look`, `variant` (when any) and `ground` (the track-0 scene for the whole video): set `look` and `variant` at the top of the storyboard, put `ground` on track 0, and the title above it.
 
 ## Style packs
 A pack is one complete art direction. One choice sets the look, where the headline sits and which edge it hugs, how the key word is marked, the background, the frame marks, the transitions and the motion feel — so the video is coherent without picking effects one by one.
@@ -222,6 +232,8 @@ A pack is one complete art direction. One choice sets the look, where the headli
 | `arabic-heritage` | centred, classic serif (Amiri) | gold | short gold rules | a gold pointed arch that draws itself | star-shaped iris, tile curtain, reveal |
 | `cut-paper` | centred | coral box | chapter bar | a mustard paper blob | page turn, paper tear, colour wipe |
 | `nebula` | centred, high; Cairo only | lilac colour | chapter bar | frosted glass | zoom through, iris, flood |
+
+**Colour variants:** `"variant": "electric"` (Electric Blue: near-black ground, blue and cyan glows, for tools and tech) or `"coral"` (Claude Coral: warm black, coral and orange glows, for a premium influencer look) at the top of the storyboard recolours the whole look (ground, ink, accent, and the `hue-field` glows) in one line. Made for the nebula pack; any look takes it. Offer the two variants when the person asks for other colours or for a tech or influencer feel; hand-written colours inside `html-motion` scenes stay as written, so recolour those yourself.
 
 The heritage pack lays `geo-pattern` (a star tiling that draws itself and stays calm behind the text) and the cut-paper pack lays `paper-shapes` (coloured shapes around the text that trade places at each section) under the whole video.
 
@@ -273,4 +285,7 @@ For an app, a site, a shop or a service. Each is one scene; put a short headline
 - `glass-card` also takes `"liquid": true`: the picture behind bends through the panel like thick glass (less blur, so the bend shows). Use it over a clip or photos with clear shapes.
 
 ## A video that loops
-For a reel meant to replay without a seam: end on the first scene's own first frame. Give the last scene the same type and params as the first, timed so its last frame equals frame 0 (same words already on screen, same object state), and put no transition at the very end. Check it: take stills at `0` and at the last frame and compare them before rendering.
+When the script is written as a loop (its last sentence is answered by its first, e.g. it ends «وشوف ليش» and opens on the answer), put `"loop": true` at the top of the storyboard.
+- Start and end on the same picture: open on the key card, and bring that same card back (same type and params, same words already on screen, same object state) for the last 0.5–1 s, with no exit animation and no transition at the very end. Frame 0 is still never blank.
+- `hue-field` snaps its drift by itself so it is back at rest on the last frame. Anything else that moves on its own (a pulse, a ticking counter) must also be back where it started.
+- Before rendering, take stills at `0` and at the last frame and compare them. `mba render` measures the seam (first frame against last frame) and prints a warning when they differ: fix it before delivering.

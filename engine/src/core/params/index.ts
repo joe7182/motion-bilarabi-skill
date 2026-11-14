@@ -261,7 +261,7 @@ export function validateSceneParams(sb: Storyboard, warnings?: string[]): void {
     if (!Object.hasOwn(PARAMS, sc.type)) return
     const p = parseSceneParams(PARAMS[sc.type as PrimitiveId] as ZodType, i, sc.params)
     if (sc.type === 'backdrop' && (p as BackdropParams).world === 'accent') {
-      const look = getLook(sb.look, sb.brand)
+      const look = getLook(sb.look, sb.brand, sb.variant)
       if (resolveWorld(look, 'accent') !== 'accent') {
         warnings?.push('الجو «accent» لا يحقق تباين ٤٫٥ في هذا الستايل؛ استُبدل بـ «ink» — accent world fails 4.5 contrast for this look; using ink')
       }

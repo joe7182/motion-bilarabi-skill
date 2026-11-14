@@ -1,4 +1,5 @@
 import { HUE_FIELD as H, hueFieldParams, type HueFieldParams } from '../../core/params/hue-field'
+import { loopPeriod } from '../../core/loop'
 import { worldIsLight } from '../looks'
 import type { Primitive } from './registry'
 
@@ -30,9 +31,12 @@ export const hueField: Primitive<HueFieldParams> = {
     Object.assign(vig.style, { position: 'absolute', inset: '0' })
     root.append(vig, grain)
     ctx.layer.append(root)
+    // in a loop each sway period is snapped so the drift is back at rest when the video ends
+    const periods = H.glows.map((g) => (ctx.loop && p.speed > 0 ? loopPeriod(g.period, ctx.loop * p.speed) : g.period))
     let mode: 'dark' | 'light' | '' = ''
     const paint = (m: 'dark' | 'light') => {
-      const hues = m === 'dark' ? (p.dark ?? [ctx.look.vars.accent, ...H.dark.slice(1)]) : (p.light ?? [...H.light])
+      const g = ctx.look.glows
+      const hues = m === 'dark' ? (p.dark ?? g?.dark ?? [ctx.look.vars.accent, ...H.dark.slice(1)]) : (p.light ?? g?.light ?? [...H.light])
       glows.forEach((el, i) => {
         const a = Math.min(1, (m === 'dark' ? H.glows[i]!.alpha : H.lightAlpha[i]!) * p.strength)
         el.style.background = `radial-gradient(circle, color-mix(in srgb, ${hues[i]} ${(a * 100).toFixed(0)}%, transparent) 0%, transparent 62%)`
@@ -48,8 +52,9 @@ export const hueField: Primitive<HueFieldParams> = {
         const t = Math.max(0, localT) * p.speed
         glows.forEach((el, i) => {
           const g = H.glows[i]!
-          const u = 0.5 - 0.5 * Math.cos((2 * Math.PI * t) / (2 * g.period))
-          const s = 1 + 0.1 * Math.sin((2 * Math.PI * t) / (2 * g.period))
+          const P = periods[i]!
+          const u = 0.5 - 0.5 * Math.cos((2 * Math.PI * t) / (2 * P))
+          const s = 1 + 0.1 * Math.sin((2 * Math.PI * t) / (2 * P))
           el.style.transform = `translate(${(g.dx * W * u).toFixed(1)}px, ${(g.dy * Hh * u).toFixed(1)}px) scale(${s.toFixed(4)})`
         })
       },

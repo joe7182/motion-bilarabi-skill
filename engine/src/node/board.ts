@@ -76,7 +76,8 @@ export function serveBoard(data: BoardData, port = 4319, onSaved?: (notes: Board
           const file = join(data.dir, 'notes.json')
           writeFileSync(file, JSON.stringify(notes, null, 1))
           send(res, 200, JSON.stringify({ ok: true, saved: file, count: notes.moments.length, approved: notes.approved }), TYPES['.json'])
-          if (onSaved) setTimeout(() => onSaved(notes, file), 300)
+          // stop serving once the notes are saved: the process can then end, which is the signal
+          if (onSaved) setTimeout(() => { onSaved(notes, file); server.close(); server.closeAllConnections() }, 300)
         } catch (e) {
           send(res, 500, JSON.stringify({ ok: false, error: String((e as Error).message || e).slice(0, 300) }), TYPES['.json'])
         }

@@ -84,7 +84,7 @@ body { overflow-x:hidden; }
 <body>
 <header>
   <h1>اختيار الستايل ومكان النص</h1>
-  <p>هذي لقطة من الفيديو مالتك. اختر الستايل، بعدها حط النص وين ما تريد، والمحرك يرسمه لك بالضبط.</p>
+  <p id="intro">هذي لقطة من الفيديو مالتك. اختر الستايل، بعدها حط النص وين ما تريد، والمحرك يرسمه لك بالضبط.</p>
 </header>
 <div class="steps">
   <button id="tab1" class="on">١ · الستايل</button>
@@ -102,6 +102,10 @@ body { overflow-x:hidden; }
         <div class="canvas" id="canvas"></div>
       </div>
       <div class="side">
+        <div class="box" id="groundBox" style="display:none">
+          <h3>الخلفية</h3>
+          <div class="chips" id="groundChips"></div>
+        </div>
         <div class="box">
           <h3>النص</h3>
           <label class="row">العنوان <input id="tText" class="txt" value=""></label>
@@ -178,7 +182,7 @@ body { overflow-x:hidden; }
 <script>
 const $ = (id) => document.getElementById(id)
 const S = 0.375 // stage px per frame px (405 / 1080)
-let data, style, pos, layer = 'front', matte = null
+let data, style, pos, layer = 'front', matte = null, ground = '', autoInk = false
 
 // the person's shape at this frame (white = you), for measuring how much of the text your head hides
 function loadMatte() {
@@ -237,17 +241,19 @@ let lines = 1, animIn = 'blur', animOut = 'blur', font = 'cairo', playing = fals
 const colors = () => $('ccOn').checked ? { text: $('cText').value, k1: $('cK1').value, k2: $('cK2').value, box: $('cBox').value, boxAlpha: +$('cAlpha').value / 100 } : null
 const hexA = (hex, a) => { const n = parseInt(hex.slice(1), 16); return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a.toFixed(2) + ')' }
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+// mirrors darkInk in core/title-styles.ts
+const darkInk = (h) => { const [r, g, b] = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255); return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.3 }
 function hlHtml() {
   const text = $('tText').value.trim() || ' ', key = $('tKey').value.trim()
   let i = 0
   const span = (t, k) => '<span class="w' + (k ? ' k' : '') + '" style="--i:' + (i++) + '">' + esc(t) + '</span>'
   const inner = text.split(/\s+/).map((t) => span(t)).join(' ') + (key ? (lines === 2 ? '<br>' : ' ') + key.split(/\s+/).map((t) => span(t, true)).join(' ') : '')
-  const cls = ['hl', 's-' + style, layer === 'behind' ? 'behind' : '', lines === 2 ? 'two' : 'one', 'f-' + font, colors() ? 'cc' : '', playing ? 'in-' + animIn : '', playing && animOut !== 'none' ? 'out-' + animOut : ''].filter(Boolean).join(' ')
+  const cls = ['hl', 's-' + style, layer === 'behind' ? 'behind' : '', lines === 2 ? 'two' : 'one', 'f-' + font, colors() ? 'cc' : '', colors() && darkInk(colors().text) ? 'ink' : '', playing ? 'in-' + animIn : '', playing && animOut !== 'none' ? 'out-' + animOut : ''].filter(Boolean).join(' ')
   return '<div class="' + cls + '" id="hl" style="--at:0.2s;--out:2.4s' + (colors() ? ';--c-text:' + colors().text + ';--c-k1:' + colors().k1 + ';--c-k2:' + colors().k2 + ';--c-box:' + hexA(colors().box, colors().boxAlpha) : '') + '"><span class="o"><span class="pad"><span class="in">' + inner + '</span></span></span><div class="grip" id="grip" title="كبّر / صغّر"></div></div>'
 }
 function draw() {
   const c = $('canvas'); c.innerHTML = ''
-  $('stage').style.backgroundImage = 'url(/frame.jpg)'
+  $('stage').style.backgroundImage = data.faceless ? 'url(/grounds/' + ground + '.jpg)' : 'url(/frame.jpg)'
   // Instagram's own buttons and caption sit here
   if ($('showIg').checked) {
     c.insertAdjacentHTML('beforeend', '<div class="ig" style="left:0;right:0;bottom:0;height:' + (0.22 * 1920) + 'px"><span style="bottom:0;right:0">واجهة إنستغرام</span></div><div class="ig" style="top:' + (0.5 * 1920) + 'px;bottom:' + (0.22 * 1920) + 'px;left:' + (0.88 * 1080) + 'px;right:0"></div>')
@@ -313,7 +319,7 @@ function bind() {
 }
 
 $('size').oninput = (e) => { pos.size = +e.target.value; place() }
-const payload = () => ({ style, layer, ...pos, text: $('tText').value.trim(), key: $('tKey').value.trim(), lines, animIn, animOut, font, colors: colors() })
+const payload = () => ({ style, layer, ground, ...pos, text: $('tText').value.trim(), key: $('tKey').value.trim(), lines, animIn, animOut, font, colors: colors() })
 $('tText').oninput = draw; $('tKey').oninput = draw
 document.querySelectorAll('#lineChips button').forEach((b) => { b.onclick = () => { lines = +b.dataset.lines; document.querySelectorAll('#lineChips button').forEach((x) => x.classList.toggle('on', x === b)); draw() } })
 // play the in/out motion live on the stage (3.2 s, then back to the still for dragging)
@@ -341,11 +347,12 @@ const SWATCHES = [
 for (const [ar, t, a, b, box, al] of SWATCHES) {
   const el = document.createElement('button')
   el.innerHTML = '<i style="background:linear-gradient(90deg,' + box + ' 0 34%,' + a + ' 34% 67%,' + b + ' 67%)"></i>' + ar
-  el.onclick = () => { $('ccOn').checked = true; $('ccBox').classList.add('on'); $('cText').value = t; $('cK1').value = a; $('cK2').value = b; $('cBox').value = box; $('cAlpha').value = al; draw() }
+  el.onclick = () => { autoInk = false; $('ccOn').checked = true; $('ccBox').classList.add('on'); $('cText').value = t; $('cK1').value = a; $('cK2').value = b; $('cBox').value = box; $('cAlpha').value = al; draw() }
   $('swatches').append(el)
 }
-$('ccOn').onchange = () => { $('ccBox').classList.toggle('on', $('ccOn').checked); draw() }
-for (const id of ['cText', 'cK1', 'cK2', 'cBox', 'cAlpha']) $(id).oninput = draw
+$('ccOn').onchange = () => { autoInk = false; $('ccBox').classList.toggle('on', $('ccOn').checked); draw() }
+// colours the person sets are theirs: a background change no longer clears them
+for (const id of ['cText', 'cK1', 'cK2', 'cBox', 'cAlpha']) $(id).oninput = () => { autoInk = false; draw() }
 fetch('/fonts.json').then((r) => r.json()).then((list) => {
   const el = $('fontChips')
   for (const f of list) {
@@ -381,12 +388,29 @@ $('use').onclick = async () => {
   if (data.hasMatte) { loadMatte(); document.querySelectorAll('#layers button').forEach((b) => { b.onclick = () => setLayer(b.dataset.layer) }) }
   else $('layerBox').style.display = 'none'
   style = data.styles[0].id
+  // faceless: no face to avoid; pick a background too (a style card brings its own)
+  const setGround = (id) => {
+    // dark ink filled in for a light background goes when the background no longer asks for it
+    if (autoInk && !data.grounds.find((g) => g.id === id).ink) { $('ccOn').checked = false; $('ccBox').classList.remove('on'); autoInk = false }
+    ground = id; document.querySelectorAll('#groundChips button').forEach((b) => b.classList.toggle('on', b.dataset.g === id)); if ($('hl')) draw() }
+  if (data.faceless) {
+    ground = data.ground
+    $('intro').textContent = 'اختر ستايل العنوان والخلفية، بعدها حط النص وين ما تريد، والمحرك يرسمه لك بالضبط.'
+    $('groundBox').style.display = ''
+    $('showFace').closest('label').style.display = 'none'
+    for (const g of data.grounds) {
+      const b = document.createElement('button')
+      b.dataset.g = g.id; b.textContent = g.ar; b.className = g.id === ground ? 'on' : ''
+      b.onclick = () => setGround(g.id)
+      $('groundChips').append(b)
+    }
+  }
   const grid = $('grid')
   for (const s of data.styles) {
     const el = document.createElement('div')
     el.className = 'card' + (s.id === style ? ' on' : '')
     el.innerHTML = '<img src="/cards/' + s.id + '.jpg?' + Date.now() + '" alt=""><b>' + s.ar + '</b><small>' + s.en + '</small>'
-    el.onclick = () => { style = s.id; document.querySelectorAll('.card').forEach((c) => c.classList.remove('on')); el.classList.add('on') }
+    el.onclick = () => { style = s.id; document.querySelectorAll('.card').forEach((c) => c.classList.remove('on')); el.classList.add('on'); if (data.faceless && data.grounds.some((g) => g.id === s.id)) { const ink = data.grounds.find((g) => g.id === s.id).ink; if (ink || autoInk) { $('ccOn').checked = !!ink; $('ccBox').classList.toggle('on', !!ink) } autoInk = !!ink; setGround(s.id); if (ink) { $('cText').value = ink.text; $('cK1').value = ink.k1; $('cK2').value = ink.k2; $('cBox').value = ink.box; $('cAlpha').value = Math.round(ink.boxAlpha * 100); if ($('hl')) draw() } } }
     el.ondblclick = () => { el.onclick(); show(2) }
     grid.append(el)
   }

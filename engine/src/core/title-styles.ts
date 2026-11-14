@@ -80,6 +80,7 @@ const FONT_CSS = TITLE_FONTS.map((f) => `.hl.f-${f.id} { font-family:'${f.family
 /** Custom colours (class .cc + variables on the element) win over the style's own. */
 const COLOR_CSS = `
 .hl.cc { color:var(--c-text) !important; }
+.hl.cc.ink, .hl.cc.ink .k { text-shadow:none !important; }
 .hl.cc .k { background:linear-gradient(100deg,var(--c-k1),var(--c-k2)) !important; -webkit-background-clip:text !important; background-clip:text !important; color:transparent !important; box-shadow:none !important; padding:0 !important; border-radius:0 !important; filter:none !important; }
 .hl.cc .pad { background:var(--c-box) !important; }
 .hl.cc.behind .pad { background:none !important; }
@@ -129,6 +130,12 @@ export const hexAlpha = (hex: string, a: number) => {
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a.toFixed(2)})`
 }
 
+/** Dark custom letters (a light ground) need no dark drop shadow: that is only there to lift light text off video. */
+export const darkInk = (hex: string): boolean => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b! < 0.3
+}
+
 /** The title element on the 1080 × 1920 canvas: one span per word (for word-by-word), the key word last. */
 export function titleHtml(p: TitleSpec): string {
   let i = 0
@@ -136,7 +143,7 @@ export function titleHtml(p: TitleSpec): string {
   const words = p.text.trim().split(/\s+/).filter(Boolean)
   const keys = p.key.trim().split(/\s+/).filter(Boolean)
   const inner = words.map((t) => span(t)).join(' ') + (keys.length ? (p.lines === 2 ? '<br>' : ' ') + keys.map((t) => span(t, true)).join(' ') : '')
-  const cls = ['hl', `s-${p.style}`, p.layer === 'behind' ? 'behind' : '', p.lines === 2 ? 'two' : 'one', `f-${p.font}`, p.colors ? 'cc' : '', `in-${p.animIn}`, p.animOut === 'none' ? '' : `out-${p.animOut}`].filter(Boolean).join(' ')
+  const cls = ['hl', `s-${p.style}`, p.layer === 'behind' ? 'behind' : '', p.lines === 2 ? 'two' : 'one', `f-${p.font}`, p.colors ? 'cc' : '', p.colors && darkInk(p.colors.text) ? 'ink' : '', `in-${p.animIn}`, p.animOut === 'none' ? '' : `out-${p.animOut}`].filter(Boolean).join(' ')
   const c = p.colors
   const vars = c ? `;--c-text:${c.text};--c-k1:${c.k1};--c-k2:${c.k2};--c-box:${hexAlpha(c.box, c.boxAlpha)}` : ''
   return `<div class="${cls}" style="left:${(p.cx * 1080).toFixed(1)}px;top:${(p.cy * 1920).toFixed(1)}px;width:${(p.w * 1080).toFixed(1)}px;font-size:${Math.round(p.size)}px;--at:${p.at}s;--out:${p.outAt}s${vars}"><span class="o"><span class="pad"><span class="in">${inner}</span></span></span></div>`

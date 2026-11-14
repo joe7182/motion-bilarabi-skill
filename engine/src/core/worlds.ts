@@ -42,7 +42,7 @@ export function resolveWorld(c: WorldColours, world: BackdropWorld): BackdropWor
  * (and it falls back to ink when neither reaches 4.5, see `resolveWorld`).
  */
 export function worldColours(sb: Storyboard): WorldColours[] {
-  const look = getLook(sb.look, sb.brand)
+  const look = getLook(sb.look, sb.brand, sb.variant)
   const used = new Set<BackdropWorld>(['paper'])
   for (const sc of sb.scenes) {
     if (sc.type !== 'backdrop') continue

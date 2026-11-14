@@ -41,3 +41,15 @@ describe('title styles (styled-title and mba pick)', () => {
     expect(() => styledTitleParams.parse({ text: 'x', font: 'comic-sans' })).toThrow()
   })
 })
+
+describe('dark custom letters', () => {
+  it('drop the dark shadow only when the custom text colour is dark', async () => {
+    const { darkInk } = await import('../../src/core/title-styles')
+    expect(darkInk('#111111')).toBe(true)
+    expect(darkInk('#ffffff')).toBe(false)
+    const ink = titleHtml({ ...base, colors: { text: '#111111', k1: '#cf1f17', k2: '#cf1f17', box: '#efede8', boxAlpha: 0 } })
+    expect(ink).toMatch(/class="hl [^"]*\bink\b/)
+    expect(titleHtml({ ...base, colors: { text: '#ffffff', k1: '#7cc4ff', k2: '#33f0d0', box: '#0a1236', boxAlpha: 0.5 } })).not.toMatch(/class="hl [^"]*\bink\b/)
+    expect(titleCss('.x')).toContain('.ink')
+  })
+})

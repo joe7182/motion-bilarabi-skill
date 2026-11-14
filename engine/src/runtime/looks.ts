@@ -1,5 +1,6 @@
 import type { Brand } from '../core/brand'
 import type { LookId } from '../core/storyboard'
+import { VARIANTS, type VariantId } from '../core/variants'
 
 /**
  * Colour and type tokens for a look. `fontDisplay` / `fontBody` are CSS `font-family` values;
@@ -17,6 +18,8 @@ export interface LookTokens {
   vars: { bg: 'var(--mba-bg)'; fg: 'var(--mba-fg)'; accent: 'var(--mba-accent)' }
   fontDisplay: string
   fontBody: string
+  /** A colour variant's hue-field glows (`hue-field` uses them when its own `dark`/`light` are unset). */
+  glows?: { dark: readonly string[]; light: readonly string[] }
 }
 
 export const FONT_WEIGHT = { display: 900, bodyBold: 700, body: 400 } as const
@@ -106,9 +109,19 @@ export function applyLookVars(el: HTMLElement, c: { bg: string; fg: string; acce
   el.style.setProperty('--mba-accent', c.accent)
 }
 
-/** Returns a fresh copy of the look's tokens; a brand's `colors.primary` overrides `accent`. */
-export function getLook(id: LookId, brand?: Brand): LookTokens {
+/**
+ * Returns a fresh copy of the look's tokens. A colour variant (`core/variants.ts`) replaces the
+ * ground, ink and accent and brings its hue-field glows; a brand's `colors.primary` then overrides
+ * `accent`.
+ */
+export function getLook(id: LookId, brand?: Brand, variant?: VariantId): LookTokens {
   const base = LOOKS[id]
   if (!base) throw new Error(`unknown look "${String(id)}"`)
-  return { ...base, ...(brand ? { accent: brand.colors.primary } : {}) }
+  const v = variant ? VARIANTS[variant] : undefined
+  if (variant && !v) throw new Error(`unknown variant "${String(variant)}"`)
+  return {
+    ...base,
+    ...(v ? { bg: v.bg, fg: v.fg, accent: v.accent, glows: v.glows } : {}),
+    ...(brand ? { accent: brand.colors.primary } : {}),
+  }
 }

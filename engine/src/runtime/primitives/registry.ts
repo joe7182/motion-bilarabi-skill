@@ -28,6 +28,11 @@ export interface BuildCtx {
    */
   duration: number
   /**
+   * The whole video's length when the storyboard is a seamless loop (`"loop": true`): anything that
+   * moves on its own clock should be back at its first frame at this local time (`loopPeriod`).
+   */
+  loop?: number
+  /**
    * The element with `data-mba-key = key` in an EARLIER scene (already built) shown over this
    * scene's whole span (it starts no later and ends no earlier; any track), first in storyboard order. Throws a
    * StoryboardError at `scenes[i].params.<field>` when there is none. Measure it at build: its

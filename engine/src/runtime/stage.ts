@@ -92,7 +92,7 @@ export async function createStage(root: HTMLElement, sb: Storyboard): Promise<St
 
   const size = FORMAT_SIZE[sb.format]
   const safe = safeRect(sb.format)
-  const look = getLook(sb.look, sb.brand)
+  const look = getLook(sb.look, sb.brand, sb.variant)
   const duration = storyboardDuration(sb)
 
   Object.assign(root.style, {
@@ -334,6 +334,7 @@ export async function createStage(root: HTMLElement, sb: Storyboard): Promise<St
           // The primitive sees a scene of length duration + preroll (its local 0 is `preroll` before
           // the scene start), so its exit still lands exactly at start + duration.
           duration: sc.duration + preroll,
+          ...(sb.loop ? { loop: duration } : {}),
           keyed: (key, field) => {
             const el = inCoveringScene(`[data-mba-key="${CSS.escape(key)}"]`)
             if (el) return el

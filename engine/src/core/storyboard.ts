@@ -3,6 +3,7 @@ import { FORMATS, type Format } from './types'
 import { brandSchema, formatPath, type Brand } from './brand'
 import { defaultTransitionDuration, TRANSITION_DURATION, TRANSITION_IDS, TRANSITION_PARAMS, type TransitionId } from './params/transitions'
 import { PACK_IDS, PACK_LOOK, type PackId } from './pack-ids'
+import { VARIANT_IDS, type VariantId } from './variants'
 import { CAMERA, tourKeys, type CameraSpec, type ScenePlace } from './camera'
 
 export type { TransitionId }
@@ -141,6 +142,10 @@ export interface Storyboard {
   look: LookId
   /** The style pack the storyboard was built with (`mba preset`, `mba dress`); it supplies `look` when that is absent. */
   pack?: PackId
+  /** A colour variant of the look (`core/variants.ts`). */
+  variant?: VariantId
+  /** A seamless loop: backgrounds on their own clock come back to their first frame at the end. */
+  loop?: boolean
   dir: 'rtl'
   seed: number
   brand?: Brand
@@ -254,6 +259,10 @@ const storyboardSchema = z.object({
   fps: z.union([z.literal(30), z.literal(60)]).default(30),
   look: z.enum(LOOK_IDS).default('dark-tech'),
   pack: z.enum(PACK_IDS).optional(),
+  /** A colour variant of the look (core/variants.ts): electric = Electric Blue, coral = Claude Coral. */
+  variant: z.enum(VARIANT_IDS).optional(),
+  /** A seamless loop: the last frame leads back into the first (core/loop.ts). */
+  loop: z.boolean().optional(),
   dir: z.literal('rtl').default('rtl'),
   seed: z.number().int().default(1),
   brand: brandSchema.optional(),
