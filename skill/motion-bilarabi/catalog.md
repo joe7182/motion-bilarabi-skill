@@ -50,6 +50,7 @@ between two scenes. Then `mba validate` (style notes are advice; the person's pi
 | تكرار الصدى | scene `"type": "repeat-loop"` | كرّر الجملة كصدى حولها |
 | رقم القسم | scene `"type": "section-number"` | حط رقم كبير لكل قسم |
 | جزيئات تصير كلمة | scene `"type": "particle-word"` | خلّ المصباح ينفجر جزيئات وتصير «…» |
+| عنوان مختار بالمنتقي | scene `"type": "styled-title"` | خلّني أختار شكل العنوان ومكانه على الفيديو مالتي |
 
 ## حركات العنوان العربي — Arabic headline moves
 

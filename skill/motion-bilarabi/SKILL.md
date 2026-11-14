@@ -20,9 +20,9 @@ there, ask where they put it. Its `README.md` is the install guide.
 2. **Guided start — one message, before any plan.** Ask only what their words have not already answered, and show the picture with it: `media/style-packs.jpg`, next to the `engine/` folder (`<engine>/../media/style-packs.jpg`). Send the file when the app can; else give its path as a link; if neither works, add one line per style from the «Style packs» table instead.
    «قبل ما أبدأ، ثلاث أسئلة سريعة:
    ١. الفيديو **بوجهك** (كليب إلك وإنت تتكلم) ولا **بدون وجه** (سكربت أو تعليق صوتي)؟
-   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر · ٥ تراث عربي · ٦ ورق مقصوص — الصورة توضّح الفرق، أو قل «إنت اختار».
+   ٢. أي ستايل تبي؟ ١ كريمي توقيع · ٢ داكن تقني · ٣ ليزر سينمائي · ٤ سويسري أحمر · ٥ تراث عربي · ٦ ورق مقصوص · ٧ نيبولا — الصورة توضّح الفرق، أو قل «إنت اختار». (وإذا الفيديو بوجهك: تقدر تختار الشكل ومكان العنوان بنفسك على لقطة من الكليب.)
    ٣. الحركة **هادئة** ولا **حماسية**؟»
-   Then stop and wait. Never ask about effects, transitions, fonts or colours: the pack decides them.
+   Then stop and wait. Never ask about effects, transitions, fonts or colours in words: the pack decides them, and a person who wants to choose them on their own clip gets the style picker («Style picker» below).
    Skip a question only when they said it outright («سوّ لي ريل داكن من هالكليب» answers ١ and ٢); a topic alone («ريل عن ثلاث نصايح») answers none.
    - **١ → the preset.** With their face: the `talking` preset (see «Talking videos»). Without: pick the preset from the script's shape — `presets.md` (table + every field).
    - **٢ → the pack.** The number or name is a **pack**: write its id from `catalog.md` as `"pack"` in `preset.json` (see «Style packs»). «إنت اختار» or no answer → pick the pack that fits the topic (the list is under «Style packs») and say which in one line.
@@ -82,6 +82,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 | Smooth vs snappy | `"motion": "easy" \| "snappy"` |
 | Land on music | `"beat": { "bpm": 120 }` |
 | Person cut-out (talking head) | `mba matte <dir> m1`, then a `cutout` scene; anything on a lower track sits behind the person |
+| Let the person pick the title's look and place on their clip | `mba pick <dir> --title "…" --key "…"` → they choose in the browser → `<dir>/pick.json` (a `styled-title` scene, and a `cutout` when behind the head) |
 | Motion blur | storyboard `"motionBlur": { "samples": 4, "shutter": 180 }` |
 
 ## Creator effects (scene types)
@@ -184,6 +185,14 @@ What the pack decides: the caption look and how the key word is marked in it; th
 - Text never covers the face: the pop-up goes above the head and the name strip between the chin and the captions. **A tight close-up has no room, so it gets captions only** — say so, and suggest a wider framing if they want pop-ups.
 - Ask for the key words when the topic is specific (names, numbers, product words); the automatic pick is a fallback.
 - `name-strip` (`name`, `handle`, `kind: card | panel | spot | column`, `side`, `y`, `at`, `out`) also works alone in any storyboard.
+
+## Style picker (`mba pick`) — the person chooses on their own clip
+When a talking clip's title matters and the person wants to choose by looking — «خلّني أختار», «وريني خيارات», «أبي أحط العنوان بنفسي», «العنوان ورا راسي» — or answers «إنت اختار» but is unsure, offer the picker instead of describing options in words.
+1. The project has the clip ingested. Run **`mba pick <dir> [--media mN] [--t s] --title "<title>" --key "<key word>"`** in the background (it keeps a local server running). It cuts the person out once if `mba matte` has not run (about a minute), renders a card per title style from one frame of the clip (about a minute), then prints `http://localhost:4317`.
+2. Open that link for the person (the app's browser panel when there is one; else give the link) and say in one line what to do: pick a style card, then on the frame: edit the title and key word, one or two lines, font (Cairo, Alexandria, Lalezar, Reem Kufi, Aref Ruqaa, Marhey), own colours (text, key-word gradient, box and its opacity, or a quick palette), entrance and exit (▶ plays it; 🎬 renders a real 3-second clip), in front or **behind the head**, and drag the title (a red outline warns when it covers the face; behind the head it warns when the head hides too much). «استخدم هذا» saves the pick and renders that exact frame; they tell you «اخترت».
+3. Read `<dir>/pick.json`: `title` is a ready `styled-title` scene — place it over the video for the moment it belongs to (its own `start`/`duration`). When `cutout` is not null, add that scene on the track just above the title with the same `start` and `duration` and the `in` of the video under it, so the person stands in front of the letters. Stop the picker.
+- `styled-title` (`text`, `key`, `lines: 1|2`, `style: nebula|electric|coral|cream|tech|swiss`, `font: cairo|alexandria|lalezar|reem-kufi|aref-ruqaa|marhey`, `layer: front|behind`, `cx`, `cy`, `w`, `size`, `in: blur|words|pop|type|rise`, `out: blur|drop|wipe|pop|none`, `at`, `outAt`, `colors{text, k1, k2, box, boxAlpha}`) can also be written by hand. Behind the head: one bold line crossing the top of the head reads best; keep the key word clear of the head.
+- It needs a clip with a person in it; for a faceless video, the style packs and the style picture are the choice.
 
 ## Style packs
 A pack is one complete art direction. One choice sets the look, where the headline sits and which edge it hugs, how the key word is marked, the background, the frame marks, the transitions and the motion feel — so the video is coherent without picking effects one by one.

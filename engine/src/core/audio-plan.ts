@@ -26,6 +26,7 @@ import { cuesOfGooMerge, cuesOfPhotoGrid } from './params/merge-fx'
 import { cuesOfOrbCard } from './params/orb-card'
 import { cuesOfHtmlMotion } from './params/html-motion'
 import { cuesOfHueField } from './params/hue-field'
+import { cuesOfStyledTitle } from './params/styled-title'
 import { cuesOfUiMorph } from './params/ui-morph'
 import { cuesOfHalftoneField, cuesOfSpringGraph } from './params/dots'
 import { cuesOfBeforeAfter, cuesOfFanCards, cuesOfFunnel } from './params/concept-fx'
@@ -147,6 +148,7 @@ export const CUES: Record<string, CuesOf> = {
   'orb-card': cuesOfOrbCard as CuesOf,
   'html-motion': cuesOfHtmlMotion as CuesOf,
   'hue-field': cuesOfHueField as CuesOf,
+  'styled-title': cuesOfStyledTitle as CuesOf,
   'ui-morph': cuesOfUiMorph as CuesOf,
   'spring-graph': cuesOfSpringGraph as CuesOf,
   'halftone-field': cuesOfHalftoneField as CuesOf,

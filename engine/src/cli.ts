@@ -67,6 +67,7 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
+  mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--port 4317]   (the style picker: style, font, colours, motion, drag the title on a frame of the clip; saves pick.json)
   mba dress <storyboard.json | projectDir> --pack <id|number> [--out file]   (put a style pack on a storyboard; fills only what it left open)
   mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3] [--pack id]   (the best concepts for a sentence, with ready scenes)
   mba shot <url> <out.jpg> [--mobile] [--full] [--wait ms]   (a web page screenshot for a screen-mockup: desktop browser or phone)
@@ -129,6 +130,9 @@ async function main(argv: string[]): Promise<number> {
         style: { type: 'string' },
         force: { type: 'boolean' },
         plan: { type: 'boolean' },
+        port: { type: 'string' },
+        title: { type: 'string' },
+        key: { type: 'string' },
         // Hidden, test only: an ES module whose default export is the source of a browser function
         // returning test primitives (see tests/fixtures/test-primitives.js).
         'test-primitives': { type: 'string' },
@@ -156,6 +160,16 @@ async function main(argv: string[]): Promise<number> {
     const out = await makeMatte(dir!, id!, (values.model as string | undefined) ?? undefined, (l) => process.stderr.write(l + '\n'))
     process.stdout.write(`قناع الشخص جاهز — Person matte written: ${out}\n`)
     return 0
+  }
+  if (command === 'pick') {
+    const dir = positionals[1]
+    if (!dir) usage('الاستخدام: mba pick <projectDir> [--media mN] [--t ثواني] [--title "العنوان"] [--key "الكلمة"] [--port 4317] — Usage: mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--port 4317]')
+    const { preparePick, servePick } = await import('./node/pick')
+    const log = (l: string) => process.stderr.write(l + '\n')
+    const data = await preparePick(dir!, { media: values.media as string | undefined, ...(values.t ? { t: Number(values.t) } : {}), title: values.title as string | undefined, key: values.key as string | undefined, log })
+    const url = await servePick(data, values.port ? Number(values.port) : 4317)
+    process.stdout.write(`منتقي الستايل جاهز — Style picker ready: ${url}\nالاختيار ينحفظ في — the pick is saved to: ${data.project}\\pick.json\n(Ctrl+C يوقفه — stops it)\n`)
+    return new Promise<number>(() => {})
   }
   if (command === 'recommend') {
     const target = positionals[1]
