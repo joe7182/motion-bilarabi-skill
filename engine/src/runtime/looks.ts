@@ -37,11 +37,25 @@ export const SERIF_FAMILY = 'Amiri'
 export const FONT_SERIF = `'${SERIF_FAMILY}', serif`
 const SERIF_FACES = [`700 40px '${SERIF_FAMILY}'`, `italic 400 40px '${SERIF_FAMILY}'`, `italic 700 40px '${SERIF_FAMILY}'`]
 
+/**
+ * The bundled title faces (index.html; OFL, Google Fonts), each at the weight a title uses: Alexandria
+ * (modern geometric), Lalezar (heavy display), Reem Kufi (modern Kufi), Aref Ruqaa (Ruqaa
+ * calligraphy), Marhey (rounded, playful). Cairo stays the default.
+ */
+export const TITLE_FACES = [
+  { id: 'alexandria', family: 'Alexandria', weight: 800 },
+  { id: 'lalezar', family: 'Lalezar', weight: 400 },
+  { id: 'reem-kufi', family: 'Reem Kufi', weight: 700 },
+  { id: 'aref-ruqaa', family: 'Aref Ruqaa', weight: 700 },
+  { id: 'marhey', family: 'Marhey', weight: 700 },
+] as const
+
 /** CSS font shorthands to preload: each bundled family at each distinct FONT_WEIGHT, plus the code face. */
 export const REQUIRED_FONTS: readonly string[] = [
   ...BUNDLED_FAMILIES.flatMap((family) => [...new Set(Object.values(FONT_WEIGHT))].map((w) => `${w} 40px ${family}`)),
   `400 40px '${MONO_FAMILY}'`,
   ...SERIF_FACES,
+  ...TITLE_FACES.map((f) => `${f.weight} 40px '${f.family}'`),
 ]
 
 const DISPLAY = "'Cairo', sans-serif"

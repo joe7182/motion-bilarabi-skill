@@ -81,3 +81,38 @@ SOFTWARE.
 - **Licence:** SIL Open Font License 1.1, Copyright 2010-2022 The Amiri Project Authors
   (https://github.com/aliftype/amiri). The full licence text is `assets/fonts/amiri/OFL.txt`
   (verbatim), shipped beside the fonts.
+
+## Alexandria (font)
+
+- **What:** the variable face (weights 100–900), as `assets/fonts/alexandria/Alexandria-Variable.ttf`, copied unchanged from the Google Fonts repository
+  (`ofl/alexandria`). A title face for headlines (the style picker and `html-motion` scenes).
+- **Licence:** SIL Open Font License 1.1, Copyright 2022 The Alexandria Project Authors (https://github.com/Gue3bara/Alexandria). The full licence text is
+  `assets/fonts/alexandria/OFL.txt` (verbatim), shipped beside the font.
+
+## Lalezar (font)
+
+- **What:** the regular face, as `assets/fonts/lalezar/Lalezar-Regular.ttf`, copied unchanged from the Google Fonts repository
+  (`ofl/lalezar`). A title face for headlines (the style picker and `html-motion` scenes).
+- **Licence:** SIL Open Font License 1.1, Copyright 2015 The Lalezar Project Authors (https://github.com/BornaIz/Lalezar). The full licence text is
+  `assets/fonts/lalezar/OFL.txt` (verbatim), shipped beside the font.
+
+## Reem Kufi (font)
+
+- **What:** the variable face (weights 400–700), as `assets/fonts/reem-kufi/ReemKufi-Variable.ttf`, copied unchanged from the Google Fonts repository
+  (`ofl/reemkufi`). A title face for headlines (the style picker and `html-motion` scenes).
+- **Licence:** SIL Open Font License 1.1, Copyright 2015-2022 The Reem Kufi Project Authors (https://github.com/aliftype/reem-kufi), with Reserved Font Name "Josefin Sans". The full licence text is
+  `assets/fonts/reem-kufi/OFL.txt` (verbatim), shipped beside the font.
+
+## Aref Ruqaa (font)
+
+- **What:** the bold face, as `assets/fonts/aref-ruqaa/ArefRuqaa-Bold.ttf`, copied unchanged from the Google Fonts repository
+  (`ofl/arefruqaa`). A title face for headlines (the style picker and `html-motion` scenes).
+- **Licence:** SIL Open Font License 1.1, Copyright 2015-2020 The Aref Ruqaa Project Authors (https://github.com/alif-type/aref-ruqaa), with Reserved Font Name EURM10. The full licence text is
+  `assets/fonts/aref-ruqaa/OFL.txt` (verbatim), shipped beside the font.
+
+## Marhey (font)
+
+- **What:** the variable face (weights 300–700), as `assets/fonts/marhey/Marhey-Variable.ttf`, copied unchanged from the Google Fonts repository
+  (`ofl/marhey`). A title face for headlines (the style picker and `html-motion` scenes).
+- **Licence:** SIL Open Font License 1.1, Copyright 2022 The Marhey Project Authors (https://github.com/namelatype/Marhey). The full licence text is
+  `assets/fonts/marhey/OFL.txt` (verbatim), shipped beside the font.
