@@ -49,7 +49,16 @@ there, ask where they put it. Its `README.md` is the install guide.
    `preset.json` and run it again; put hand edits (a person's effect picks) into `edit.json` last.
 7. **Storyboard images:** `mba preset` prints the exact `mba still …` command (one moment per
    section). Run it, look at every image yourself first (does each part show its idea? can a phone
-   viewer read it?), show them, and **wait for approval.** Notes → edit, run again, new images.
+   viewer read it?), fix what you see, then let the person review and **wait for approval.**
+   - **The review board:** run `mba board <dir>` in the background (it keeps a local server
+     running) and open the link it prints (`http://localhost:4319`) for the person: one card per
+     moment with the words said over it. They tap a moment and write a note in their own words, add
+     a general note, and press «أرسل» — or «كله تمام» — then tell you «خلصت». Read
+     `<dir>/notes.json`: `approved: true` → render; otherwise apply **every** note in one pass (each
+     note names its moment's span `from`–`to`, its words and the scene ids on screen), run the
+     board again, and say in one line what changed per note. Stop the old board first.
+   - Without a browser (a plain terminal, a chat without links): send the images and take notes in
+     the chat, by moment number.
 8. **Render:** `mba render <dir>` → `<dir>/renders/vNNN-final.mp4`.
 9. **Delivery gate (all must pass before you send the video):**
    - `mba verify <dir>` — the render matches the plan (frames, length, audio).
@@ -77,6 +86,7 @@ there, ask where they put it. Its `README.md` is the install guide.
 | A web page or app screen | the user's screenshot, or `mba shot <url> img/x.jpg --full [--mobile]`, in a `screen-mockup` |
 | Build the storyboard | `mba preset <dir>` (`--script s.txt --bpm 120` without voice) |
 | Check a frame | `mba still <dir> --t 2.5,6 --out stills` |
+| Let the person review and leave notes | `mba board <dir>` → they tap moments and write notes or approve → `<dir>/notes.json` |
 | Validate | `mba validate <dir>` |
 | Render / review | `mba render <dir>` · `mba review <video> --out r1` |
 | Smooth vs snappy | `"motion": "easy" \| "snappy"` |

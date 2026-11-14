@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مراجعة الفيديو</title>
+<!-- mba board: the review board. Served by engine/src/node/board.ts; moments from core/board-moments.ts. -->
+<style>
+@font-face { font-family:'Cairo'; src:url('/cairo.ttf') format('truetype'); font-weight:200 1000; }
+:root { --bg:#0c0d12; --panel:#15171f; --panel2:#1c1f2b; --line:rgba(255,255,255,.1); --fg:#f2f3f7; --soft:#9aa0b1; --acc:#4f8cff; --acc2:#33d6c0; --note:#ffc46b; }
+* { box-sizing:border-box; }
+html, body { margin:0; background:var(--bg); color:var(--fg); font-family:'Cairo',sans-serif; overflow-x:hidden; }
+header { padding:22px 24px 8px; }
+header h1 { margin:0; font-size:26px; font-weight:900; }
+header p { margin:4px 0 0; color:var(--soft); font-size:15px; line-height:1.6; }
+main { padding:10px 24px 220px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; }
+.card { background:var(--panel); border:2px solid transparent; border-radius:18px; padding:8px; display:flex; flex-direction:column; gap:8px; }
+.card.has { border-color:var(--note); }
+.shot { position:relative; cursor:zoom-in; }
+.shot img { width:100%; aspect-ratio:9/16; object-fit:cover; border-radius:12px; display:block; background:#000; }
+.n { position:absolute; top:8px; right:8px; min-width:32px; height:32px; border-radius:10px; background:rgba(0,0,0,.65); font-weight:900; font-size:17px; display:flex; align-items:center; justify-content:center; padding:0 8px; }
+.time { position:absolute; bottom:8px; left:8px; direction:ltr; font-size:12px; font-weight:800; background:rgba(0,0,0,.65); border-radius:8px; padding:2px 8px; }
+.said { font-size:14px; line-height:1.6; color:var(--fg); min-height:22px; }
+.said:empty::before { content:'— بدون كلام —'; color:var(--soft); }
+.tags { display:flex; flex-wrap:wrap; gap:4px; }
+.tags span { font-size:11px; color:var(--soft); background:var(--panel2); border-radius:6px; padding:1px 7px; direction:ltr; }
+.add { font:inherit; font-weight:800; font-size:14px; color:var(--fg); background:var(--panel2); border:1px dashed var(--line); border-radius:12px; padding:8px; cursor:pointer; }
+.card.has .add { display:none; }
+.editor { display:none; flex-direction:column; gap:6px; }
+.card.open .editor, .card.has .editor { display:flex; }
+.card.open .add { display:none; }
+textarea { width:100%; min-height:64px; resize:vertical; font:inherit; font-size:14px; color:var(--fg); background:#0f1220; border:1px solid var(--line); border-radius:10px; padding:8px 10px; line-height:1.5; }
+.quick { display:flex; flex-wrap:wrap; gap:5px; }
+.quick button { font:inherit; font-size:12px; font-weight:800; color:var(--fg); background:var(--panel2); border:1px solid var(--line); border-radius:999px; padding:3px 10px; cursor:pointer; }
+.bar { position:fixed; left:0; right:0; bottom:0; background:rgba(12,13,18,.96); border-top:1px solid var(--line); padding:12px 24px 16px; backdrop-filter:blur(10px); }
+.bar .row { display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; }
+.bar textarea { flex:1; min-width:240px; min-height:48px; }
+.btn { font:inherit; font-weight:900; font-size:15px; border:0; border-radius:14px; padding:12px 20px; cursor:pointer; color:#fff; background:linear-gradient(100deg,var(--acc),var(--acc2)); white-space:nowrap; }
+.btn.ok { background:#1d2a22; border:1px solid #2fbf71; color:#7ff0b0; }
+.btn:disabled { opacity:.5; cursor:wait; }
+.count { color:var(--note); font-weight:900; font-size:14px; }
+.done { display:none; margin-top:10px; background:#12241a; border:1px solid #2fbf71; color:#a6f3c8; border-radius:12px; padding:10px 14px; font-weight:800; font-size:14px; }
+.done.on { display:block; }
+.lb { position:fixed; inset:0; background:rgba(0,0,0,.88); display:none; align-items:center; justify-content:center; z-index:10; cursor:zoom-out; }
+.lb.on { display:flex; }
+.lb img { max-height:92vh; max-width:92vw; border-radius:14px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">مراجعة الفيديو</h1>
+  <p>هذي كل لقطة بالفيديو مع الكلام اللي ينقال فوقها. اضغط على أي لقطة واكتب ملاحظتك بكلامك («زوم أقل»، «غيّر الصورة»، «النص يغطي وجهي»…). بالآخر اضغط «أرسل»، أو «كله تمام» إذا ما عندك ملاحظات.</p>
+</header>
+<main><div class="grid" id="grid"></div></main>
+<div class="bar">
+  <div class="row">
+    <textarea id="general" placeholder="ملاحظة عامة على الفيديو كله (اختياري): الألوان، السرعة، الموسيقى…"></textarea>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+      <span class="count" id="count"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="send">أرسل الملاحظات لـ Claude</button>
+        <button class="btn ok" id="approve">كله تمام ✓ ارسم الفيديو</button>
+      </div>
+    </div>
+  </div>
+  <div class="done" id="done"></div>
+</div>
+<div class="lb" id="lb"><img id="lbImg" alt=""></div>
+<script>
+const $ = (id) => document.getElementById(id)
+const AR = '٠١٢٣٤٥٦٧٨٩'
+const ar = (s) => String(s).replace(/\d/g, (d) => AR[+d])
+const mmss = (t) => { const m = Math.floor(t / 60), s = Math.floor(t % 60); return m + ':' + String(s).padStart(2, '0') }
+const QUICK = ['زوم أقل', 'أبطأ', 'أسرع', 'غيّر الصورة', 'النص صغير', 'النص يغطي شي', 'ألوان ثانية', 'احذف هاللقطة']
+let data, key = 'mba-board'
+const notes = {}
+const save = () => { try { localStorage.setItem(key, JSON.stringify({ notes, general: $('general').value })) } catch {} }
+function count() {
+  const n = Object.values(notes).filter((v) => v.trim()).length
+  $('count').textContent = n ? ar(n) + ' ملاحظة' : ''
+  $('send').disabled = false
+}
+function card(m) {
+  const el = document.createElement('div')
+  el.className = 'card'
+  el.innerHTML = '<div class="shot"><img loading="lazy" src="' + m.img + '" alt=""><span class="n">' + ar(m.n) + '</span><span class="time">' + mmss(m.from) + '–' + mmss(m.to) + '</span></div>'
+    + '<div class="said"></div><div class="tags"></div><button class="add">✎ اكتب ملاحظة</button>'
+    + '<div class="editor"><textarea placeholder="شنو تغيّر بهاللقطة؟"></textarea><div class="quick"></div></div>'
+  el.querySelector('.said').textContent = m.words
+  el.querySelector('.tags').innerHTML = m.scenes.map((s) => '<span>' + s.type + '</span>').join('')
+  const ta = el.querySelector('textarea')
+  ta.value = notes[m.n] || ''
+  const sync = () => { notes[m.n] = ta.value; el.classList.toggle('has', !!ta.value.trim()); count(); save() }
+  ta.oninput = sync
+  el.querySelector('.add').onclick = () => { el.classList.add('open'); ta.focus() }
+  const q = el.querySelector('.quick')
+  for (const t of QUICK) { const b = document.createElement('button'); b.textContent = t; b.onclick = () => { ta.value = (ta.value.trim() ? ta.value.trim() + '، ' : '') + t; sync(); ta.focus() }; q.append(b) }
+  el.querySelector('.shot').onclick = () => { $('lbImg').src = m.img; $('lb').classList.add('on') }
+  if (ta.value.trim()) el.classList.add('has')
+  return el
+}
+$('lb').onclick = () => $('lb').classList.remove('on')
+async function send(approved) {
+  for (const b of [$('send'), $('approve')]) b.disabled = true
+  try {
+    const r = await (await fetch('/notes', { method: 'POST', body: JSON.stringify({ approved, general: $('general').value, notes }) })).json()
+    if (!r.ok) throw new Error(r.error)
+    $('done').textContent = approved
+      ? '✓ انحفظت الموافقة. ارجع لـ Claude وقله «خلصت» حتى يرسم الفيديو.'
+      : '✓ انحفظت ' + ar(r.count) + ' ملاحظة' + ($('general').value.trim() ? ' + ملاحظة عامة' : '') + '. ارجع لـ Claude وقله «خلصت» حتى يطبّقها كلها.'
+    $('done').classList.add('on')
+  } catch (e) { alert('ما انحفظت: ' + e.message) }
+  for (const b of [$('send'), $('approve')]) b.disabled = false
+}
+$('send').onclick = () => send(false)
+$('approve').onclick = () => send(true)
+$('general').oninput = save
+;(async () => {
+  data = await (await fetch('/moments.json')).json()
+  key = 'mba-board:' + data.name
+  try { const s = JSON.parse(localStorage.getItem(key) || '{}'); Object.assign(notes, s.notes || {}); $('general').value = s.general || '' } catch {}
+  $('title').textContent = 'مراجعة الفيديو — ' + ar(data.moments.length) + ' لقطة · ' + mmss(data.total)
+  for (const m of data.moments) $('grid').append(card(m))
+  count()
+})()
+</script>
+</body>
+</html>

@@ -67,6 +67,7 @@ const USAGE = `الاستخدام — Usage:
   mba project add <dir> <file> --kind music|sfx|voice
   mba ingest <projectDir>
   mba matte <projectDir> <mediaId> [--model selfie_segmenter.tflite]   (person matte for cutout scenes)
+  mba board <projectDir | storyboard.json> [--port 4319]   (the review board: a still per moment with its words; the person writes notes or approves; saves notes.json)
   mba pick <projectDir> [--media mN] [--t s] [--title text] [--key word] [--port 4317]   (the style picker: style, font, colours, motion, drag the title on a frame of the clip; saves pick.json)
   mba dress <storyboard.json | projectDir> --pack <id|number> [--out file]   (put a style pack on a storyboard; fills only what it left open)
   mba recommend <projectDir> --from s --to s | "<sentence>" [--seconds s] [--top 3] [--pack id]   (the best concepts for a sentence, with ready scenes)
@@ -160,6 +161,15 @@ async function main(argv: string[]): Promise<number> {
     const out = await makeMatte(dir!, id!, (values.model as string | undefined) ?? undefined, (l) => process.stderr.write(l + '\n'))
     process.stdout.write(`قناع الشخص جاهز — Person matte written: ${out}\n`)
     return 0
+  }
+  if (command === 'board') {
+    const target = positionals[1]
+    if (!target) usage('الاستخدام: mba board <projectDir | storyboard.json> [--port 4319] — Usage: mba board <projectDir | storyboard.json> [--port 4319]')
+    const { prepareBoard, serveBoard } = await import('./node/board')
+    const data = await prepareBoard(target!, { log: (l) => process.stderr.write(l + '\n') })
+    const url = await serveBoard(data, values.port ? Number(values.port) : 4319)
+    process.stdout.write(`لوحة المراجعة جاهزة — Review board ready: ${url}\nالملاحظات تنحفظ في — notes are saved to: ${data.dir}\\notes.json\n(Ctrl+C يوقفها — stops it)\n`)
+    return new Promise<number>(() => {})
   }
   if (command === 'pick') {
     const dir = positionals[1]
