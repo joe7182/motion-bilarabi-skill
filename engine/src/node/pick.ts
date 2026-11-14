@@ -114,7 +114,7 @@ export async function preparePick(projectDir: string, o: PickOptions = {}): Prom
 }
 
 /** Serves the picker until the process is stopped. */
-export function servePick(data: PickData, port = 4317): Promise<string> {
+export function servePick(data: PickData, port = 4317, onChosen?: (file: string) => void): Promise<string> {
   const out = join(data.project, 'work', 'pick')
   const send = (res: import('node:http').ServerResponse, code: number, body: string | Buffer, type = 'text/plain; charset=utf-8') => { res.writeHead(code, { 'content-type': type, 'cache-control': 'no-store' }); res.end(body) }
   const json = (res: import('node:http').ServerResponse, code: number, v: unknown) => send(res, code, JSON.stringify(v), TYPES['.json'])
@@ -139,6 +139,7 @@ export function servePick(data: PickData, port = 4317): Promise<string> {
       const file = join(data.project, 'pick.json')
       writeFileSync(file, JSON.stringify(pick, null, 1))
       still(data, title, 'choice', join(out, 'choice.jpg'))
+      if (onChosen) setTimeout(() => onChosen(file), 1500)
       return { img: '/choice.jpg?' + Date.now(), saved: file, choice: title }
     }, res)
     if (req.method === 'POST' && url.pathname === '/preview') return post(req, (c) => {

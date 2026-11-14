@@ -50,13 +50,15 @@ there, ask where they put it. Its `README.md` is the install guide.
 7. **Storyboard images:** `mba preset` prints the exact `mba still …` command (one moment per
    section). Run it, look at every image yourself first (does each part show its idea? can a phone
    viewer read it?), fix what you see, then let the person review and **wait for approval.**
-   - **The review board:** run `mba board <dir>` in the background (it keeps a local server
-     running) and open the link it prints (`http://localhost:4319`) for the person: one card per
-     moment with the words said over it. They tap a moment and write a note in their own words, add
-     a general note, and press «أرسل» — or «كله تمام» — then tell you «خلصت». Read
-     `<dir>/notes.json`: `approved: true` → render; otherwise apply **every** note in one pass (each
-     note names its moment's span `from`–`to`, its words and the scene ids on screen), run the
-     board again, and say in one line what changed per note. Stop the old board first.
+   - **The review board:** start `mba board <dir>` as a **background** command and open the link it
+     prints (`http://localhost:4319`) for the person: one card per moment with the words said over
+     it. They tap a moment and write a note in their own words, add a general note, and press
+     «أرسل» or «كله تمام». The board then saves `<dir>/notes.json` and **exits** — that exit is
+     your signal: act at once, without waiting to be told. `approved: true` with no notes → render;
+     `approved: true` with notes → apply them all, then render without another review; otherwise
+     apply **every** note in one pass (each names its moment's span `from`–`to`, its words and the
+     scene ids on screen), start the board again, and say in one line what changed per note. A
+     vague note («ألوان ثانية») gets your best reading — say what you chose.
    - Without a browser (a plain terminal, a chat without links): send the images and take notes in
      the chat, by moment number.
 8. **Render:** `mba render <dir>` → `<dir>/renders/vNNN-final.mp4`.
@@ -198,9 +200,9 @@ What the pack decides: the caption look and how the key word is marked in it; th
 
 ## Style picker (`mba pick`) — the person chooses on their own clip
 When a talking clip's title matters and the person wants to choose by looking — «خلّني أختار», «وريني خيارات», «أبي أحط العنوان بنفسي», «العنوان ورا راسي» — or answers «إنت اختار» but is unsure, offer the picker instead of describing options in words.
-1. The project has the clip ingested. Run **`mba pick <dir> [--media mN] [--t s] --title "<title>" --key "<key word>"`** in the background (it keeps a local server running). It cuts the person out once if `mba matte` has not run (about a minute), renders a card per title style from one frame of the clip (about a minute), then prints `http://localhost:4317`.
-2. Open that link for the person (the app's browser panel when there is one; else give the link) and say in one line what to do: pick a style card, then on the frame: edit the title and key word, one or two lines, font (Cairo, Alexandria, Lalezar, Reem Kufi, Aref Ruqaa, Marhey), own colours (text, key-word gradient, box and its opacity, or a quick palette), entrance and exit (▶ plays it; 🎬 renders a real 3-second clip), in front or **behind the head**, and drag the title (a red outline warns when it covers the face; behind the head it warns when the head hides too much). «استخدم هذا» saves the pick and renders that exact frame; they tell you «اخترت».
-3. Read `<dir>/pick.json`: `title` is a ready `styled-title` scene — place it over the video for the moment it belongs to (its own `start`/`duration`). When `cutout` is not null, add that scene on the track just above the title with the same `start` and `duration` and the `in` of the video under it, so the person stands in front of the letters. Stop the picker.
+1. The project has the clip ingested. Start **`mba pick <dir> [--media mN] [--t s] --title "<title>" --key "<key word>"`** as a **background** command. It cuts the person out once if `mba matte` has not run (about a minute), renders a card per title style from one frame of the clip (about a minute), then prints `http://localhost:4317`.
+2. Open that link for the person (the app's browser panel when there is one; else give the link) and say in one line what to do: pick a style card, then on the frame: edit the title and key word, one or two lines, font (Cairo, Alexandria, Lalezar, Reem Kufi, Aref Ruqaa, Marhey), own colours (text, key-word gradient, box and its opacity, or a quick palette), entrance and exit (▶ plays it; 🎬 renders a real 3-second clip), in front or **behind the head**, and drag the title (a red outline warns when it covers the face; behind the head it warns when the head hides too much). «استخدم هذا» saves the pick, renders that exact frame and closes the picker — that exit is your signal to go on.
+3. Read `<dir>/pick.json`: `title` is a ready `styled-title` scene — place it over the video for the moment it belongs to (its own `start`/`duration`). When `cutout` is not null, add that scene on the track just above the title with the same `start` and `duration` and the `in` of the video under it, so the person stands in front of the letters.
 - `styled-title` (`text`, `key`, `lines: 1|2`, `style: nebula|electric|coral|cream|tech|swiss`, `font: cairo|alexandria|lalezar|reem-kufi|aref-ruqaa|marhey`, `layer: front|behind`, `cx`, `cy`, `w`, `size`, `in: blur|words|pop|type|rise`, `out: blur|drop|wipe|pop|none`, `at`, `outAt`, `colors{text, k1, k2, box, boxAlpha}`) can also be written by hand. Behind the head: one bold line crossing the top of the head reads best; keep the key word clear of the head.
 - It needs a clip with a person in it; for a faceless video, the style packs and the style picture are the choice.
 

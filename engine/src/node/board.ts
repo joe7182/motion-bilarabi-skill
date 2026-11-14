@@ -53,7 +53,7 @@ export async function prepareBoard(arg: string, o: { log?: (l: string) => void }
 }
 
 /** Serves the board until the process is stopped. */
-export function serveBoard(data: BoardData, port = 4319): Promise<string> {
+export function serveBoard(data: BoardData, port = 4319, onSaved?: (notes: BoardNotes, file: string) => void): Promise<string> {
   const out = join(data.dir, 'work', 'board', basename(data.storyboard, '.json'))
   const send = (res: import('node:http').ServerResponse, code: number, body: string | Buffer, type = 'text/plain; charset=utf-8') => { res.writeHead(code, { 'content-type': type, 'cache-control': 'no-store' }); res.end(body) }
   const server = createServer((req, res) => {
@@ -76,6 +76,7 @@ export function serveBoard(data: BoardData, port = 4319): Promise<string> {
           const file = join(data.dir, 'notes.json')
           writeFileSync(file, JSON.stringify(notes, null, 1))
           send(res, 200, JSON.stringify({ ok: true, saved: file, count: notes.moments.length, approved: notes.approved }), TYPES['.json'])
+          if (onSaved) setTimeout(() => onSaved(notes, file), 300)
         } catch (e) {
           send(res, 500, JSON.stringify({ ok: false, error: String((e as Error).message || e).slice(0, 300) }), TYPES['.json'])
         }

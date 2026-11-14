@@ -167,9 +167,13 @@ async function main(argv: string[]): Promise<number> {
     if (!target) usage('الاستخدام: mba board <projectDir | storyboard.json> [--port 4319] — Usage: mba board <projectDir | storyboard.json> [--port 4319]')
     const { prepareBoard, serveBoard } = await import('./node/board')
     const data = await prepareBoard(target!, { log: (l) => process.stderr.write(l + '\n') })
-    const url = await serveBoard(data, values.port ? Number(values.port) : 4319)
-    process.stdout.write(`لوحة المراجعة جاهزة — Review board ready: ${url}\nالملاحظات تنحفظ في — notes are saved to: ${data.dir}\\notes.json\n(Ctrl+C يوقفها — stops it)\n`)
-    return new Promise<number>(() => {})
+    // the board closes once the notes are sent: the process ending is the signal to apply them
+    return new Promise<number>((done) => {
+      serveBoard(data, values.port ? Number(values.port) : 4319, (n, file) => {
+        process.stdout.write(`انحفظت الملاحظات — notes saved: ${file}\n${n.approved ? 'approved: render' + (n.moments.length || n.general ? ' after applying the notes' : '') : 'notes to apply'}: ${n.moments.length} moment note(s)${n.general ? ' + a general note' : ''}\n`)
+        done(0)
+      }).then((url) => process.stdout.write(`لوحة المراجعة جاهزة — Review board ready: ${url}\nتنغلق لما تنرسل الملاحظات — closes once the notes are sent (${data.dir}\\notes.json)\n`), (e) => { process.stderr.write(String(e) + '\n'); done(1) })
+    })
   }
   if (command === 'pick') {
     const dir = positionals[1]
@@ -177,9 +181,13 @@ async function main(argv: string[]): Promise<number> {
     const { preparePick, servePick } = await import('./node/pick')
     const log = (l: string) => process.stderr.write(l + '\n')
     const data = await preparePick(dir!, { media: values.media as string | undefined, ...(values.t ? { t: Number(values.t) } : {}), title: values.title as string | undefined, key: values.key as string | undefined, log })
-    const url = await servePick(data, values.port ? Number(values.port) : 4317)
-    process.stdout.write(`منتقي الستايل جاهز — Style picker ready: ${url}\nالاختيار ينحفظ في — the pick is saved to: ${data.project}\\pick.json\n(Ctrl+C يوقفه — stops it)\n`)
-    return new Promise<number>(() => {})
+    // the picker closes once a choice is saved: the process ending is the signal to use it
+    return new Promise<number>((done) => {
+      servePick(data, values.port ? Number(values.port) : 4317, (file) => {
+        process.stdout.write(`انحفظ الاختيار — pick saved: ${file}\n`)
+        done(0)
+      }).then((url) => process.stdout.write(`منتقي الستايل جاهز — Style picker ready: ${url}\nينغلق لما ينحفظ الاختيار — closes once a pick is saved (${data.project}\\pick.json)\n`), (e) => { process.stderr.write(String(e) + '\n'); done(1) })
+    })
   }
   if (command === 'recommend') {
     const target = positionals[1]

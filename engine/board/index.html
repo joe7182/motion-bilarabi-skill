@@ -79,7 +79,10 @@ const save = () => { try { localStorage.setItem(key, JSON.stringify({ notes, gen
 function count() {
   const n = Object.values(notes).filter((v) => v.trim()).length
   $('count').textContent = n ? ar(n) + ' ملاحظة' : ''
-  $('send').disabled = false
+  // with notes, approving means: apply them, then render without another review
+  const any = n || $('general').value.trim()
+  $('approve').textContent = any ? 'طبّق الملاحظات وارسم مباشرة ✓' : 'كله تمام ✓ ارسم الفيديو'
+  $('send').disabled = !any
 }
 function card(m) {
   const el = document.createElement('div')
@@ -106,16 +109,19 @@ async function send(approved) {
   try {
     const r = await (await fetch('/notes', { method: 'POST', body: JSON.stringify({ approved, general: $('general').value, notes }) })).json()
     if (!r.ok) throw new Error(r.error)
-    $('done').textContent = approved
-      ? '✓ انحفظت الموافقة. ارجع لـ Claude وقله «خلصت» حتى يرسم الفيديو.'
-      : '✓ انحفظت ' + ar(r.count) + ' ملاحظة' + ($('general').value.trim() ? ' + ملاحظة عامة' : '') + '. ارجع لـ Claude وقله «خلصت» حتى يطبّقها كلها.'
+    const any = r.count || $('general').value.trim()
+    $('done').textContent = (approved
+      ? (any ? '✓ انحفظت. Claude هسه يطبّق ملاحظاتك ويرسم الفيديو مباشرة.' : '✓ انحفظت الموافقة. Claude هسه يرسم الفيديو.')
+      : '✓ انحفظت ' + ar(r.count) + ' ملاحظة' + ($('general').value.trim() ? ' + ملاحظة عامة' : '') + '. Claude هسه يطبّقها كلها ويرجعلك بلوحة جديدة.')
+      + ' تقدر تسكّر هالصفحة. (إذا ما تحرّك خلال دقيقة، اكتبله «خلصت».)'
     $('done').classList.add('on')
+    for (const b of [$('send'), $('approve')]) b.style.display = 'none'
   } catch (e) { alert('ما انحفظت: ' + e.message) }
   for (const b of [$('send'), $('approve')]) b.disabled = false
 }
 $('send').onclick = () => send(false)
 $('approve').onclick = () => send(true)
-$('general').oninput = save
+$('general').oninput = () => { save(); count() }
 ;(async () => {
   data = await (await fetch('/moments.json')).json()
   key = 'mba-board:' + data.name
